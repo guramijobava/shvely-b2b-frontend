@@ -2,7 +2,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { ShieldCheck, Lock } from "lucide-react"
+import { ShieldCheck, Lock, ArrowRight } from "lucide-react"
 import Image from "next/image"
 
 interface WelcomeSectionProps {
@@ -46,11 +46,12 @@ export function WelcomeSection({ customerName, bankName, onProceed }: WelcomeSec
         </div>
 
         <Button onClick={onProceed} className="w-full" size="lg">
-          Start Verification
+          Review Data Sharing Agreement
+          <ArrowRight className="ml-2 h-4 w-4" />
         </Button>
 
         <p className="text-xs text-center text-muted-foreground">
-          By proceeding, you acknowledge that you are authorized to share information for the accounts you connect.
+          We'll first show you exactly what information will be shared and get your consent before connecting any accounts.
         </p>
       </CardContent>
     </Card>

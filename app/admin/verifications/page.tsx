@@ -1,31 +1,57 @@
 "use client"
 
-import { useState, useCallback } from "react"
+import { useState, useCallback, useMemo } from "react"
 import { Button } from "@/components/ui/button"
-import { VerificationFilters } from "@/components/admin/verifications/VerificationFilters"
+import { Card, CardContent } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { VerificationTable } from "@/components/admin/verifications/VerificationTable"
 import { useVerifications } from "@/hooks/useVerifications"
 import { useVerificationActions } from "@/hooks/useVerificationActions"
-import { Plus, Download } from "lucide-react"
+import { StatsCard } from "@/components/admin/dashboard/StatsCard"
+import { Plus, Download, Search, FileCheck, Clock, AlertTriangle, Send } from "lucide-react"
 import Link from "next/link"
 
 export default function VerificationsPage() {
   const [filters, setFilters] = useState({
     search: "",
-    status: "",
-    agent: "",
+    status: "all",
+    agent: "all",
     page: 1,
     limit: 10,
   })
 
-  const { verifications, pagination, isLoading, error } = useVerifications(filters)
+  // Convert "all" values to empty strings for the API call
+  const apiFilters = useMemo(() => ({
+    ...filters,
+    status: filters.status === "all" ? "" : filters.status,
+    agent: filters.agent === "all" ? "" : filters.agent,
+  }), [filters])
+
+  const { verifications, pagination, isLoading, error } = useVerifications(apiFilters)
   const { resendVerification, extendVerification, cancelVerification } = useVerificationActions()
 
-  const handleFiltersChange = useCallback((newFilters: { search: string; status: string; agent: string }) => {
+  const handleSearchChange = useCallback((search: string) => {
     setFilters((prev) => ({
       ...prev,
-      ...newFilters,
-      page: 1, // Reset to first page when filters change
+      search,
+      page: 1,
+    }))
+  }, [])
+
+  const handleStatusChange = useCallback((status: string) => {
+    setFilters((prev) => ({
+      ...prev,
+      status,
+      page: 1,
+    }))
+  }, [])
+
+  const handleAgentChange = useCallback((agent: string) => {
+    setFilters((prev) => ({
+      ...prev,
+      agent,
+      page: 1,
     }))
   }, [])
 
@@ -42,6 +68,21 @@ export default function VerificationsPage() {
     // In a real app, this would trigger a CSV/Excel download
     console.log("Export verifications")
   }, [])
+
+  // Calculate stats from the verifications data
+  const stats = useMemo(() => {
+    const totalVerifications = pagination?.total || 0
+    const pendingCount = verifications?.filter(v => v.status === "sent" || v.status === "in_progress").length || 0
+    const completedCount = verifications?.filter(v => v.status === "completed").length || 0
+    const expiredCount = verifications?.filter(v => v.status === "expired").length || 0
+
+    return {
+      total: totalVerifications,
+      pending: pendingCount,
+      completed: completedCount,
+      expired: expiredCount
+    }
+  }, [verifications, pagination?.total])
 
   return (
     <div className="p-6 space-y-6">
@@ -65,6 +106,34 @@ export default function VerificationsPage() {
         </div>
       </div>
 
+      {/* Stats Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <StatsCard 
+          title="Total Verifications" 
+          value={stats.total} 
+          icon={FileCheck} 
+          isLoading={isLoading} 
+        />
+        <StatsCard 
+          title="Pending" 
+          value={stats.pending} 
+          icon={Clock} 
+          isLoading={isLoading} 
+        />
+        <StatsCard 
+          title="Completed" 
+          value={stats.completed} 
+          icon={Send} 
+          isLoading={isLoading} 
+        />
+        <StatsCard 
+          title="Expired" 
+          value={stats.expired} 
+          icon={AlertTriangle} 
+          isLoading={isLoading} 
+        />
+      </div>
+
       {/* Error state */}
       {error && (
         <div className="bg-red-50 border border-red-200 rounded-lg p-4">
@@ -72,20 +141,66 @@ export default function VerificationsPage() {
         </div>
       )}
 
-      {/* Filters */}
-      <VerificationFilters onFiltersChange={handleFiltersChange} isLoading={isLoading} />
+      {/* Filters and Table wrapped in Card */}
+      <Card>
+        <CardContent className="p-4 space-y-4">
+          {/* Filters */}
+          <div className="flex flex-col md:flex-row gap-4">
+            <div className="relative flex-grow">
+              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <Input
+                placeholder="Search by customer name, email, or phone..."
+                value={filters.search}
+                onChange={(e) => handleSearchChange(e.target.value)}
+                className="pl-10"
+              />
+            </div>
+            <Select
+              value={filters.status}
+              onValueChange={handleStatusChange}
+            >
+              <SelectTrigger className="w-full md:w-[180px]">
+                <SelectValue placeholder="All Statuses" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Statuses</SelectItem>
+                <SelectItem value="draft">Draft</SelectItem>
+                <SelectItem value="sent">Sent</SelectItem>
+                <SelectItem value="in_progress">In Progress</SelectItem>
+                <SelectItem value="completed">Completed</SelectItem>
+                <SelectItem value="expired">Expired</SelectItem>
+                <SelectItem value="cancelled">Cancelled</SelectItem>
+              </SelectContent>
+            </Select>
+            <Select
+              value={filters.agent}
+              onValueChange={handleAgentChange}
+            >
+              <SelectTrigger className="w-full md:w-[180px]">
+                <SelectValue placeholder="All Agents" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Agents</SelectItem>
+                <SelectItem value="admin">Admin</SelectItem>
+                <SelectItem value="agent1">Agent 1</SelectItem>
+                <SelectItem value="agent2">Agent 2</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
 
-      {/* Table */}
-      <VerificationTable
-        verifications={verifications || []} // Ensure we always pass an array
-        pagination={pagination}
-        isLoading={isLoading}
-        onPageChange={handlePageChange}
-        onSort={handleSort}
-        onResend={resendVerification}
-        onExtend={extendVerification}
-        onCancel={cancelVerification}
-      />
+          {/* Table */}
+          <VerificationTable
+            verifications={verifications || []} // Ensure we always pass an array
+            pagination={pagination}
+            isLoading={isLoading}
+            onPageChange={handlePageChange}
+            onSort={handleSort}
+            onResend={resendVerification}
+            onExtend={extendVerification}
+            onCancel={cancelVerification}
+          />
+        </CardContent>
+      </Card>
     </div>
   )
 }

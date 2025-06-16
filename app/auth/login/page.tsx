@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { useAuth } from "@/hooks/useAuth"
 import { LoginForm } from "@/components/auth/LoginForm"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { LoadingSpinner } from "@/components/shared/LoadingSpinner"
 import Image from "next/image"
 
@@ -63,8 +63,7 @@ export default function LoginPage() {
 
         <Card>
           <CardHeader>
-            <CardTitle>Welcome back</CardTitle>
-            <CardDescription>Enter your credentials to access the admin dashboard</CardDescription>
+            <CardTitle>Login</CardTitle>
           </CardHeader>
           <CardContent>
             <LoginForm />
@@ -72,7 +71,7 @@ export default function LoginPage() {
         </Card>
 
         <div className="text-center text-xs text-gray-500">
-          <p>© 2024 Shvely. All rights reserved.</p>
+          <p>© 2025 Shvely. All rights reserved.</p>
         </div>
       </div>
     </div>

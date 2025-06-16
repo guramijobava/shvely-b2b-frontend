@@ -11,7 +11,7 @@ import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { LoadingSpinner } from "@/components/shared/LoadingSpinner"
-import { Eye, EyeOff, AlertCircle, Info } from "lucide-react"
+import { Eye, EyeOff, AlertCircle } from "lucide-react"
 
 export function LoginForm() {
   const { login } = useAuth()
@@ -51,14 +51,6 @@ export function LoginForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-      {/* Development notice */}
-      <Alert>
-        <Info className="h-4 w-4" />
-        <AlertDescription>
-          <strong>Demo Mode:</strong> Use the pre-filled credentials or any email/password combination to login.
-        </AlertDescription>
-      </Alert>
-
       {error && (
         <Alert variant="destructive">
           <AlertCircle className="h-4 w-4" />
@@ -103,27 +95,15 @@ export function LoginForm() {
           onCheckedChange={(checked) => setRememberMe(checked as boolean)}
           disabled={isLoading}
         />
-        <Label htmlFor="remember" className="text-sm font-normal">
-          Remember me for 30 days
+        <Label htmlFor="remember" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+          Remember me
         </Label>
       </div>
 
       <Button type="submit" className="w-full" disabled={isLoading}>
-        {isLoading ? (
-          <>
-            <LoadingSpinner size="sm" className="mr-2" />
-            Signing in...
-          </>
-        ) : (
-          "Sign in"
-        )}
+        {isLoading && <LoadingSpinner size="sm" className="mr-2" />}
+        Sign in
       </Button>
-
-      <div className="text-center">
-        <Button variant="link" className="text-sm" disabled={isLoading}>
-          Forgot your password?
-        </Button>
-      </div>
     </form>
   )
 }

@@ -2,7 +2,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { AlertTriangle, WifiOff, Clock, RefreshCw } from "lucide-react"
+import { AlertTriangle, WifiOff, Clock, RefreshCw, Mail, Phone, XCircle } from "lucide-react"
 import Link from "next/link"
 
 interface ErrorStatesProps {
@@ -12,6 +12,7 @@ interface ErrorStatesProps {
     | "network_error"
     | "connection_failed"
     | "consent_failed"
+    | "consent_declined"
     | "completion_failed"
     | "unknown"
   onRetry?: () => void
@@ -50,6 +51,12 @@ const errorDetails = {
     title: "Consent Submission Failed",
     message: "There was an issue submitting your consent. Please try again.",
     retryable: true,
+  },
+  consent_declined: {
+    icon: XCircle,
+    title: "Verification Cannot Continue",
+    message: "You have declined to share the required information. The verification process cannot be completed without your consent.",
+    retryable: false,
   },
   completion_failed: {
     icon: AlertTriangle,

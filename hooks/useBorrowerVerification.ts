@@ -10,7 +10,7 @@ export function useBorrowerVerification(token: string) {
   const { toast } = useToast()
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [currentStep, setCurrentStep] = useState<"welcome" | "consent" | "complete">("welcome")
+  const [currentStep, setCurrentStep] = useState<"welcome" | "consent" | "connect" | "complete">("welcome")
 
   const submitConsent = useCallback(
     async (consentData: any) => {
@@ -19,17 +19,18 @@ export function useBorrowerVerification(token: string) {
       try {
         await borrowerApiClient.recordConsent(token, consentData)
         toast({ title: "Consent Submitted", description: "Your consent has been recorded." })
-        setCurrentStep("complete") // Or navigate to completion page
-        router.push(`/verify/${token}/complete`)
+        // Don't automatically navigate - let the calling component handle the flow
+        return true // Return success indicator
       } catch (e) {
         const message = e instanceof Error ? e.message : "Failed to submit consent."
         setError(message)
         toast({ title: "Consent Error", description: message, variant: "destructive" })
+        throw e // Re-throw so calling component can handle
       } finally {
         setIsSubmitting(false)
       }
     },
-    [token, router, toast],
+    [token, toast],
   )
 
   const finalizeVerification = useCallback(async () => {
@@ -54,6 +55,16 @@ export function useBorrowerVerification(token: string) {
     setCurrentStep("consent")
   }, [router, token])
 
+  const navigateToBankConnection = useCallback(() => {
+    router.push(`/verify/${token}/consent`) // Bank connection is now part of consent page
+    setCurrentStep("connect")
+  }, [router, token])
+
+  const navigateToComplete = useCallback(() => {
+    router.push(`/verify/${token}/complete`)
+    setCurrentStep("complete")
+  }, [router, token])
+
   return {
     isSubmitting,
     error,
@@ -61,6 +72,8 @@ export function useBorrowerVerification(token: string) {
     submitConsent,
     finalizeVerification,
     navigateToConsent,
+    navigateToBankConnection,
+    navigateToComplete,
     setCurrentStep, // Allow manual step setting if needed
   }
 }

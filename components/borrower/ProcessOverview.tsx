@@ -4,7 +4,7 @@ import { CheckCircle, CircleDashed, Loader2 } from "lucide-react"
 import { Progress } from "@/components/ui/progress"
 import { cn } from "@/lib/utils"
 
-type Step = "connect" | "consent" | "complete"
+type Step = "consent" | "connect" | "complete"
 
 interface ProcessOverviewProps {
   currentStep: Step
@@ -12,13 +12,13 @@ interface ProcessOverviewProps {
 }
 
 const stepsConfig: { id: Step; title: string; description: string; time: string }[] = [
+  { id: "consent", title: "Review & Consent", description: "Confirm the data to be shared.", time: "~1 min" },
   {
     id: "connect",
     title: "Connect Bank Accounts",
     description: "Securely link your financial institutions.",
     time: "~2-3 mins",
   },
-  { id: "consent", title: "Review & Consent", description: "Confirm the data to be shared.", time: "~1 min" },
   { id: "complete", title: "Verification Complete", description: "Your information is submitted.", time: "Instant" },
 ]
 

@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { CheckCircle } from "lucide-react"
 import { useRouter } from "next/navigation"
+import { toast } from "sonner"
 
 export default function ConsentPage() {
   const router = useRouter()
@@ -66,6 +67,13 @@ export default function ConsentPage() {
     try {
       await submitConsent(consentData)
       setConsentGiven(true)
+      
+      // Show success toast
+      toast.success("Consent recorded successfully!", {
+        description: "Now please connect your bank account(s).",
+        duration: 4000,
+      })
+      
       // Smooth scroll to bank connection section
       setTimeout(() => {
         const bankConnectionSection = document.getElementById("bank-connection-section")
@@ -83,11 +91,7 @@ export default function ConsentPage() {
   }
 
   const proceedToComplete = () => {
-    if (connectedAccounts.length > 0) {
-      router.push(`/verify/${token}/complete`)
-    } else {
-      alert("Please connect at least one bank account to proceed.")
-    }
+    router.push(`/verify/${token}/complete`)
   }
 
   // Adapter function to match BankConnectionWidget's expected signature
@@ -120,46 +124,18 @@ export default function ConsentPage() {
               </div>
             </>
           ) : (
-            <>
-              <Alert variant="default" className="bg-green-50 border-green-200 text-green-700">
-                <CheckCircle className="h-5 w-5 text-green-600" />
-                <AlertDescription className="font-medium">
-                  Consent recorded successfully! Now please connect your bank account(s).
-                </AlertDescription>
-              </Alert>
-
-              {connectedAccounts.length > 0 && (
-                <Alert variant="default" className="bg-blue-50 border-blue-200 text-blue-700">
-                  <CheckCircle className="h-5 w-5 text-blue-600" />
-                  <AlertDescription className="font-medium">
-                    {connectedAccounts.length} bank account(s) connected successfully! You can connect more or proceed to complete the verification.
-                  </AlertDescription>
-                </Alert>
-              )}
-
-              <div id="bank-connection-section">
-                <BankConnectionWidget
-                  onConnect={handleBankConnect}
-                  isConnecting={isConnecting}
-                  connectionError={connectionError}
-                  stripeClientSecret={stripeClientSecret}
-                  tellerConnectionUrl={tellerConnectionUrl}
-                  onConnectionSuccess={handleConnectionSuccess}
-                  onConnectionFailure={handleConnectionFailure}
-                />
-              </div>
-
-              <div className="pt-6 border-t">
-                <Button
-                  onClick={proceedToComplete}
-                  className="w-full"
-                  size="lg"
-                  disabled={connectedAccounts.length === 0 || isConnecting}
-                >
-                  {isConnecting ? "Connecting..." : "Complete Verification"}
-                </Button>
-              </div>
-            </>
+            <div id="bank-connection-section">
+              <BankConnectionWidget
+                onConnect={handleBankConnect}
+                isConnecting={isConnecting}
+                connectionError={connectionError}
+                stripeClientSecret={stripeClientSecret}
+                tellerConnectionUrl={tellerConnectionUrl}
+                onConnectionSuccess={handleConnectionSuccess}
+                onConnectionFailure={handleConnectionFailure}
+                onComplete={proceedToComplete}
+              />
+            </div>
           )}
         </div>
       </div>

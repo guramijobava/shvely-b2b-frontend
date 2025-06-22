@@ -51,8 +51,8 @@ export function DemoBankCredentialsModal({
     }
   }
   const [credentials, setCredentials] = useState({
-    username: "",
-    password: ""
+    username: "demo@example.com",
+    password: "demo123"
   })
   const [showPassword, setShowPassword] = useState(false)
   const [isConnecting, setIsConnecting] = useState(false)
@@ -70,13 +70,10 @@ export function DemoBankCredentialsModal({
     setErrorMessage("")
 
     try {
-      // Simulate network delay
-      await new Promise(resolve => setTimeout(resolve, 2500))
+      // Simulate network delay (demo)
+      await new Promise(resolve => setTimeout(resolve, 1500))
 
-      // Mock validation - fail if password is "wrong"
-      if (credentials.password.toLowerCase() === "wrong") {
-        throw new Error("Invalid credentials. Please check your username and password.")
-      }
+      // For demo purposes, always succeed (no validation needed)
 
       // Mock account data
       const mockAccount: MockAccountData = {
@@ -129,8 +126,8 @@ export function DemoBankCredentialsModal({
   const isFormValid = credentials.username.length > 0 && credentials.password.length > 0
 
   return (
-    <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-md">
+    <Dialog open={isOpen} onOpenChange={() => {}} modal={true}>
+      <DialogContent className="sm:max-w-md" onPointerDownOutside={(e) => e.preventDefault()}>
         <DialogHeader>
           <DialogTitle className="text-center space-y-3">
             <div className="flex justify-center">
@@ -147,7 +144,7 @@ export function DemoBankCredentialsModal({
             <div>
               <span>Connect to {bankName}</span>
               <p className="text-sm font-normal text-muted-foreground mt-1">
-                Enter your online banking credentials
+                Demo Mode - Credentials are pre-filled
               </p>
             </div>
           </DialogTitle>
@@ -198,17 +195,17 @@ export function DemoBankCredentialsModal({
               </div>
             </div>
 
-            <div className="p-3 bg-green-50 border border-green-200 rounded-lg">
+            <div className="p-3 bg-blue-50 border border-blue-200 rounded-lg">
               <div className="flex items-start space-x-2">
-                <Building2 className="h-4 w-4 text-green-600 mt-0.5" />
-                <div className="text-xs text-green-800">
-                  <p className="font-medium">Secure Connection</p>
-                  <p>Your login credentials are encrypted and protected</p>
+                <Building2 className="h-4 w-4 text-blue-600 mt-0.5" />
+                <div className="text-xs text-blue-800">
+                  <p className="font-medium">Demo Mode</p>
+                  <p>This is a demonstration - just click "Connect Account" to continue</p>
                 </div>
               </div>
             </div>
 
-            <div className="flex space-x-3">
+            <div className="flex space-x-2">
               <Button
                 type="button"
                 variant="outline"
@@ -226,6 +223,30 @@ export function DemoBankCredentialsModal({
                 Connect Account
               </Button>
             </div>
+            
+            {/* Quick demo button */}
+            <Button
+              type="button"
+              onClick={() => {
+                // Immediately trigger successful connection for demo
+                const mockAccount: MockAccountData = {
+                  accountId: `acc_${bankId}_${Date.now()}`,
+                  bankName: bankName,
+                  accountType: "Checking",
+                  accountNumber: `****${Math.floor(Math.random() * 9000) + 1000}`,
+                  balance: `$${(Math.random() * 50000 + 1000).toLocaleString("en-US", { minimumFractionDigits: 2 })}`,
+                  connectedAt: new Date().toISOString()
+                }
+                onSuccess(mockAccount)
+                handleClose()
+              }}
+              variant="ghost"
+              size="sm"
+              className="w-full text-xs"
+              disabled={isConnecting}
+            >
+              🚀 Quick Demo Success
+            </Button>
           </form>
         )}
 

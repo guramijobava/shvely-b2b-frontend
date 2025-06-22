@@ -5,8 +5,7 @@ import { useFinancialAnalytics } from "@/hooks/useFinancialAnalytics"
 import { LoadingSpinner } from "@/components/shared/LoadingSpinner"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { AlertTriangle, TrendingUp } from "lucide-react"
-import { IncomeAnalysis } from "@/components/admin/customers/IncomeAnalysis" // To be created
-import { EmploymentVerification } from "@/components/admin/customers/EmploymentVerification" // To be created
+import { IncomeAnalysis } from "@/components/admin/customers/IncomeAnalysis"
 
 export default function CustomerIncomePage() {
   const params = useParams()
@@ -45,7 +44,6 @@ export default function CustomerIncomePage() {
   return (
     <div className="space-y-6">
       <IncomeAnalysis data={incomeAnalysis} />
-      <EmploymentVerification data={incomeAnalysis?.employmentVerification} />
     </div>
   )
 }

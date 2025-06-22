@@ -42,7 +42,7 @@ export default function CustomerTransactionsPage() {
   //   updateFilters(newAppliedFilters);
   // };
 
-  if (isLoading && !transactions.length) {
+  if (isLoading && !transactions?.length) {
     return (
       <div className="flex items-center justify-center py-10">
         <LoadingSpinner size="md" />
@@ -75,7 +75,7 @@ export default function CustomerTransactionsPage() {
         isLoading={isLoading}
         onPageChange={goToPage} // goToPage is also stable now
       />
-      {!isLoading && transactions.length === 0 && (
+      {!isLoading && transactions?.length === 0 && (
         <Alert className="mt-4">
           <ListChecks className="h-4 w-4" />
           <AlertTitle>No Transactions Found</AlertTitle>

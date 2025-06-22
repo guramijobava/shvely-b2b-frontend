@@ -27,7 +27,17 @@ export function useCustomerTransactions(customerId: string | null, initialFilter
     ...initialFilters,
   })
 
-  const memoizedFilters = useMemo(() => filters, [filters])
+  const memoizedFilters = useMemo(() => filters, [
+    filters.page,
+    filters.limit,
+    filters.startDate,
+    filters.endDate,
+    filters.category,
+    filters.accountId,
+    filters.type,
+    filters.status,
+    filters.search,
+  ])
 
   const fetchTransactions = useCallback(async () => {
     if (!customerId) {
@@ -41,10 +51,10 @@ export function useCustomerTransactions(customerId: string | null, initialFilter
     try {
       const response = await apiClient.getCustomerTransactions(customerId, memoizedFilters)
       if (response.success && response.data) {
-        setTransactions(response.data.data) // Assuming data is nested under response.data.data
-        setPagination(response.data.pagination)
+        setTransactions(response.data)
+        setPagination(response.pagination)
       } else {
-        throw new Error(response.message || "Failed to fetch transactions")
+        throw new Error("Failed to fetch transactions")
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : "An unknown error occurred")

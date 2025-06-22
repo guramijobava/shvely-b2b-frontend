@@ -1212,21 +1212,102 @@ class ApiClient {
     const paginatedData = filteredTransactions.slice((page - 1) * limit, page * limit)
 
     return {
-      data: {
-        data: paginatedData,
-        pagination: { page, limit, total, totalPages: Math.ceil(total / limit) },
-        success: true,
-      } as PaginatedResponse<Transaction>, // Casting to T, which is PaginatedResponse<Transaction>
+      data: paginatedData,
+      pagination: { page, limit, total, totalPages: Math.ceil(total / limit) },
       success: true,
-    } as ApiResponse<PaginatedResponse<Transaction>>
+    } as PaginatedResponse<Transaction>
   }
 
   async getCustomerIncomeAnalysis(customerId: string): Promise<any> {
     // Define a proper type for IncomeAnalysis
     console.log(`[Mock API] Fetching income analysis for customer: ${customerId}`)
     await new Promise((resolve) => setTimeout(resolve, 600))
+    
+    const baseAmount = 6500
+    
+    // Generate 12 months of history with clear progression (fixed values for consistent testing)
+    const generateMonthlyHistory = () => {
+      const months = []
+      const currentDate = new Date()
+      
+      // Create clear variations for visual testing (deterministic values)
+      const multipliers = [0.75, 0.82, 0.89, 0.94, 0.97, 1.02, 1.08, 1.15, 1.23, 1.18, 1.25, 1.32]
+      
+      for (let i = 11; i >= 0; i--) {
+        const date = new Date(currentDate.getFullYear(), currentDate.getMonth() - i, 1)
+        const monthName = date.toLocaleDateString('en-US', { month: 'short' })
+        const year = date.getFullYear()
+        
+        // Use predetermined multipliers for clear visual differences
+        const amount = Math.round(baseAmount * multipliers[11 - i])
+        
+        months.push({
+          month: `${monthName} ${year}`,
+          amount,
+        })
+      }
+      return months
+    }
+    
+    const history = generateMonthlyHistory()
+    
+    // Calculate averages
+    const monthlyAverage = Math.round(history.reduce((sum, month) => sum + month.amount, 0) / history.length)
+    const weeklyAverage = Math.round(monthlyAverage / 4.33) // ~4.33 weeks per month
+    
     return {
       data: {
+        // Average calculations
+        averages: {
+          monthly: monthlyAverage,
+          weekly: weeklyAverage,
+        },
+        
+        // Income sources with categories
+        incomeSources: [
+          {
+            name: "Primary Salary",
+            category: "Employment",
+            source: "Acme Corp",
+            amount: Math.round(baseAmount * 0.85),
+            percentage: 85,
+            frequency: "Monthly"
+          },
+          {
+            name: "Freelance Work", 
+            category: "Side Income",
+            source: "Various Clients",
+            amount: Math.round(baseAmount * 0.10),
+            percentage: 10,
+            frequency: "Irregular"
+          },
+          {
+            name: "Investment Returns",
+            category: "Passive Income", 
+            source: "Stock Dividends",
+            amount: Math.round(baseAmount * 0.03),
+            percentage: 3,
+            frequency: "Quarterly"
+          },
+          {
+            name: "Other Benefits",
+            category: "Benefits",
+            source: "Government/Insurance", 
+            amount: Math.round(baseAmount * 0.02),
+            percentage: 2,
+            frequency: "Monthly"
+          }
+        ],
+        
+        // Income breakdown by category
+        categoryBreakdown: {
+          "Employment": Math.round(baseAmount * 0.85),
+          "Side Income": Math.round(baseAmount * 0.10), 
+          "Passive Income": Math.round(baseAmount * 0.03),
+          "Benefits": Math.round(baseAmount * 0.02)
+        },
+        
+        // Legacy fields for backward compatibility
         primarySource: {
           name: "Acme Corp",
           type: "Salary",
@@ -1235,19 +1316,18 @@ class ApiClient {
           stabilityScore: 90,
           trend: "stable",
         },
-        secondarySources: [],
-        totalMonthlyIncome: 6500,
+        secondarySources: [
+          { name: "Freelance Work", amount: Math.round(baseAmount * 0.10), frequency: "Irregular" },
+          { name: "Investment Returns", amount: Math.round(baseAmount * 0.05), frequency: "Quarterly" }
+        ],
+        totalMonthlyIncome: baseAmount,
         employmentVerification: {
           status: "Verified",
           confidence: 95,
           employerNameMatch: true,
           consistentDeposits: true,
         },
-        history: [
-          { month: "Jan", amount: 6400 },
-          { month: "Feb", amount: 6500 },
-          { month: "Mar", amount: 6500 },
-        ],
+        history,
       },
       success: true,
     }

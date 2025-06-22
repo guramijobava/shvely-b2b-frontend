@@ -22,10 +22,10 @@ interface TransactionFiltersProps {
   onFiltersChange: (filters: {
     search: string
     dateRange?: DateRange
-    type?: "debit" | "credit" | "all"
+    type?: "debit" | "credit"
     category?: string // Could be multi-select in future
     accountId?: string
-    status?: "pending" | "posted" | "all"
+    status?: "pending" | "posted"
   }) => void
   isLoading?: boolean
   // Pass accounts for account filter if needed: accounts: BankAccount[]

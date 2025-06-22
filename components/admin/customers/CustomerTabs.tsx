@@ -2,14 +2,13 @@
 
 import { usePathname, useRouter } from "next/navigation"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs" // Assuming TabsContent is not needed here for navigation
-import { LayoutDashboard, Landmark, ListChecks, TrendingUp, BarChartBig, FileDown } from "lucide-react"
+import { Landmark, ListChecks, TrendingUp, BarChartBig, FileDown } from "lucide-react"
 
 interface CustomerTabsProps {
   customerId: string
 }
 
 const tabConfig = [
-  { value: "", label: "Overview", icon: LayoutDashboard, href: (id: string) => `/admin/customers/${id}` },
   { value: "accounts", label: "Accounts", icon: Landmark, href: (id: string) => `/admin/customers/${id}/accounts` },
   {
     value: "transactions",
@@ -29,7 +28,7 @@ export function CustomerTabs({ customerId }: CustomerTabsProps) {
   // Determine active tab based on current pathname
   const segments = pathname.split("/")
   const lastSegment = segments[segments.length - 1]
-  const activeTabValue = customerId === lastSegment ? "" : lastSegment
+  const activeTabValue = customerId === lastSegment ? "accounts" : lastSegment
 
   const onTabChange = (value: string) => {
     const tab = tabConfig.find((t) => t.value === value)
@@ -40,7 +39,7 @@ export function CustomerTabs({ customerId }: CustomerTabsProps) {
 
   return (
     <Tabs value={activeTabValue} onValueChange={onTabChange} className="w-full">
-      <TabsList className="grid w-full grid-cols-3 sm:grid-cols-6">
+      <TabsList className="grid w-full grid-cols-2 sm:grid-cols-5">
         {tabConfig.map((tab) => (
           <TabsTrigger
             key={tab.value}

@@ -887,6 +887,20 @@ class ApiClient {
     return response.data
   }
 
+  async createBulkVerifications(data: CreateVerificationRequest[]): Promise<{
+    successful: VerificationRequest[]
+    failed: Array<{ index: number; error: string; data: CreateVerificationRequest }>
+  }> {
+    const response = await this.request<{
+      successful: VerificationRequest[]
+      failed: Array<{ index: number; error: string; data: CreateVerificationRequest }>
+    }>("/verifications/bulk", {
+      method: "POST",
+      body: JSON.stringify({ verifications: data }),
+    })
+    return response.data
+  }
+
   async getVerification(id: string): Promise<VerificationRequest> {
     const response = await this.request<VerificationRequest>(`/verifications/${id}`)
     return response.data

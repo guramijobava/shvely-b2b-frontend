@@ -4,7 +4,7 @@ import type React from "react"
 import { ErrorBoundary } from "@/components/shared/ErrorBoundary"
 import { PWAWrapper } from "@/components/borrower/PWAWrapper"
 import { AuditLogger } from "@/components/borrower/AuditLogger"
-import Image from "next/image"
+import { LogoBanner } from "@/components/borrower/LogoBanner"
 import { Toaster } from "@/components/ui/toaster"
 
 export default function BorrowerVerificationLayout({
@@ -17,7 +17,7 @@ export default function BorrowerVerificationLayout({
       <AuditLogger>
         <div className="min-h-screen bg-gray-50 flex flex-col">
           <header className="py-4 px-6 bg-white shadow-sm">
-            <Image src="/logo.svg" alt="Shvely" width={100} height={32} />
+            <LogoBanner bankName="Demo Bank" className="py-0" />
           </header>
           <main className="flex-grow container mx-auto px-4 py-8 max-w-2xl">
             <ErrorBoundary

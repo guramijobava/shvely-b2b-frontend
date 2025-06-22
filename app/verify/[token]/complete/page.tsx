@@ -57,8 +57,22 @@ export default function CompletionPage() {
     )
   }
 
+  // Map error types from useTokenValidation to ErrorStateDisplay expected types
+  const mapErrorType = (type: string | null): "invalid_token" | "expired_token" | "network_error" | "unknown" => {
+    switch (type) {
+      case "invalid":
+        return "invalid_token"
+      case "expired":
+        return "expired_token"
+      case "network":
+        return "network_error"
+      default:
+        return "unknown"
+    }
+  }
+
   if (!isValid || !customerInfo) {
-    return <ErrorStateDisplay errorType={errorType || "unknown"} onRetry={refetchValidation} />
+    return <ErrorStateDisplay errorType={mapErrorType(errorType)} onRetry={refetchValidation} />
   }
 
   if (submissionError) {
@@ -66,16 +80,22 @@ export default function CompletionPage() {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="min-h-screen bg-gray-50">
       <ProcessOverview currentStep="complete" />
-      <CompletionSuccess
-        customerName={customerInfo.fullName}
-        bankName={customerInfo.bankName || "Your Bank"}
-        completionTime={completionDetails?.timestamp}
-        connectedAccountsCount={completionDetails?.connectedAccountsCount}
-      />
-      <NextSteps bankName={customerInfo.bankName || "Your Bank"} />
-      <DownloadConfirmation verificationId={token} customerEmail={customerInfo.email} />
+      
+      {/* Main content area with responsive padding */}
+      <div className="lg:pl-0 pt-0 lg:pt-8">
+        <div className="max-w-4xl mx-auto p-6 space-y-8">
+          <CompletionSuccess
+            customerName={customerInfo.fullName}
+            bankName={customerInfo.bankName || "Your Bank"}
+            completionTime={completionDetails?.timestamp}
+            connectedAccountsCount={completionDetails?.connectedAccountsCount}
+          />
+          <NextSteps bankName={customerInfo.bankName || "Your Bank"} />
+          <DownloadConfirmation verificationId={token} customerEmail={customerInfo.email} />
+        </div>
+      </div>
     </div>
   )
 }

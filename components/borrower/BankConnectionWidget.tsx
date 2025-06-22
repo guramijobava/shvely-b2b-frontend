@@ -1,13 +1,12 @@
 "use client"
 
-import { useEffect } from "react"
-
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { LoadingSpinner } from "@/components/shared/LoadingSpinner"
+import { DemoBankCredentialsModal } from "@/components/borrower/DemoBankCredentialsModal"
 import { Search, University, ExternalLink, ShieldAlert } from "lucide-react"
 import Image from "next/image"
 
@@ -18,10 +17,10 @@ interface Bank {
 }
 
 const popularBanks: Bank[] = [
-  { id: "chase", name: "Chase", logoUrl: "/placeholder.svg?height=40&width=100" },
-  { id: "boa", name: "Bank of America", logoUrl: "/placeholder.svg?height=40&width=100" },
-  { id: "wells", name: "Wells Fargo", logoUrl: "/placeholder.svg?height=40&width=100" },
-  { id: "citi", name: "Citibank", logoUrl: "/placeholder.svg?height=40&width=100" },
+  { id: "chase", name: "Chase", logoUrl: "/bank-logo-chase.svg" },
+  { id: "boa", name: "Bank of America", logoUrl: "/bank-logo-america.svg" },
+  { id: "wells", name: "Wells Fargo", logoUrl: "/bank-logo-wf.svg" },
+  { id: "citi", name: "Citibank", logoUrl: "/bank-logo-citi.svg" },
 ]
 
 interface BankConnectionWidgetProps {
@@ -45,6 +44,11 @@ export function BankConnectionWidget({
 }: BankConnectionWidgetProps) {
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedBank, setSelectedBank] = useState<Bank | null>(null)
+  const [showDemoModal, setShowDemoModal] = useState(false)
+  const [demoSelectedBank, setDemoSelectedBank] = useState<Bank | null>(null)
+  
+  // Check if we're in demo mode (development or DEMO_MODE env var)
+  const isDemoMode = process.env.NODE_ENV === "development" || process.env.NEXT_PUBLIC_DEMO_MODE === "true"
 
   // Placeholder for Stripe/Teller SDK interaction
   useEffect(() => {
@@ -82,8 +86,29 @@ export function BankConnectionWidget({
   }, [tellerConnectionUrl, selectedBank, onConnectionSuccess, onConnectionFailure])
 
   const handleBankSelect = (bank: Bank) => {
-    setSelectedBank(bank)
-    onConnect(bank.id, "stripe") // Default to Stripe, could add provider choice
+    if (isDemoMode) {
+      setDemoSelectedBank(bank)
+      setShowDemoModal(true)
+    } else {
+      setSelectedBank(bank)
+      onConnect(bank.id, "stripe") // Default to Stripe, could add provider choice
+    }
+  }
+  
+  const handleDemoSuccess = (accountData: any) => {
+    // Convert demo account data to the format expected by onConnectionSuccess
+    onConnectionSuccess([{
+      id: accountData.accountId,
+      name: `${accountData.bankName} ${accountData.accountType}`,
+      last4: accountData.accountNumber.slice(-4)
+    }])
+    setShowDemoModal(false)
+    setDemoSelectedBank(null)
+  }
+  
+  const handleDemoClose = () => {
+    setShowDemoModal(false)
+    setDemoSelectedBank(null)
   }
 
   const filteredBanks = popularBanks.filter((bank) => bank.name.toLowerCase().includes(searchTerm.toLowerCase()))
@@ -159,18 +184,31 @@ export function BankConnectionWidget({
           </>
         )}
 
-        <div className="text-xs text-muted-foreground text-center space-y-1 pt-4 border-t">
-          <p>We use Stripe Financial Connections to link your accounts securely.</p>
-          <a
-            href="https://stripe.com/financial-connections/data-usage"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:underline"
-          >
-            Learn more about Stripe's data usage <ExternalLink className="inline h-3 w-3" />
-          </a>
-        </div>
+        {!isDemoMode && (
+          <div className="text-xs text-muted-foreground text-center space-y-1 pt-4 border-t">
+            <p>We use Stripe Financial Connections to link your accounts securely.</p>
+            <a
+              href="https://stripe.com/financial-connections/data-usage"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:underline"
+            >
+              Learn more about Stripe's data usage <ExternalLink className="inline h-3 w-3" />
+            </a>
+          </div>
+        )}
       </CardContent>
+      
+      {/* Demo Mode Modal */}
+      {isDemoMode && demoSelectedBank && (
+        <DemoBankCredentialsModal
+          isOpen={showDemoModal}
+          onClose={handleDemoClose}
+          bankName={demoSelectedBank.name}
+          bankId={demoSelectedBank.id}
+          onSuccess={handleDemoSuccess}
+        />
+      )}
     </Card>
   )
 }

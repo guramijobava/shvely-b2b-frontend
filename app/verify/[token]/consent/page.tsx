@@ -96,68 +96,73 @@ export default function ConsentPage() {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="min-h-screen bg-gray-50">
       <ProcessOverview currentStep={consentGiven ? "connect" : "consent"} />
+      
+      {/* Main content area with responsive padding */}
+      <div className="lg:pl-0 pt-0 lg:pt-8">
+        <div className="max-w-4xl mx-auto p-6 space-y-8">
+          {!consentGiven ? (
+            <>
+              <DataConsentForm
+                bankName={customerInfo.bankName || "Your Bank"}
+                customerName={customerInfo.fullName}
+                onSubmit={handleConsentSubmit}
+                onDecline={handleDecline}
+                isSubmitting={isSubmitting}
+              />
+              {submissionError && <ErrorStateDisplay errorType="consent_failed" onRetry={() => handleConsentSubmit({})} />}
+              
+              <div className="pt-6 border-t">
+                <Button variant="outline" onClick={() => router.back()} className="w-full sm:w-auto">
+                  Back to Welcome
+                </Button>
+              </div>
+            </>
+          ) : (
+            <>
+              <Alert variant="default" className="bg-green-50 border-green-200 text-green-700">
+                <CheckCircle className="h-5 w-5 text-green-600" />
+                <AlertDescription className="font-medium">
+                  Consent recorded successfully! Now please connect your bank account(s).
+                </AlertDescription>
+              </Alert>
 
-      {!consentGiven ? (
-        <>
-          <DataConsentForm
-            bankName={customerInfo.bankName || "Your Bank"}
-            customerName={customerInfo.fullName}
-            onSubmit={handleConsentSubmit}
-            onDecline={handleDecline}
-            isSubmitting={isSubmitting}
-          />
-          {submissionError && <ErrorStateDisplay errorType="consent_failed" onRetry={() => handleConsentSubmit({})} />}
-          
-          <div className="pt-6 border-t">
-            <Button variant="outline" onClick={() => router.back()} className="w-full sm:w-auto">
-              Back to Welcome
-            </Button>
-          </div>
-        </>
-      ) : (
-        <>
-          <Alert variant="default" className="bg-green-50 border-green-200 text-green-700">
-            <CheckCircle className="h-5 w-5 text-green-600" />
-            <AlertDescription className="font-medium">
-              Consent recorded successfully! Now please connect your bank account(s).
-            </AlertDescription>
-          </Alert>
+              {connectedAccounts.length > 0 && (
+                <Alert variant="default" className="bg-blue-50 border-blue-200 text-blue-700">
+                  <CheckCircle className="h-5 w-5 text-blue-600" />
+                  <AlertDescription className="font-medium">
+                    {connectedAccounts.length} bank account(s) connected successfully! You can connect more or proceed to complete the verification.
+                  </AlertDescription>
+                </Alert>
+              )}
 
-          {connectedAccounts.length > 0 && (
-            <Alert variant="default" className="bg-blue-50 border-blue-200 text-blue-700">
-              <CheckCircle className="h-5 w-5 text-blue-600" />
-              <AlertDescription className="font-medium">
-                {connectedAccounts.length} bank account(s) connected successfully! You can connect more or proceed to complete the verification.
-              </AlertDescription>
-            </Alert>
+              <div id="bank-connection-section">
+                <BankConnectionWidget
+                  onConnect={handleBankConnect}
+                  isConnecting={isConnecting}
+                  connectionError={connectionError}
+                  stripeClientSecret={stripeClientSecret}
+                  tellerConnectionUrl={tellerConnectionUrl}
+                  onConnectionSuccess={handleConnectionSuccess}
+                  onConnectionFailure={handleConnectionFailure}
+                />
+              </div>
+
+              <div className="pt-6 border-t">
+                <Button
+                  onClick={proceedToComplete}
+                  className="w-full"
+                  size="lg"
+                  disabled={connectedAccounts.length === 0 || isConnecting}
+                >
+                  {isConnecting ? "Connecting..." : "Complete Verification"}
+                </Button>
+              </div>
+            </>
           )}
-
-          <div id="bank-connection-section">
-            <BankConnectionWidget
-              onConnect={handleBankConnect}
-              isConnecting={isConnecting}
-              connectionError={connectionError}
-              stripeClientSecret={stripeClientSecret}
-              tellerConnectionUrl={tellerConnectionUrl}
-              onConnectionSuccess={handleConnectionSuccess}
-              onConnectionFailure={handleConnectionFailure}
-            />
-          </div>
-
-          <div className="pt-6 border-t">
-            <Button
-              onClick={proceedToComplete}
-              className="w-full"
-              size="lg"
-              disabled={connectedAccounts.length === 0 || isConnecting}
-            >
-              {isConnecting ? "Connecting..." : "Complete Verification"}
-            </Button>
-          </div>
-        </>
-      )}
+        </div>
+      </div>
     </div>
   )
 }

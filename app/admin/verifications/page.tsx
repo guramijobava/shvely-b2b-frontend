@@ -5,11 +5,13 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { VerificationTable } from "@/components/admin/verifications/VerificationTable"
+import { BulkVerificationUpload } from "@/components/admin/verifications/BulkVerificationUpload"
 import { useVerifications } from "@/hooks/useVerifications"
 import { useVerificationActions } from "@/hooks/useVerificationActions"
 import { StatsCard } from "@/components/admin/dashboard/StatsCard"
-import { Plus, Download, Search, FileCheck, Clock, AlertTriangle, Send } from "lucide-react"
+import { Plus, Download, Search, FileCheck, Clock, AlertTriangle, Send, Upload } from "lucide-react"
 import Link from "next/link"
 
 export default function VerificationsPage() {
@@ -20,6 +22,7 @@ export default function VerificationsPage() {
     page: 1,
     limit: 10,
   })
+  const [showBulkUpload, setShowBulkUpload] = useState(false)
 
   // Convert "all" values to empty strings for the API call
   const apiFilters = useMemo(() => ({
@@ -69,6 +72,14 @@ export default function VerificationsPage() {
     console.log("Export verifications")
   }, [])
 
+  const handleBulkUploadComplete = useCallback((results: { successful: number; failed: number; errors: string[] }) => {
+    setShowBulkUpload(false)
+    // Refresh the verifications list
+    // In a real app, you might want to show a success/error toast
+    console.log("Bulk upload completed:", results)
+    // You could also refresh the verifications list here
+  }, [])
+
   // Calculate stats from the verifications data
   const stats = useMemo(() => {
     const totalVerifications = pagination?.total || 0
@@ -96,6 +107,10 @@ export default function VerificationsPage() {
           <Button variant="outline" onClick={handleExport}>
             <Download className="h-4 w-4 mr-2" />
             Export
+          </Button>
+          <Button variant="outline" onClick={() => setShowBulkUpload(true)}>
+            <Upload className="h-4 w-4 mr-2" />
+            Bulk Send
           </Button>
           <Button asChild>
             <Link href="/admin/verifications/send">
@@ -201,6 +216,19 @@ export default function VerificationsPage() {
           />
         </CardContent>
       </Card>
+
+      {/* Bulk Upload Dialog */}
+      <Dialog open={showBulkUpload} onOpenChange={setShowBulkUpload}>
+        <DialogContent className="max-w-6xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Bulk Verification Upload</DialogTitle>
+          </DialogHeader>
+          <BulkVerificationUpload
+            onClose={() => setShowBulkUpload(false)}
+            onComplete={handleBulkUploadComplete}
+          />
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }

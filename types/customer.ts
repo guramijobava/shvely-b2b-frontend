@@ -5,14 +5,11 @@ export interface CustomerFinancialProfile {
     email: string
     phoneNumber: string
   }
-  creditScore: {
-    score: number
-    scoreRange: { min: number; max: number }
-    grade: "A" | "B" | "C" | "D" | "F"
-    factors: string[]
-    lastUpdated: string
-    provider: string
-    history?: { date: string; score: number }[]
+  creditReports: {
+    equifax: CreditBureauReport
+    experian: CreditBureauReport
+    transunion: CreditBureauReport
+    summary: CreditSummary
   }
   bankAccounts: BankAccount[]
   financialSummary: {
@@ -94,4 +91,28 @@ export interface RecurringPayment {
   averageAmount: number
   category: string
   nextExpectedDate?: string
+}
+
+export interface CreditBureauReport {
+  score: number
+  grade: "A" | "B" | "C" | "D" | "F"
+  lastUpdated: string
+  utilization: {
+    totalCredit: number
+    usedCredit: number
+    utilizationPercentage: number
+  }
+  paymentHistory: {
+    onTimePercentage: number
+    recentLatePayments: number
+  }
+}
+
+export interface CreditSummary {
+  averageScore: number
+  scoreVariance: number
+  overallGrade: "A" | "B" | "C" | "D" | "F"
+  riskLevel: "low" | "medium" | "high"
+  primaryBureau: "equifax" | "experian" | "transunion"
+  majorDiscrepancies: string[]
 }

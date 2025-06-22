@@ -2,7 +2,7 @@
 
 import { usePathname, useRouter } from "next/navigation"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs" // Assuming TabsContent is not needed here for navigation
-import { Landmark, ListChecks, TrendingUp, BarChartBig, FileDown, Activity } from "lucide-react"
+import { Landmark, ListChecks, TrendingUp, BarChartBig, FileDown, Activity, CreditCard } from "lucide-react"
 
 interface CustomerTabsProps {
   customerId: string
@@ -23,6 +23,12 @@ const tabConfig = [
     label: "Cashflow",
     icon: Activity,
     href: (id: string) => `/admin/customers/${id}/cashflow`,
+  },
+  {
+    value: "credit",
+    label: "Credit",
+    icon: CreditCard,
+    href: (id: string) => `/admin/customers/${id}/credit`,
   },
   { value: "reports", label: "Reports", icon: FileDown, href: (id: string) => `/admin/customers/${id}/reports` },
 ]
@@ -45,7 +51,7 @@ export function CustomerTabs({ customerId }: CustomerTabsProps) {
 
   return (
     <Tabs value={activeTabValue} onValueChange={onTabChange} className="w-full">
-      <TabsList className="grid w-full grid-cols-2 sm:grid-cols-6">
+      <TabsList className="grid w-full grid-cols-2 sm:grid-cols-7">
         {tabConfig.map((tab) => (
           <TabsTrigger
             key={tab.value}

@@ -24,11 +24,14 @@ interface CustomerListItem {
   id: string
   fullName: string
   email: string
+  phoneNumber: string
+  totalBalance: number
   creditScore?: number
   creditGrade?: string
-  totalBalance?: number
-  riskLevel?: "low" | "medium" | "high" // Simplified
-  verifiedDate?: string
+  verificationId: string
+  lastUpdated: string
+  riskLevel?: "low" | "medium" | "high" | "unknown"
+  isHighRisk: boolean
 }
 
 export default function CustomerListPage() {
@@ -64,20 +67,19 @@ export default function CustomerListPage() {
     return (rawCustomers || [])
       .map(
         (c): CustomerListItem => ({
-          // Transform to simpler list item
           id: c.customerId,
           fullName: c.customerInfo.fullName,
           email: c.customerInfo.email,
-          creditScore: c.creditScore?.score,
-          creditGrade: c.creditScore?.grade,
-          totalBalance: c.financialSummary?.totalBalance,
-          riskLevel:
-            c.riskIndicators?.highOverdraftFrequency || c.riskIndicators?.irregularIncomePattern
-              ? "high"
-              : c.creditScore?.score && c.creditScore?.score < 650
-                ? "medium"
-                : "low",
-          verifiedDate: c.lastUpdated, // Or a specific verification date if available
+          phoneNumber: c.customerInfo.phoneNumber,
+          totalBalance: c.financialSummary.totalBalance,
+          creditScore: c.creditReports?.summary?.averageScore,
+          creditGrade: c.creditReports?.summary?.overallGrade,
+          verificationId: c.verificationId,
+          lastUpdated: new Date(c.lastUpdated).toLocaleDateString(),
+          riskLevel: c.creditReports?.summary?.riskLevel || "unknown",
+                     isHighRisk:
+             c.customerId === "cust_002_high_risk" ||
+             (c.creditReports?.summary?.averageScore != null && c.creditReports.summary.averageScore < 650)
         }),
       )
       .filter((c) => {
@@ -93,7 +95,7 @@ export default function CustomerListPage() {
       .map((n) => n[0])
       .join("")
       .toUpperCase()
-  const getRiskColor = (level?: "low" | "medium" | "high") => {
+  const getRiskColor = (level?: "low" | "medium" | "high" | "unknown") => {
     if (level === "high") return "bg-red-500"
     if (level === "medium") return "bg-yellow-500"
     return "bg-green-500"
@@ -160,7 +162,7 @@ export default function CustomerListPage() {
       key: "verifiedDate",
       label: "Verified Date",
       render: (item: CustomerListItem) =>
-        item.verifiedDate ? formatRelativeTime(item.verifiedDate) : <span className="text-muted-foreground">N/A</span>,
+        item.lastUpdated ? formatRelativeTime(item.lastUpdated) : <span className="text-muted-foreground">N/A</span>,
     },
     {
       key: "actions",

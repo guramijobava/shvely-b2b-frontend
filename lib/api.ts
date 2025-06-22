@@ -54,7 +54,7 @@ class ApiClient {
     }
   }
 
-  private async getMockResponse<T>(endpoint: string, method?: string, body?: BodyInit): Promise<ApiResponse<T>> {
+  private async getMockResponse<T>(endpoint: string, method?: string, body?: BodyInit | null): Promise<ApiResponse<T>> {
     // Simulate network delay
     await new Promise((resolve) => setTimeout(resolve, 800))
 
@@ -453,14 +453,57 @@ class ApiClient {
             email: "alice.wonder@example.com",
             phoneNumber: "+15551234567",
           },
-          creditScore: {
-            score: 720,
-            grade: "B",
-            lastUpdated: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000).toISOString(),
-            scoreRange: { min: 300, max: 850 },
-            factors: [],
-            provider: "MockBank",
-            history: [],
+          creditReports: {
+            equifax: {
+              score: 745,
+              grade: "A",
+              lastUpdated: "2024-01-15",
+              utilization: {
+                totalCredit: 25000,
+                usedCredit: 3200,
+                utilizationPercentage: 12.8
+              },
+              paymentHistory: {
+                onTimePercentage: 98,
+                recentLatePayments: 0
+              }
+            },
+            experian: {
+              score: 752,
+              grade: "A", 
+              lastUpdated: "2024-01-12",
+              utilization: {
+                totalCredit: 26500,
+                usedCredit: 3400,
+                utilizationPercentage: 12.8
+              },
+              paymentHistory: {
+                onTimePercentage: 98,
+                recentLatePayments: 0
+              }
+            },
+            transunion: {
+              score: 738,
+              grade: "B",
+              lastUpdated: "2024-01-10", 
+              utilization: {
+                totalCredit: 25000,
+                usedCredit: 3100,
+                utilizationPercentage: 12.4
+              },
+              paymentHistory: {
+                onTimePercentage: 96,
+                recentLatePayments: 1
+              }
+            },
+            summary: {
+              averageScore: 745,
+              scoreVariance: 14,
+              overallGrade: "A",
+              riskLevel: "low",
+              primaryBureau: "experian",
+              majorDiscrepancies: ["TransUnion shows 1 recent late payment not reported by other bureaus"]
+            }
           },
           financialSummary: {
             totalBalance: 25000.75,
@@ -497,14 +540,60 @@ class ApiClient {
             email: "bob.builder@example.com",
             phoneNumber: "+15557654321",
           },
-          creditScore: {
-            score: 580,
-            grade: "D",
-            lastUpdated: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
-            scoreRange: { min: 300, max: 850 },
-            factors: [],
-            provider: "MockBank",
-            history: [],
+          creditReports: {
+            equifax: {
+              score: 620,
+              grade: "C",
+              lastUpdated: "2024-01-14",
+              utilization: {
+                totalCredit: 15000,
+                usedCredit: 12500,
+                utilizationPercentage: 83.3
+              },
+              paymentHistory: {
+                onTimePercentage: 78,
+                recentLatePayments: 3
+              }
+            },
+            experian: {
+              score: 595,
+              grade: "D", 
+              lastUpdated: "2024-01-11",
+              utilization: {
+                totalCredit: 16000,
+                usedCredit: 13200,
+                utilizationPercentage: 82.5
+              },
+              paymentHistory: {
+                onTimePercentage: 72,
+                recentLatePayments: 4
+              }
+            },
+            transunion: {
+              score: 648,
+              grade: "C",
+              lastUpdated: "2024-01-09", 
+              utilization: {
+                totalCredit: 15500,
+                usedCredit: 12800,
+                utilizationPercentage: 82.6
+              },
+              paymentHistory: {
+                onTimePercentage: 81,
+                recentLatePayments: 2
+              }
+            },
+            summary: {
+              averageScore: 621,
+              scoreVariance: 53,
+              overallGrade: "C",
+              riskLevel: "high",
+              primaryBureau: "transunion",
+              majorDiscrepancies: [
+                "Large score variance: 53 points between bureaus",
+                "Payment history discrepancies found between bureaus"
+              ]
+            }
           },
           financialSummary: {
             totalBalance: 5200.1,
@@ -539,14 +628,57 @@ class ApiClient {
             email: "charlie.chaplin@example.com",
             phoneNumber: "+15551112222",
           },
-          creditScore: {
-            score: 810,
-            grade: "A",
-            lastUpdated: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
-            scoreRange: { min: 300, max: 850 },
-            factors: [],
-            provider: "MockBank",
-            history: [],
+          creditReports: {
+            equifax: {
+              score: 810,
+              grade: "A",
+              lastUpdated: "2024-01-13",
+              utilization: {
+                totalCredit: 150000,
+                usedCredit: 120000,
+                utilizationPercentage: 80
+              },
+              paymentHistory: {
+                onTimePercentage: 95,
+                recentLatePayments: 0
+              }
+            },
+            experian: {
+              score: 820,
+              grade: "A",
+              lastUpdated: "2024-01-10",
+              utilization: {
+                totalCredit: 150000,
+                usedCredit: 120000,
+                utilizationPercentage: 80
+              },
+              paymentHistory: {
+                onTimePercentage: 95,
+                recentLatePayments: 0
+              }
+            },
+            transunion: {
+              score: 800,
+              grade: "A",
+              lastUpdated: "2024-01-08",
+              utilization: {
+                totalCredit: 150000,
+                usedCredit: 120000,
+                utilizationPercentage: 80
+              },
+              paymentHistory: {
+                onTimePercentage: 95,
+                recentLatePayments: 0
+              }
+            },
+            summary: {
+              averageScore: 810,
+              scoreVariance: 10,
+              overallGrade: "A",
+              riskLevel: "low",
+              primaryBureau: "experian",
+              majorDiscrepancies: []
+            }
           },
           financialSummary: {
             totalBalance: 150000.0,
@@ -642,27 +774,60 @@ class ApiClient {
             customerId === "cust_002_high_risk" ? "jane.risk.profile@example.com" : "john.customer.profile@example.com",
           phoneNumber: "+15551230000",
         },
-        creditScore: {
-          score: customerId === "cust_002_high_risk" ? 580 : 750,
-          scoreRange: { min: 300, max: 850 },
-          grade: customerId === "cust_002_high_risk" ? "D" : "A",
-          factors: ["Excellent payment history", "Low credit utilization"],
-          lastUpdated: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
-          provider: "Experian",
-          history: [
-            {
-              date: new Date(Date.now() - 90 * 24 * 60 * 60 * 1000).toISOString(),
-              score: customerId === "cust_002_high_risk" ? 560 : 720,
+        creditReports: {
+          equifax: {
+            score: customerId === "cust_002_high_risk" ? 580 : 750,
+            grade: customerId === "cust_002_high_risk" ? "D" : "A",
+            lastUpdated: "2024-01-15",
+            utilization: {
+              totalCredit: 15000,
+              usedCredit: 12500,
+              utilizationPercentage: 83.3
             },
-            {
-              date: new Date(Date.now() - 60 * 24 * 60 * 60 * 1000).toISOString(),
-              score: customerId === "cust_002_high_risk" ? 575 : 735,
+            paymentHistory: {
+              onTimePercentage: 78,
+              recentLatePayments: 3
+            }
+          },
+          experian: {
+            score: customerId === "cust_002_high_risk" ? 560 : 720,
+            grade: customerId === "cust_002_high_risk" ? "D" : "A",
+            lastUpdated: "2024-01-12",
+            utilization: {
+              totalCredit: 16000,
+              usedCredit: 13200,
+              utilizationPercentage: 82.5
             },
-            {
-              date: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString(),
-              score: customerId === "cust_002_high_risk" ? 580 : 750,
+            paymentHistory: {
+              onTimePercentage: 72,
+              recentLatePayments: 4
+            }
+          },
+          transunion: {
+            score: customerId === "cust_002_high_risk" ? 575 : 735,
+            grade: customerId === "cust_002_high_risk" ? "C" : "B",
+            lastUpdated: "2024-01-10",
+            utilization: {
+              totalCredit: 15500,
+              usedCredit: 12800,
+              utilizationPercentage: 82.6
             },
-          ],
+            paymentHistory: {
+              onTimePercentage: 81,
+              recentLatePayments: 2
+            }
+          },
+          summary: {
+            averageScore: customerId === "cust_002_high_risk" ? 570 : 720,
+            scoreVariance: 53,
+            overallGrade: customerId === "cust_002_high_risk" ? "C" : "B",
+            riskLevel: customerId === "cust_002_high_risk" ? "high" : "low",
+            primaryBureau: customerId === "cust_002_high_risk" ? "transunion" : "experian",
+            majorDiscrepancies: [
+              "Large score variance: 53 points between bureaus",
+              "Payment history discrepancies found between bureaus"
+            ]
+          }
         },
         bankAccounts: [
           {
@@ -949,18 +1114,57 @@ class ApiClient {
         email: "john.customer@example.com",
         phoneNumber: "+15551230000",
       },
-      creditScore: {
-        score: 750,
-        scoreRange: { min: 300, max: 850 },
-        grade: "A",
-        factors: ["Excellent payment history", "Low credit utilization"],
-        lastUpdated: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
-        provider: "Experian",
-        history: [
-          { date: new Date(Date.now() - 90 * 24 * 60 * 60 * 1000).toISOString(), score: 720 },
-          { date: new Date(Date.now() - 60 * 24 * 60 * 60 * 1000).toISOString(), score: 735 },
-          { date: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString(), score: 750 },
-        ],
+      creditReports: {
+        equifax: {
+          score: 750,
+          grade: "A",
+          lastUpdated: "2024-01-15",
+          utilization: {
+            totalCredit: 25000,
+            usedCredit: 3200,
+            utilizationPercentage: 12.8
+          },
+          paymentHistory: {
+            onTimePercentage: 98,
+            recentLatePayments: 0
+          }
+        },
+        experian: {
+          score: 752,
+          grade: "A", 
+          lastUpdated: "2024-01-12",
+          utilization: {
+            totalCredit: 26500,
+            usedCredit: 3400,
+            utilizationPercentage: 12.8
+          },
+          paymentHistory: {
+            onTimePercentage: 98,
+            recentLatePayments: 0
+          }
+        },
+        transunion: {
+          score: 738,
+          grade: "B",
+          lastUpdated: "2024-01-10", 
+          utilization: {
+            totalCredit: 25000,
+            usedCredit: 3100,
+            utilizationPercentage: 12.4
+          },
+          paymentHistory: {
+            onTimePercentage: 96,
+            recentLatePayments: 1
+          }
+        },
+        summary: {
+          averageScore: 745,
+          scoreVariance: 14,
+          overallGrade: "A",
+          riskLevel: "low",
+          primaryBureau: "experian",
+          majorDiscrepancies: ["TransUnion shows 1 recent late payment not reported by other bureaus"]
+        }
       },
       bankAccounts: [
         {
@@ -985,29 +1189,17 @@ class ApiClient {
           transactions: [],
           monthlyBalances: [],
         },
-        {
-          accountId: "acc_crd_1",
-          bankName: "Citibank",
-          accountType: "credit",
-          accountNumber: "xxxx9012",
-          balance: -1250.75,
-          availableBalance: 8749.25,
-          currency: "USD",
-          openedDate: new Date(Date.now() - 2 * 365 * 24 * 60 * 60 * 1000).toISOString(),
-          transactions: [],
-          monthlyBalances: [],
-        },
       ],
       financialSummary: {
-        totalBalance: 19760.0 - 1250.75, // Sum of checking/savings minus credit card balance
+        totalBalance: 19760.0 - 1250.75,
         monthlyIncome: 6500,
         monthlyExpenses: 4200,
         netCashFlow: 2300,
-        accountAge: 5, // years
+        accountAge: 5,
         overdraftCount: 1,
       },
       transactionAnalysis: {
-        totalTransactions: 150, // last 90 days
+        totalTransactions: 150,
         avgMonthlySpending: 3800,
         topCategories: [
           {
@@ -1016,14 +1208,6 @@ class ApiClient {
             percentage: 39.47,
             transactionCount: 5,
             trend: "stable",
-            monthlyData: [],
-          },
-          {
-            category: "Food & Dining",
-            amount: 600,
-            percentage: 15.79,
-            transactionCount: 30,
-            trend: "increasing",
             monthlyData: [],
           },
         ],
@@ -1039,7 +1223,6 @@ class ApiClient {
         ],
         recurringPayments: [
           { merchant: "Netflix", frequency: "monthly", averageAmount: 15.99, category: "Entertainment" },
-          { merchant: "AT&T Internet", frequency: "monthly", averageAmount: 70.0, category: "Utilities" },
         ],
       },
       riskIndicators: {
@@ -1057,8 +1240,61 @@ class ApiClient {
       mockProfile.customerId = "cust_002_high_risk"
       mockProfile.customerInfo.fullName = "Jane Risk"
       mockProfile.customerInfo.email = "jane.risk@example.com"
-      mockProfile.creditScore.score = 580
-      mockProfile.creditScore.grade = "D"
+      mockProfile.creditReports = {
+        equifax: {
+          score: 620,
+          grade: "C",
+          lastUpdated: "2024-01-14",
+          utilization: {
+            totalCredit: 15000,
+            usedCredit: 12500,
+            utilizationPercentage: 83.3
+          },
+          paymentHistory: {
+            onTimePercentage: 78,
+            recentLatePayments: 3
+          }
+        },
+        experian: {
+          score: 595,
+          grade: "D", 
+          lastUpdated: "2024-01-11",
+          utilization: {
+            totalCredit: 16000,
+            usedCredit: 13200,
+            utilizationPercentage: 82.5
+          },
+          paymentHistory: {
+            onTimePercentage: 72,
+            recentLatePayments: 4
+          }
+        },
+        transunion: {
+          score: 648,
+          grade: "C",
+          lastUpdated: "2024-01-09", 
+          utilization: {
+            totalCredit: 15500,
+            usedCredit: 12800,
+            utilizationPercentage: 82.6
+          },
+          paymentHistory: {
+            onTimePercentage: 81,
+            recentLatePayments: 2
+          }
+        },
+        summary: {
+          averageScore: 621,
+          scoreVariance: 53,
+          overallGrade: "C",
+          riskLevel: "high",
+          primaryBureau: "transunion",
+          majorDiscrepancies: [
+            "Large score variance: 53 points between bureaus",
+            "Payment history discrepancies found between bureaus"
+          ]
+        }
+      }
       mockProfile.financialSummary.monthlyIncome = 3000
       mockProfile.financialSummary.monthlyExpenses = 2900
       mockProfile.financialSummary.netCashFlow = 100
@@ -1067,7 +1303,7 @@ class ApiClient {
       mockProfile.riskIndicators.irregularIncomePattern = true
     }
 
-    return { data: mockProfile, success: true } as ApiResponse<CustomerFinancialProfile>
+    return mockProfile
   }
 
   async getCustomerTransactions(

@@ -63,12 +63,14 @@ export function CustomerProfileHeader({ customer }: CustomerProfileHeaderProps) 
           </div>
           <div>
             <p className="text-xs text-muted-foreground">Credit Score</p>
-            <p className="font-semibold text-lg">
-              {customer.creditScore?.score || "N/A"}
-              {customer.creditScore?.grade && (
-                <span className="ml-1 text-sm text-muted-foreground">({customer.creditScore.grade})</span>
+            <div className="flex items-center space-x-1">
+              <span className="text-2xl font-bold">
+                {customer.creditReports?.summary?.averageScore || "N/A"}
+              </span>
+              {customer.creditReports?.summary?.overallGrade && (
+                <span className="ml-1 text-sm text-muted-foreground">({customer.creditReports.summary.overallGrade})</span>
               )}
-            </p>
+            </div>
           </div>
           <div>
             <p className="text-xs text-muted-foreground">Total Balance</p>

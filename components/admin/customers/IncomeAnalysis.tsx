@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Calendar } from "@/components/ui/calendar"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
-import { TrendingUp, TrendingDown, Minus, Briefcase, CalendarClock, Percent, Calendar as CalendarIcon, DollarSign, PieChart } from "lucide-react"
+import { TrendingUp, TrendingDown, Minus, Briefcase, CalendarClock, Percent, Calendar as CalendarIcon, DollarSign, PieChart, ChevronDown, ChevronUp } from "lucide-react"
 import { formatCurrency, cn } from "@/lib/utils"
 import { format } from "date-fns"
 import { useState } from "react"
@@ -36,11 +36,23 @@ const MetricDisplay = ({
 
 export function IncomeAnalysis({ data }: IncomeAnalysisProps) {
   const [selectedMonth, setSelectedMonth] = useState<Date>(new Date())
+  const [selectedChartMonthIndex, setSelectedChartMonthIndex] = useState<number>(11) // Default to current month (last in array)
+  const [expandedSources, setExpandedSources] = useState<Set<number>>(new Set())
 
   const handleMonthSelect = (date: Date | undefined) => {
     if (date) {
       setSelectedMonth(date)
     }
+  }
+
+  const toggleExpandedSource = (index: number) => {
+    const newExpanded = new Set(expandedSources)
+    if (newExpanded.has(index)) {
+      newExpanded.delete(index)
+    } else {
+      newExpanded.add(index)
+    }
+    setExpandedSources(newExpanded)
   }
 
   // Generate list of available months (last 12 months)
@@ -309,95 +321,348 @@ export function IncomeAnalysis({ data }: IncomeAnalysisProps) {
          </CardContent>
        </Card>
 
-             {/* Income Sources Breakdown - Enhanced Design */}
+             
+
+       {/* Historical Income Sources Breakdown - Separate Section */}
        {data.incomeSources && (
-         <Card className="border-l-4 border-l-purple-500 shadow-lg">
+         <Card className="border-l-4 border-l-indigo-500 shadow-lg">
            <CardHeader className="pb-3">
-             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0">
-               <div>
-                 <CardTitle className="flex items-center space-x-2 text-lg">
-                   <PieChart className="h-5 w-5 text-purple-500" />
-                   <span>Income Sources Breakdown</span>
-                 </CardTitle>
-                 <CardDescription>Detailed analysis of all income streams and their contributions</CardDescription>
-               </div>
-               
-               <Popover>
-                 <PopoverTrigger asChild>
-                   <Button
-                     variant="outline"
-                     className={cn(
-                       "w-[200px] justify-start text-left font-normal"
-                     )}
-                   >
-                     <CalendarIcon className="mr-2 h-4 w-4" />
-                     {format(selectedMonth, "MMM yyyy")}
-                   </Button>
-                 </PopoverTrigger>
-                 <PopoverContent className="w-auto p-0" align="end">
-                   <div className="p-3">
-                     <div className="grid grid-cols-2 gap-2">
-                       {getAvailableMonths().map((month, index) => (
-                         <Button
-                           key={index}
-                           variant={
-                             format(month, "MMM yyyy") === format(selectedMonth, "MMM yyyy")
-                               ? "default"
-                               : "ghost"
+                         <CardTitle className="flex items-center space-x-2 text-lg">
+              <TrendingUp className="h-5 w-5 text-indigo-500" />
+              <span>Income Sources Breakdown</span>
+            </CardTitle>
+            <CardDescription>Interactive 12-month analysis - click on any month to view detailed transaction breakdown</CardDescription>
+           </CardHeader>
+           <CardContent>
+             <div className="p-6 bg-gradient-to-br from-indigo-50 to-blue-100 rounded-xl border">
+               {(() => {
+                 // Generate mock historical data for the last 12 months
+                 const months = []
+                 const now = new Date()
+                 for (let i = 11; i >= 0; i--) {
+                   const month = new Date(now.getFullYear(), now.getMonth() - i, 1)
+                   months.push(month)
+                 }
+                 
+                 // Generate monthly data with variations
+                 const monthlyDataSets = months.map((month, monthIndex) => {
+                   const monthlyData = data.incomeSources.map((source: any, sourceIndex: number) => {
+                     // Add some realistic variation (±20%) to simulate historical changes
+                     const variation = 0.8 + (Math.sin(monthIndex + sourceIndex) * 0.2)
+                     const adjustedAmount = source.amount * variation
+                     return {
+                       ...source,
+                       amount: adjustedAmount
+                     }
+                   })
+                   
+                   const totalAmount = monthlyData.reduce((sum: number, source: any) => sum + source.amount, 0)
+                   return {
+                     month,
+                     monthIndex,
+                     data: monthlyData,
+                     total: totalAmount
+                   }
+                 })
+                 
+                 // Calculate max total for Y-axis scaling
+                 const maxTotal = Math.max(...monthlyDataSets.map(set => set.total))
+                 
+                 // Smart Y-axis labeling function
+                 const generateYAxisLabels = (maxValue: number) => {
+                   let step: number
+                   let numSteps = 5
+                   
+                   if (maxValue <= 1000) {
+                     step = 250
+                   } else if (maxValue <= 2500) {
+                     step = 500
+                   } else if (maxValue <= 5000) {
+                     step = 1000
+                   } else if (maxValue <= 10000) {
+                     step = 2000
+                   } else if (maxValue <= 25000) {
+                     step = 5000
+                   } else if (maxValue <= 50000) {
+                     step = 10000
+                   } else {
+                     step = Math.ceil(maxValue / numSteps / 10000) * 10000
+                   }
+                   
+                   const labels = []
+                   let currentValue = 0
+                   while (currentValue <= maxTotal * 1.3) { // Added more padding
+                     labels.push(currentValue)
+                     currentValue += step
+                   }
+                   
+                   return labels.slice(0, 6) // Max 6 labels
+                 }
+                 
+                 const yAxisLabels = generateYAxisLabels(maxTotal)
+                 const chartMaxValue = Math.max(...yAxisLabels)
+                 
+                 return (
+                   <div>
+                     {/* Instructions */}
+                     <div className="mb-4 text-center">
+                       <p className="text-sm text-gray-600">
+                         <span className="font-medium">Click on any month</span> to view detailed transaction breakdown
+                       </p>
+                     </div>
+                     
+                     {/* Chart */}
+                     <div className="relative">
+                       {/* Y-axis labels */}
+                       <div className="flex">
+                         <div className="w-20 flex flex-col-reverse justify-between h-80 text-xs text-gray-600 pr-3">
+                           {yAxisLabels.map((label, index) => (
+                             <span key={index} className="text-right">
+                               {label >= 1000 ? `$${(label / 1000).toFixed(0)}k` : `$${label}`}
+                             </span>
+                           ))}
+                         </div>
+                         
+                         {/* Chart area */}
+                         <div className="flex-1 h-80 bg-white rounded-lg border relative">
+                           {/* Grid lines */}
+                           <div className="absolute inset-0 flex flex-col-reverse justify-between p-2">
+                             {yAxisLabels.map((_, index) => (
+                               <div key={index} className="w-full border-t border-gray-200 opacity-30"></div>
+                             ))}
+                           </div>
+                           
+                                                       {/* Bars container */}
+                            <div className="absolute inset-0 flex items-end justify-around px-4 py-2">
+                              {monthlyDataSets.map((monthSet, monthIndex) => (
+                                <div 
+                                  key={monthIndex} 
+                                  className={`flex flex-col items-center flex-1 max-w-[40px] group cursor-pointer transition-all duration-200 ${
+                                    selectedChartMonthIndex === monthIndex ? 'bg-blue-50 rounded-lg' : 'hover:bg-gray-50 rounded-lg'
+                                  }`}
+                                  onClick={() => setSelectedChartMonthIndex(monthIndex)}
+                                >
+                                  {/* Stacked Bar Container */}
+                                  <div className="relative w-full flex flex-col justify-end h-full pb-1">
+                                    {monthSet.data.map((source: any, sourceIndex: number) => {
+                                      const categoryColors: { [key: string]: string } = {
+                                        'Employment': 'bg-blue-500',
+                                        'Side Income': 'bg-orange-500',
+                                        'Passive Income': 'bg-green-500',
+                                        'Benefits': 'bg-purple-500'
+                                      }
+                                      
+                                      // Calculate height based on amount (use available height minus padding)
+                                      const availableHeight = 250 // Reduced height to give more top padding
+                                      const heightPercentage = (source.amount / chartMaxValue) * 100
+                                      const segmentHeight = Math.max((heightPercentage / 100) * availableHeight, 1)
+                                      
+                                      // Determine border radius based on position
+                                      const isFirst = sourceIndex === 0
+                                      const isLast = sourceIndex === monthSet.data.length - 1
+                                      let borderRadius = ''
+                                      
+                                      if (isFirst && isLast) {
+                                        borderRadius = '6px' // Single segment gets full rounding
+                                      } else if (isFirst) {
+                                        borderRadius = '6px 6px 0 0' // Top segment (first in array, visually at top)
+                                      } else if (isLast) {
+                                        borderRadius = '0 0 6px 6px' // Bottom segment (last in array, visually at bottom)
+                                      } else {
+                                        borderRadius = '0' // Middle segments
+                                      }
+                                      
+                                      return (
+                                        <div
+                                          key={sourceIndex}
+                                          className={`${categoryColors[source.category] || 'bg-gray-500'} w-full transition-all duration-300 hover:opacity-80 cursor-pointer group/segment relative`}
+                                          style={{ 
+                                            height: `${segmentHeight}px`,
+                                            borderRadius
+                                          }}
+                                        >
+                                          {/* Tooltip */}
+                                          <div className="absolute left-1/2 bottom-full transform -translate-x-1/2 mb-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg opacity-0 group-hover/segment:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-30">
+                                            <div className="font-semibold">{source.name}</div>
+                                            <div>{format(monthSet.month, "MMM yyyy")}</div>
+                                            <div>{formatCurrency(source.amount)}</div>
+                                            <div className="text-gray-300 text-[10px] mt-1 border-t border-gray-600 pt-1">
+                                              Total: {formatCurrency(monthSet.total)}
+                                            </div>
+                                            <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-900"></div>
+                                          </div>
+                                        </div>
+                                      )
+                                    })}
+                                  </div>
+                                  
+                                  {/* Month Label */}
+                                  <div className={`mt-2 text-xs font-medium text-center transition-colors ${
+                                    selectedChartMonthIndex === monthIndex 
+                                      ? 'text-indigo-600 font-bold' 
+                                      : 'text-gray-600'
+                                  }`}>
+                                    {format(monthSet.month, "MMM")}
+                                    {selectedChartMonthIndex === monthIndex && (
+                                      <div className="w-2 h-2 bg-indigo-500 rounded-full mx-auto mt-1"></div>
+                                    )}
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                         </div>
+                       </div>
+                       
+                       {/* X-axis label */}
+                       <div className="flex justify-center mt-2">
+                         <span className="text-sm text-gray-600 font-medium">Months</span>
+                       </div>
+                     </div>
+                     
+                     {/* Legend */}
+                     <div className="mt-8 pt-4 border-t border-gray-300">
+                       <div className="flex flex-wrap items-center justify-center gap-6">
+                         {data.incomeSources.map((source: any, index: number) => {
+                           const categoryColors: { [key: string]: string } = {
+                             'Employment': 'bg-blue-500',
+                             'Side Income': 'bg-orange-500',
+                             'Passive Income': 'bg-green-500',
+                             'Benefits': 'bg-purple-500'
                            }
-                           className="h-9 text-sm font-normal justify-start"
-                           onClick={() => handleMonthSelect(month)}
-                         >
-                           {format(month, "MMM yyyy")}
-                         </Button>
-                       ))}
+                           
+                           return (
+                             <div key={index} className="flex items-center space-x-2">
+                               <div className={`w-4 h-4 rounded ${categoryColors[source.category] || 'bg-gray-500'}`}></div>
+                               <span className="text-sm font-medium text-gray-700">{source.category}</span>
+                             </div>
+                           )
+                         })}
+                       </div>
+                     </div>
+                     
+                     {/* Selected Month Details */}
+                     <div className="mt-6 p-4 bg-white rounded-lg border border-indigo-200">
+                       <h5 className="font-semibold text-gray-900 mb-4 flex items-center">
+                         <CalendarIcon className="h-4 w-4 mr-2 text-indigo-600" />
+                         {format(monthlyDataSets[selectedChartMonthIndex].month, "MMMM yyyy")} - Detailed Breakdown
+                       </h5>
+                       
+                       {/* Selected Month Summary */}
+                       <div className="mb-4 p-3 bg-indigo-50 rounded-lg">
+                         <div className="text-sm text-gray-600">Total Monthly Income</div>
+                         <div className="text-2xl font-bold text-gray-900">
+                           {formatCurrency(monthlyDataSets[selectedChartMonthIndex].total)}
+                         </div>
+                       </div>
+                       
+                       {/* Expandable Income Sources */}
+                       <div className="space-y-3">
+                         {monthlyDataSets[selectedChartMonthIndex].data.map((source: any, index: number) => {
+                           const categoryColors: { [key: string]: string } = {
+                             'Employment': 'bg-blue-100 border-blue-300 text-blue-800',
+                             'Side Income': 'bg-orange-100 border-orange-300 text-orange-800',
+                             'Passive Income': 'bg-green-100 border-green-300 text-green-800',
+                             'Benefits': 'bg-purple-100 border-purple-300 text-purple-800'
+                           }
+                           
+                           // Mock transactions for each income source
+                           const mockTransactions = (() => {
+                             const monthYear = format(monthlyDataSets[selectedChartMonthIndex].month, "yyyy-MM")
+                             switch (source.category) {
+                               case 'Employment':
+                                 return [
+                                   { date: `${monthYear}-15`, description: 'Direct Deposit - Salary', amount: source.amount * 0.5 },
+                                   { date: `${monthYear}-30`, description: 'Direct Deposit - Salary', amount: source.amount * 0.5 }
+                                 ]
+                               case 'Side Income':
+                                 return [
+                                   { date: `${monthYear}-05`, description: 'Freelance Payment - Design Work', amount: source.amount * 0.7 },
+                                   { date: `${monthYear}-22`, description: 'Consulting Fee', amount: source.amount * 0.3 }
+                                 ]
+                               case 'Passive Income':
+                                 return [
+                                   { date: `${monthYear}-01`, description: 'Dividend Payment - Tech Stocks', amount: source.amount * 0.4 },
+                                   { date: `${monthYear}-10`, description: 'Rental Income - Property 1', amount: source.amount * 0.6 }
+                                 ]
+                               case 'Benefits':
+                                 return [
+                                   { date: `${monthYear}-01`, description: 'Government Benefit Payment', amount: source.amount }
+                                 ]
+                               default:
+                                 return [
+                                   { date: `${monthYear}-15`, description: 'Income Payment', amount: source.amount }
+                                 ]
+                             }
+                           })()
+                           
+                           return (
+                             <div key={index} className="border border-gray-200 rounded-lg overflow-hidden">
+                               {/* Header */}
+                               <div 
+                                 className="p-4 bg-gradient-to-r from-white to-gray-50 cursor-pointer hover:bg-gray-50 transition-colors"
+                                 onClick={() => toggleExpandedSource(index)}
+                               >
+                                 <div className="flex items-center justify-between">
+                                   <div className="flex-1">
+                                     <div className="flex items-center space-x-3 mb-2">
+                                       <h4 className="font-semibold text-gray-900">{source.category}</h4>
+                                       <Badge className={categoryColors[source.category] || 'bg-gray-100 border-gray-300 text-gray-800'}>
+                                         {source.frequency}
+                                       </Badge>
+                                     </div>
+                                     <div className="text-sm text-gray-600">
+                                       {mockTransactions.length} transactions identified
+                                     </div>
+                                   </div>
+                                   <div className="flex items-center space-x-3">
+                                     <div className="text-right">
+                                       <div className="text-xl font-bold text-gray-900">{formatCurrency(source.amount)}</div>
+                                       <div className="text-sm text-gray-500">
+                                         {Math.round((source.amount / monthlyDataSets[selectedChartMonthIndex].total) * 100)}% of total
+                                       </div>
+                                     </div>
+                                     {expandedSources.has(index) ? (
+                                       <ChevronUp className="h-5 w-5 text-gray-400" />
+                                     ) : (
+                                       <ChevronDown className="h-5 w-5 text-gray-400" />
+                                     )}
+                                   </div>
+                                 </div>
+                               </div>
+                               
+                               {/* Expandable Content */}
+                               {expandedSources.has(index) && (
+                                 <div className="border-t border-gray-200 bg-gray-50">
+                                   <div className="p-4">
+                                     <h6 className="font-medium text-gray-900 mb-3">Transactions</h6>
+                                     <div className="space-y-2">
+                                       {mockTransactions.map((transaction, txIndex) => (
+                                         <div key={txIndex} className="flex items-center justify-between p-3 bg-white rounded-md border">
+                                           <div className="flex-1">
+                                             <div className="font-medium text-gray-900">{transaction.description}</div>
+                                             <div className="text-sm text-gray-500">{transaction.date}</div>
+                                           </div>
+                                           <div className="text-lg font-semibold text-green-600">
+                                             +{formatCurrency(transaction.amount)}
+                                           </div>
+                                         </div>
+                                       ))}
+                                     </div>
+                                   </div>
+                                 </div>
+                               )}
+                             </div>
+                           )
+                         })}
+                       </div>
                      </div>
                    </div>
-                 </PopoverContent>
-               </Popover>
+                 )
+               })()}
              </div>
-           </CardHeader>
-          <CardContent className="space-y-4">
-            {data.incomeSources.map((source: any, index: number) => {
-              const categoryColors: { [key: string]: string } = {
-                'Employment': 'bg-blue-100 border-blue-300 text-blue-800',
-                'Side Income': 'bg-orange-100 border-orange-300 text-orange-800',
-                'Passive Income': 'bg-green-100 border-green-300 text-green-800',
-                'Benefits': 'bg-purple-100 border-purple-300 text-purple-800'
-              }
-              
-              return (
-                <div key={index} className="p-4 bg-gradient-to-r from-white to-gray-50 rounded-lg border-2 hover:shadow-md transition-shadow">
-                  <div className="flex items-center justify-between">
-                    <div className="flex-1">
-                      <div className="flex items-center space-x-3 mb-2">
-                        <h4 className="font-semibold text-gray-900">{source.name}</h4>
-                        <Badge className={categoryColors[source.category] || 'bg-gray-100 border-gray-300 text-gray-800'}>
-                          {source.category}
-                        </Badge>
-                      </div>
-                      <div className="flex items-center space-x-4 text-sm text-gray-600">
-                        <span className="flex items-center">
-                          <Briefcase className="h-3 w-3 mr-1" />
-                          {source.source}
-                        </span>
-                        <span className="flex items-center">
-                          <CalendarClock className="h-3 w-3 mr-1" />
-                          {source.frequency}
-                        </span>
-                      </div>
-                    </div>
-                    <div className="text-right ml-6">
-                      <div className="text-xl font-bold text-gray-900">{formatCurrency(source.amount)}</div>
-                      <div className="text-sm text-gray-500">{source.percentage}% of total</div>
-                    </div>
-                  </div>
-                </div>
-              )
-            })}
-          </CardContent>
-        </Card>
-      )}
+           </CardContent>
+         </Card>
+       )}
 
           </div>
   )

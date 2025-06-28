@@ -5,8 +5,7 @@ import { useFinancialAnalytics } from "@/hooks/useFinancialAnalytics"
 import { LoadingSpinner } from "@/components/shared/LoadingSpinner"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { AlertTriangle, BarChartBig } from "lucide-react"
-import { SpendingBreakdown } from "@/components/admin/customers/SpendingBreakdown" // To be created
-import { SpendingPatterns } from "@/components/admin/customers/SpendingPatterns" // To be created
+import { SpendingBreakdown } from "@/components/admin/customers/SpendingBreakdown"
 
 export default function CustomerSpendingPage() {
   const params = useParams()
@@ -45,7 +44,6 @@ export default function CustomerSpendingPage() {
   return (
     <div className="space-y-6">
       <SpendingBreakdown data={spendingAnalysis} />
-      <SpendingPatterns data={spendingAnalysis} />
     </div>
   )
 }

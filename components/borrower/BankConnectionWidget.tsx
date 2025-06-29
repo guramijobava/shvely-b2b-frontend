@@ -506,22 +506,7 @@ export function BankConnectionWidget({
           </Button>
         )}
 
-        {/* Footer Info */}
-        {!isDemoMode && (
-          <div className="text-xs text-center text-muted-foreground">
-            <p>
-              Secured by{" "}
-              <a
-                href="https://stripe.com/financial-connections"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:underline"
-              >
-                Stripe Financial Connections <ExternalLink className="inline h-3 w-3" />
-              </a>
-            </p>
-          </div>
-        )}
+
       </CardContent>
       
       {/* Demo Mode Modal */}

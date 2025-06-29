@@ -10,14 +10,15 @@ interface VolumeComparisonChartProps {
 }
 
 export function VolumeComparisonChart({ isLoading = false }: VolumeComparisonChartProps) {
-  // Mock data for weekly comparison
+  // SpringFin Credit Union - Weekly Volume Growth
+  // Shows increasing trend through spring lending season
   const mockData = [
-    { week: "Week 1", sent: 95, completed: 67 },
-    { week: "Week 2", sent: 102, completed: 74 },
-    { week: "Week 3", sent: 87, completed: 63 },
-    { week: "Week 4", sent: 110, completed: 81 },
-    { week: "Week 5", sent: 98, completed: 72 },
-    { week: "Week 6", sent: 115, completed: 85 }
+    { week: "Feb Week 3", sent: 142, completed: 116 },
+    { week: "Feb Week 4", sent: 158, completed: 129 },
+    { week: "Mar Week 1", sent: 174, completed: 143 },
+    { week: "Mar Week 2", sent: 189, completed: 155 },
+    { week: "Mar Week 3", sent: 201, completed: 165 },
+    { week: "Mar Week 4", sent: 218, completed: 178 } // Current week projection
   ]
 
   if (isLoading) {
@@ -45,7 +46,7 @@ export function VolumeComparisonChart({ isLoading = false }: VolumeComparisonCha
           <BarChart3 className="h-5 w-5" />
           <span>Volume Comparison</span>
         </CardTitle>
-        <p className="text-sm text-muted-foreground">Weekly sent vs completed verifications</p>
+        <p className="text-sm text-muted-foreground">6-week growth trend - 53% volume increase during peak lending season</p>
       </CardHeader>
       <CardContent>
         <div className="h-64 w-full">

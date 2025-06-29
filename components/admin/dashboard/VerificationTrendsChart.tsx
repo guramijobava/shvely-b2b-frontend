@@ -10,23 +10,24 @@ interface VerificationTrendsChartProps {
 }
 
 export function VerificationTrendsChart({ isLoading = false }: VerificationTrendsChartProps) {
-  // Mock data for the last 15 days
+  // SpringFin Credit Union - March 2024 Growth Pattern
+  // Shows increasing volume during spring lending season
   const mockData = [
-    { date: "Mar 1", completed: 8, sent: 12 },
-    { date: "Mar 2", completed: 6, sent: 9 },
-    { date: "Mar 3", completed: 12, sent: 15 },
-    { date: "Mar 4", completed: 14, sent: 18 },
-    { date: "Mar 5", completed: 10, sent: 14 },
-    { date: "Mar 6", completed: 16, sent: 20 },
-    { date: "Mar 7", completed: 11, sent: 16 },
-    { date: "Mar 8", completed: 9, sent: 13 },
-    { date: "Mar 9", completed: 13, sent: 17 },
-    { date: "Mar 10", completed: 15, sent: 19 },
-    { date: "Mar 11", completed: 12, sent: 16 },
-    { date: "Mar 12", completed: 18, sent: 22 },
-    { date: "Mar 13", completed: 14, sent: 18 },
-    { date: "Mar 14", completed: 16, sent: 21 },
-    { date: "Mar 15", completed: 13, sent: 17 }
+    { date: "Mar 1", completed: 14, sent: 18 },
+    { date: "Mar 2", completed: 16, sent: 21 },
+    { date: "Mar 3", completed: 12, sent: 15 }, // Weekend dip
+    { date: "Mar 4", completed: 19, sent: 24 },
+    { date: "Mar 5", completed: 22, sent: 27 },
+    { date: "Mar 6", completed: 25, sent: 31 },
+    { date: "Mar 7", completed: 21, sent: 26 },
+    { date: "Mar 8", completed: 18, sent: 23 },
+    { date: "Mar 9", completed: 17, sent: 20 }, // Weekend dip
+    { date: "Mar 10", completed: 20, sent: 25 }, // Weekend dip
+    { date: "Mar 11", completed: 26, sent: 32 }, // Spring pickup
+    { date: "Mar 12", completed: 28, sent: 35 },
+    { date: "Mar 13", completed: 24, sent: 30 },
+    { date: "Mar 14", completed: 27, sent: 33 },
+    { date: "Mar 15", completed: 23, sent: 29 }  // Current day
   ]
 
   if (isLoading) {

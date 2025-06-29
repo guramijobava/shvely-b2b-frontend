@@ -49,80 +49,110 @@ export function useDashboardStats() {
       // Simulate API delay
       await new Promise((resolve) => setTimeout(resolve, 1000))
 
-      // Mock stats data focused on verification workflow
+      // SpringFin Credit Union - March 2024 Growth Period
       const mockStats: DashboardStats = {
-        // Verification Status Overview
-        sentWaiting: 23,      // Sent but not completed yet
-        completedReady: 12,   // Completed and ready to view data
-        weekSent: 87,         // Sent this week
-        expiredFailed: 5,     // Expired or failed
+        // Current Status Overview
+        sentWaiting: 47,      // Spring lending season - high volume
+        completedReady: 28,   // Strong completion rate
+        weekSent: 156,        // Busy week with mortgage season
+        expiredFailed: 12,    // Low failure rate shows good processes
         
         // Productivity Metrics
-        successRate: 73,                // % of sent that get completed
-        avgCompletionTime: "6.2 hours", // How long customers take
-        weekCompleted: 64,              // Completed this week
+        successRate: 82,                // Excellent completion rate
+        avgCompletionTime: "4.3 hours", // Fast customer response
+        weekCompleted: 128,             // High completion volume
         
         trends: {
-          sentWaiting: { value: 15, direction: "up" },
-          completedReady: { value: 8, direction: "up" },
-          weekSent: { value: 12, direction: "up" },
-          successRate: { value: 5, direction: "up" },
-          avgCompletionTime: { value: -18, direction: "up" }, // Negative is good (faster)
-          weekCompleted: { value: 22, direction: "up" }
+          sentWaiting: { value: 23, direction: "up" },     // Growing demand
+          completedReady: { value: 18, direction: "up" },  // More completions
+          weekSent: { value: 31, direction: "up" },        // Seasonal increase
+          successRate: { value: 7, direction: "up" },      // Improving processes
+          avgCompletionTime: { value: -12, direction: "up" }, // Getting faster
+          weekCompleted: { value: 26, direction: "up" }    // More throughput
         }
       }
 
-      // Mock activity data focused on verification workflow
+      // Realistic Recent Activities - SpringFin Credit Union
       const mockActivities: ActivityItem[] = [
         {
           id: "1",
           type: "verification_completed",
           title: "Verification Completed",
-          description: "Customer completed bank account verification",
-          timestamp: new Date(Date.now() - 1000 * 60 * 15).toISOString(), // 15 minutes ago
+          description: "Mortgage pre-approval verification completed",
+          timestamp: new Date(Date.now() - 1000 * 60 * 8).toISOString(), // 8 minutes ago
           status: "completed",
-          customerName: "Sarah Johnson",
-          href: "/admin/customers/cust_001",
+          customerName: "Jennifer Martinez",
+          href: "/admin/customers/cust_jennifer_martinez",
         },
         {
           id: "2", 
           type: "verification_completed",
           title: "Verification Completed",
-          description: "Customer completed bank account verification",
-          timestamp: new Date(Date.now() - 1000 * 60 * 45).toISOString(), // 45 minutes ago
+          description: "Auto loan application verification completed",
+          timestamp: new Date(Date.now() - 1000 * 60 * 22).toISOString(), // 22 minutes ago
           status: "completed",
-          customerName: "Michael Chen",
-          href: "/admin/customers/cust_002",
+          customerName: "Robert Chen",
+          href: "/admin/customers/cust_robert_chen",
         },
         {
           id: "3",
           type: "verification_sent",
           title: "Verification Sent",
-          description: "New verification request sent to customer",
-          timestamp: new Date(Date.now() - 1000 * 60 * 30).toISOString(), // 30 minutes ago
+          description: "New checking account verification sent",
+          timestamp: new Date(Date.now() - 1000 * 60 * 15).toISOString(), // 15 minutes ago
           status: "sent",
-          customerName: "Jessica Williams",
-          href: "/admin/verifications/ver_003",
+          customerName: "Amanda Johnson",
+          href: "/admin/verifications/ver_amanda_johnson",
         },
         {
           id: "4",
-          type: "verification_sent", 
-          title: "Verification Sent",
-          description: "New verification request sent to customer",
-          timestamp: new Date(Date.now() - 1000 * 60 * 60).toISOString(), // 1 hour ago
-          status: "sent",
-          customerName: "David Rodriguez",
-          href: "/admin/verifications/ver_004",
+          type: "verification_completed",
+          title: "Verification Completed",
+          description: "Home equity line verification completed",
+          timestamp: new Date(Date.now() - 1000 * 60 * 45).toISOString(), // 45 minutes ago
+          status: "completed",
+          customerName: "Michael Thompson",
+          href: "/admin/customers/cust_michael_thompson",
         },
         {
           id: "5",
+          type: "verification_sent", 
+          title: "Verification Sent",
+          description: "Business loan verification sent",
+          timestamp: new Date(Date.now() - 1000 * 60 * 35).toISOString(), // 35 minutes ago
+          status: "sent",
+          customerName: "Sarah Davis",
+          href: "/admin/verifications/ver_sarah_davis",
+        },
+        {
+          id: "6",
           type: "verification_expiring",
           title: "Verification Expiring",
-          description: "Verification request expires in 2 days",
-          timestamp: new Date(Date.now() - 1000 * 60 * 60 * 2).toISOString(), // 2 hours ago
+          description: "Personal loan verification expires in 1 day",
+          timestamp: new Date(Date.now() - 1000 * 60 * 60 * 3).toISOString(), // 3 hours ago
           status: "expiring",
-          customerName: "Emily Thompson",
-          href: "/admin/verifications/ver_005",
+          customerName: "David Wilson",
+          href: "/admin/verifications/ver_david_wilson",
+        },
+        {
+          id: "7",
+          type: "verification_sent",
+          title: "Verification Sent",
+          description: "Refinance application verification sent",
+          timestamp: new Date(Date.now() - 1000 * 60 * 50).toISOString(), // 50 minutes ago
+          status: "sent",
+          customerName: "Lisa Rodriguez",
+          href: "/admin/verifications/ver_lisa_rodriguez",
+        },
+        {
+          id: "8",
+          type: "verification_expiring",
+          title: "Verification Expiring",
+          description: "Credit card application expires in 2 days",
+          timestamp: new Date(Date.now() - 1000 * 60 * 60 * 4).toISOString(), // 4 hours ago
+          status: "expiring",
+          customerName: "Kevin Brown",
+          href: "/admin/verifications/ver_kevin_brown",
         }
       ]
 

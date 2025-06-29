@@ -10,15 +10,16 @@ interface WeeklyActivityChartProps {
 }
 
 export function WeeklyActivityChart({ isLoading = false }: WeeklyActivityChartProps) {
-  // Mock data for weekly activity pattern
+  // SpringFin Credit Union - Customer Completion Patterns
+  // Shows realistic customer behavior - higher on weekdays, lower on weekends
   const mockData = [
-    { day: "Mon", completions: 18 },
-    { day: "Tue", completions: 22 },
-    { day: "Wed", completions: 25 },
-    { day: "Thu", completions: 21 },
-    { day: "Fri", completions: 16 },
-    { day: "Sat", completions: 8 },
-    { day: "Sun", completions: 6 }
+    { day: "Mon", completions: 31 },
+    { day: "Tue", completions: 35 },
+    { day: "Wed", completions: 38 }, // Peak day
+    { day: "Thu", completions: 33 },
+    { day: "Fri", completions: 27 },
+    { day: "Sat", completions: 18 }, // Weekend lower activity
+    { day: "Sun", completions: 14 }
   ]
 
   if (isLoading) {
@@ -82,10 +83,10 @@ export function WeeklyActivityChart({ isLoading = false }: WeeklyActivityChartPr
           </ResponsiveContainer>
         </div>
         
-        {/* Additional insights */}
+        {/* Business Insight */}
         <div className="mt-4 p-3 bg-blue-50 rounded-lg border border-blue-200">
           <p className="text-sm text-blue-800">
-            <strong>💡 Insight:</strong> Tuesday-Thursday show highest completion rates. Best time to send new verifications.
+            <strong>💡 Business Insight:</strong> Send verifications Monday-Wednesday for optimal completion rates. 82% of customers complete within 2 business days.
           </p>
         </div>
       </CardContent>

@@ -140,224 +140,281 @@ class ApiClient {
       }
     }
 
-    // Mock verifications list - FIXED ENDPOINT MATCHING
+    // SpringFin Credit Union - March 2024 Verifications
+    // Realistic mix of mortgage, auto, business, and personal loan verifications
     if (endpoint.startsWith("/verifications") && !endpoint.includes("/verifications/")) {
       const mockVerifications: VerificationRequest[] = [
         {
-          id: "ver_001",
+          id: "ver_jennifer_martinez",
           customerInfo: {
-            fullName: "John Smith",
-            email: "john.smith@example.com",
-            phoneNumber: "+1 (555) 123-4567",
+            fullName: "Jennifer Martinez",
+            email: "jennifer.martinez@email.com",
+            phoneNumber: "+1 (555) 234-5678",
           },
           settings: {
             expirationDays: 7,
             sendMethod: "email",
             includeReminders: true,
-            agentNotes: "High priority customer - needs quick turnaround",
+            agentNotes: "Mortgage pre-approval - Spring home buying season. Priority customer.",
+          },
+          status: "completed",
+          timeline: {
+            createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
+            sentAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000 + 5 * 60 * 1000).toISOString(),
+            customerStartedAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000 - 2 * 60 * 60 * 1000).toISOString(),
+            bankConnectedAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000 - 1 * 60 * 60 * 1000).toISOString(),
+            completedAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(),
+            expiresAt: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString(),
+          },
+          verificationLink: "https://verify.springfincu.com/jennifer_martinez",
+          verificationToken: "sfcu_2024_jmartinez",
+          createdBy: "loan.officer@springfincu.com",
+          connectedAccounts: 2,
+          attempts: 1,
+          lastActivity: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(),
+        },
+        {
+          id: "ver_robert_chen",
+          customerInfo: {
+            fullName: "Robert Chen",
+            email: "robert.chen@techcorp.com",
+            phoneNumber: "+1 (555) 345-6789",
+          },
+          settings: {
+            expirationDays: 5,
+            sendMethod: "both", 
+            includeReminders: true,
+            agentNotes: "Auto loan verification - New Tesla Model Y purchase. Tech professional.",
+          },
+          status: "completed",
+          timeline: {
+            createdAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(),
+            sentAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000 + 3 * 60 * 1000).toISOString(),
+            customerStartedAt: new Date(Date.now() - 8 * 60 * 60 * 1000).toISOString(),
+            bankConnectedAt: new Date(Date.now() - 7 * 60 * 60 * 1000).toISOString(),
+            completedAt: new Date(Date.now() - 6 * 60 * 60 * 1000).toISOString(),
+            expiresAt: new Date(Date.now() + 4 * 24 * 60 * 60 * 1000).toISOString(),
+          },
+          verificationLink: "https://verify.springfincu.com/robert_chen", 
+          verificationToken: "sfcu_2024_rchen",
+          createdBy: "auto.loans@springfincu.com",
+          connectedAccounts: 3,
+          attempts: 1,
+          lastActivity: new Date(Date.now() - 6 * 60 * 60 * 1000).toISOString(),
+        },
+        {
+          id: "ver_amanda_johnson",
+          customerInfo: {
+            fullName: "Amanda Johnson",
+            email: "amanda.johnson@gmail.com",
+            phoneNumber: "+1 (555) 456-7890",
+          },
+          settings: {
+            expirationDays: 7,
+            sendMethod: "email",
+            includeReminders: true,
+            agentNotes: "New checking account with direct deposit setup. First-time member.",
+          },
+          status: "in_progress",
+          timeline: {
+            createdAt: new Date(Date.now() - 4 * 60 * 60 * 1000).toISOString(),
+            sentAt: new Date(Date.now() - 4 * 60 * 60 * 1000 + 2 * 60 * 1000).toISOString(),
+            customerStartedAt: new Date(Date.now() - 1 * 60 * 60 * 1000).toISOString(),
+            expiresAt: new Date(Date.now() + 6 * 24 * 60 * 60 * 1000 + 20 * 60 * 60 * 1000).toISOString(),
+          },
+          verificationLink: "https://verify.springfincu.com/amanda_johnson",
+          verificationToken: "sfcu_2024_ajohnson",
+          createdBy: "member.services@springfincu.com",
+          connectedAccounts: 1,
+          attempts: 1,
+          lastActivity: new Date(Date.now() - 1 * 60 * 60 * 1000).toISOString(),
+        },
+        {
+          id: "ver_michael_thompson", 
+          customerInfo: {
+            fullName: "Michael Thompson",
+            email: "mthompson@construction.biz",
+            phoneNumber: "+1 (555) 567-8901",
+          },
+          settings: {
+            expirationDays: 10,
+            sendMethod: "both",
+            includeReminders: true,
+            agentNotes: "Home equity line of credit - Construction business expansion. Existing member.",
           },
           status: "completed",
           timeline: {
             createdAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
-            sentAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000 + 5 * 60 * 1000).toISOString(),
+            sentAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000 + 10 * 60 * 1000).toISOString(),
             customerStartedAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
-            bankConnectedAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000 + 30 * 60 * 1000).toISOString(),
-            completedAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000 + 45 * 60 * 1000).toISOString(),
-            expiresAt: new Date(Date.now() + 4 * 24 * 60 * 60 * 1000).toISOString(),
+            bankConnectedAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000 + 2 * 60 * 60 * 1000).toISOString(),
+            completedAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000 + 3 * 60 * 60 * 1000).toISOString(),
+            expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
           },
-          verificationLink: "https://verify.example.com/abc123",
-          verificationToken: "abc123",
-          createdBy: "admin@example.com",
-          connectedAccounts: 2,
+          verificationLink: "https://verify.springfincu.com/michael_thompson",
+          verificationToken: "sfcu_2024_mthompson",
+          createdBy: "business.loans@springfincu.com",
+          connectedAccounts: 4,
           attempts: 1,
-          lastActivity: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000 + 45 * 60 * 1000).toISOString(),
+          lastActivity: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000 + 3 * 60 * 60 * 1000).toISOString(),
         },
         {
-          id: "ver_002",
+          id: "ver_sarah_davis",
           customerInfo: {
-            fullName: "Sarah Johnson",
-            email: "sarah.johnson@example.com",
-            phoneNumber: "+1 (555) 987-6543",
+            fullName: "Sarah Davis",
+            email: "sarah.davis@localcafe.com",
+            phoneNumber: "+1 (555) 678-9012",
+          },
+          settings: {
+            expirationDays: 7,
+            sendMethod: "email",
+            includeReminders: true,
+            agentNotes: "Small business loan - Local cafe expansion. Community business partner.",
+          },
+          status: "sent",
+          timeline: {
+            createdAt: new Date(Date.now() - 8 * 60 * 60 * 1000).toISOString(),
+            sentAt: new Date(Date.now() - 8 * 60 * 60 * 1000 + 5 * 60 * 1000).toISOString(),
+            expiresAt: new Date(Date.now() + 6 * 24 * 60 * 60 * 1000 + 16 * 60 * 60 * 1000).toISOString(),
+          },
+          verificationLink: "https://verify.springfincu.com/sarah_davis",
+          verificationToken: "sfcu_2024_sdavis",
+          createdBy: "business.loans@springfincu.com",
+          connectedAccounts: 0,
+          attempts: 0,
+        },
+        {
+          id: "ver_david_wilson",
+          customerInfo: {
+            fullName: "David Wilson",
+            email: "david.wilson@email.com",
+            phoneNumber: "+1 (555) 789-0123",
+          },
+          settings: {
+            expirationDays: 5,
+            sendMethod: "sms",
+            includeReminders: true,
+                         agentNotes: "Personal loan for home renovations - Spring project season.",
+           },
+           status: "sent",
+          timeline: {
+            createdAt: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000).toISOString(),
+            sentAt: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000 + 3 * 60 * 1000).toISOString(),
+            expiresAt: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000).toISOString(),
+          },
+          verificationLink: "https://verify.springfincu.com/david_wilson",
+          verificationToken: "sfcu_2024_dwilson",
+          createdBy: "loan.officer@springfincu.com",
+          connectedAccounts: 0,
+          attempts: 0,
+        },
+        {
+          id: "ver_lisa_rodriguez",
+          customerInfo: {
+            fullName: "Lisa Rodriguez",
+            email: "lisa.rodriguez@realestate.com",
+            phoneNumber: "+1 (555) 890-1234",
           },
           settings: {
             expirationDays: 7,
             sendMethod: "both",
             includeReminders: true,
-            agentNotes: "Customer requested SMS notifications",
-          },
-          status: "in_progress",
-          timeline: {
-            createdAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(),
-            sentAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000 + 2 * 60 * 1000).toISOString(),
-            customerStartedAt: new Date(Date.now() - 4 * 60 * 60 * 1000).toISOString(),
-            expiresAt: new Date(Date.now() + 6 * 24 * 60 * 60 * 1000).toISOString(),
-          },
-          verificationLink: "https://verify.example.com/def456",
-          verificationToken: "def456",
-          createdBy: "admin@example.com",
-          connectedAccounts: 1,
-          attempts: 1,
-          lastActivity: new Date(Date.now() - 4 * 60 * 60 * 1000).toISOString(),
-        },
-        {
-          id: "ver_003",
-          customerInfo: {
-            fullName: "Mike Davis",
-            email: "mike.davis@example.com",
-            phoneNumber: "+1 (555) 456-7890",
-          },
-          settings: {
-            expirationDays: 3,
-            sendMethod: "email",
-            includeReminders: false,
-            agentNotes: "Urgent verification for loan application",
+            agentNotes: "Mortgage refinance - Taking advantage of rate environment. Real estate professional.",
           },
           status: "sent",
           timeline: {
-            createdAt: new Date(Date.now() - 8 * 60 * 60 * 1000).toISOString(),
-            sentAt: new Date(Date.now() - 8 * 60 * 60 * 1000 + 1 * 60 * 1000).toISOString(),
-            expiresAt: new Date(Date.now() + 16 * 60 * 60 * 1000).toISOString(),
+            createdAt: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
+            sentAt: new Date(Date.now() - 2 * 60 * 60 * 1000 + 1 * 60 * 1000).toISOString(),
+            expiresAt: new Date(Date.now() + 6 * 24 * 60 * 60 * 1000 + 22 * 60 * 60 * 1000).toISOString(),
           },
-          verificationLink: "https://verify.example.com/ghi789",
-          verificationToken: "ghi789",
-          createdBy: "admin@example.com",
+          verificationLink: "https://verify.springfincu.com/lisa_rodriguez",
+          verificationToken: "sfcu_2024_lrodriguez",
+          createdBy: "mortgage.specialist@springfincu.com",
           connectedAccounts: 0,
           attempts: 0,
         },
         {
-          id: "ver_004",
+          id: "ver_kevin_brown",
           customerInfo: {
-            fullName: "Emily Wilson",
-            email: "emily.wilson@example.com",
-            phoneNumber: "+1 (555) 321-0987",
+            fullName: "Kevin Brown", 
+            email: "kevin.brown@manufacturing.com",
+            phoneNumber: "+1 (555) 901-2345",
           },
           settings: {
             expirationDays: 7,
-            sendMethod: "sms",
-            includeReminders: true,
-          },
-          status: "expired",
+            sendMethod: "email",
+            includeReminders: false,
+                         agentNotes: "Credit card application - Manufacturing employee. Payroll member.",
+           },
+           status: "sent",
           timeline: {
-            createdAt: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000).toISOString(),
-            sentAt: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000 + 3 * 60 * 1000).toISOString(),
-            expiresAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
+            createdAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
+            sentAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000 + 15 * 60 * 1000).toISOString(),
+            expiresAt: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString(),
           },
-          verificationLink: "https://verify.example.com/jkl012",
-          verificationToken: "jkl012",
-          createdBy: "admin@example.com",
+          verificationLink: "https://verify.springfincu.com/kevin_brown",
+          verificationToken: "sfcu_2024_kbrown",
+          createdBy: "credit.applications@springfincu.com",
           connectedAccounts: 0,
           attempts: 0,
         },
         {
-          id: "ver_005",
+          id: "ver_maria_gonzalez",
           customerInfo: {
-            fullName: "Robert Brown",
-            email: "robert.brown@example.com",
-            phoneNumber: "+1 (555) 654-3210",
+            fullName: "Maria Gonzalez",
+            email: "maria.gonzalez@healthcare.org",
+            phoneNumber: "+1 (555) 012-3456",
+          },
+          settings: {
+            expirationDays: 7,
+            sendMethod: "both",
+            includeReminders: true,
+            agentNotes: "First-time home buyer loan - Healthcare worker. Member appreciation rate.",
+          },
+          status: "in_progress",
+          timeline: {
+            createdAt: new Date(Date.now() - 6 * 60 * 60 * 1000).toISOString(),
+            sentAt: new Date(Date.now() - 6 * 60 * 60 * 1000 + 8 * 60 * 1000).toISOString(),
+            customerStartedAt: new Date(Date.now() - 3 * 60 * 60 * 1000).toISOString(),
+            expiresAt: new Date(Date.now() + 6 * 24 * 60 * 60 * 1000 + 18 * 60 * 60 * 1000).toISOString(),
+          },
+          verificationLink: "https://verify.springfincu.com/maria_gonzalez",
+          verificationToken: "sfcu_2024_mgonzalez",
+          createdBy: "mortgage.specialist@springfincu.com",
+          connectedAccounts: 1,
+          attempts: 1,
+          lastActivity: new Date(Date.now() - 3 * 60 * 60 * 1000).toISOString(),
+        },
+        {
+          id: "ver_james_miller",
+          customerInfo: {
+            fullName: "James Miller",
+            email: "james.miller@education.edu",
+            phoneNumber: "+1 (555) 123-4567",
           },
           settings: {
             expirationDays: 14,
             sendMethod: "email",
             includeReminders: true,
-            agentNotes: "VIP customer - priority handling required",
-          },
-          status: "pending",
-          timeline: {
-            createdAt: new Date(Date.now() - 30 * 60 * 1000).toISOString(),
-            expiresAt: new Date(Date.now() + 13 * 24 * 60 * 60 * 1000 + 30 * 60 * 1000).toISOString(),
-          },
-          verificationLink: "https://verify.example.com/mno345",
-          verificationToken: "mno345",
-          createdBy: "admin@example.com",
-          connectedAccounts: 0,
-          attempts: 0,
-        },
-        {
-          id: "ver_006",
-          customerInfo: {
-            fullName: "Lisa Anderson",
-            email: "lisa.anderson@example.com",
-            phoneNumber: "+1 (555) 789-0123",
-          },
-          settings: {
-            expirationDays: 7,
-            sendMethod: "both",
-            includeReminders: true,
-            agentNotes: "Customer prefers morning communications",
+            agentNotes: "Education loan consolidation - Teacher. Education professional rate program.",
           },
           status: "failed",
           timeline: {
-            createdAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
-            sentAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000 + 10 * 60 * 1000).toISOString(),
-            customerStartedAt: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000).toISOString(),
-            expiresAt: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString(),
+            createdAt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
+            sentAt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000 + 20 * 60 * 1000).toISOString(),
+            customerStartedAt: new Date(Date.now() - 6 * 24 * 60 * 60 * 1000).toISOString(),
+            expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
           },
-          verificationLink: "https://verify.example.com/pqr678",
-          verificationToken: "pqr678",
-          createdBy: "admin@example.com",
+          verificationLink: "https://verify.springfincu.com/james_miller",
+          verificationToken: "sfcu_2024_jmiller",
+          createdBy: "education.loans@springfincu.com",
           connectedAccounts: 0,
-          attempts: 3,
-          lastActivity: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000 + 15 * 60 * 1000).toISOString(),
-        },
-        {
-          id: "ver_007",
-          customerInfo: {
-            fullName: "David Thompson",
-            email: "david.thompson@example.com",
-            phoneNumber: "+1 (555) 234-5678",
-          },
-          settings: {
-            expirationDays: 5,
-            sendMethod: "email",
-            includeReminders: true,
-            agentNotes: "Follow up required - customer had technical issues",
-          },
-          status: "in_progress",
-          timeline: {
-            createdAt: new Date(Date.now() - 12 * 60 * 60 * 1000).toISOString(),
-            sentAt: new Date(Date.now() - 12 * 60 * 60 * 1000 + 5 * 60 * 1000).toISOString(),
-            customerStartedAt: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
-            expiresAt: new Date(Date.now() + 4 * 24 * 60 * 60 * 1000 + 12 * 60 * 60 * 1000).toISOString(),
-          },
-          verificationLink: "https://verify.example.com/stu901",
-          verificationToken: "stu901",
-          createdBy: "agent1@example.com",
-          connectedAccounts: 0,
-          attempts: 1,
-          lastActivity: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
-        },
-        {
-          id: "ver_008",
-          customerInfo: {
-            fullName: "Jennifer Martinez",
-            email: "jennifer.martinez@example.com",
-            phoneNumber: "+1 (555) 345-6789",
-          },
-          settings: {
-            expirationDays: 10,
-            sendMethod: "sms",
-            includeReminders: false,
-            agentNotes: "Customer requested no email communications",
-          },
-          status: "completed",
-          timeline: {
-            createdAt: new Date(Date.now() - 6 * 24 * 60 * 60 * 1000).toISOString(),
-            sentAt: new Date(Date.now() - 6 * 24 * 60 * 60 * 1000 + 2 * 60 * 1000).toISOString(),
-            customerStartedAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
-            bankConnectedAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000 + 45 * 60 * 1000).toISOString(),
-            completedAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000 + 60 * 60 * 1000).toISOString(),
-            expiresAt: new Date(Date.now() + 4 * 24 * 60 * 60 * 1000).toISOString(),
-          },
-          verificationLink: "https://verify.example.com/vwx234",
-          verificationToken: "vwx234",
-          createdBy: "agent2@example.com",
-          connectedAccounts: 3,
-          attempts: 1,
-          lastActivity: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000 + 60 * 60 * 1000).toISOString(),
-        },
+          attempts: 4,
+          lastActivity: new Date(Date.now() - 6 * 24 * 60 * 60 * 1000 + 2 * 60 * 60 * 1000).toISOString(),
+        }
       ]
 
-      console.log("Returning mock verifications:", mockVerifications.length, "items")
+      console.log("Returning SpringFin Credit Union verifications:", mockVerifications.length, "items")
 
       // Return the correct structure for PaginatedResponse
       return {
@@ -375,40 +432,40 @@ class ApiClient {
       }
     }
 
-    // Mock single verification details
+    // Mock single verification details  
     if (endpoint.startsWith("/verifications/") && endpoint.split("/").length === 3) {
       const verificationId = endpoint.split("/")[2]
 
-      // Return detailed verification data
+      // Return detailed verification data - SpringFin Credit Union format
       const mockVerification: VerificationRequest = {
         id: verificationId,
         customerInfo: {
-          fullName: "John Smith",
-          email: "john.smith@example.com",
-          phoneNumber: "+1 (555) 123-4567",
+          fullName: "Jennifer Martinez",
+          email: "jennifer.martinez@email.com",
+          phoneNumber: "+1 (555) 234-5678",
         },
         settings: {
           expirationDays: 7,
           sendMethod: "email",
           includeReminders: true,
           agentNotes:
-            "High priority customer - needs quick turnaround for loan application. Customer has been very responsive in the past.",
+            "Mortgage pre-approval - Spring home buying season. Priority customer with excellent credit profile.",
         },
         status: "completed",
         timeline: {
-          createdAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
-          sentAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000 + 5 * 60 * 1000).toISOString(),
-          customerStartedAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
-          bankConnectedAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000 + 30 * 60 * 1000).toISOString(),
-          completedAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000 + 45 * 60 * 1000).toISOString(),
-          expiresAt: new Date(Date.now() + 4 * 24 * 60 * 60 * 1000).toISOString(),
+          createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
+          sentAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000 + 5 * 60 * 1000).toISOString(),
+          customerStartedAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000 - 2 * 60 * 60 * 1000).toISOString(),
+          bankConnectedAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000 - 1 * 60 * 60 * 1000).toISOString(),
+          completedAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(),
+          expiresAt: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString(),
         },
-        verificationLink: "https://verify.example.com/abc123",
-        verificationToken: "abc123",
-        createdBy: "admin@example.com",
+        verificationLink: "https://verify.springfincu.com/jennifer_martinez",
+        verificationToken: "sfcu_2024_jmartinez",
+        createdBy: "loan.officer@springfincu.com",
         connectedAccounts: 2,
         attempts: 1,
-        lastActivity: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000 + 45 * 60 * 1000).toISOString(),
+        lastActivity: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(),
       }
 
       return {
@@ -443,462 +500,942 @@ class ApiClient {
       }
     }
 
-    // Mock customers list
-    if (endpoint.startsWith("/customers")) {
+    // SpringFin Credit Union - Customer Financial Profiles  
+    // Simplified customer data matching verification narrative
+    if (endpoint.startsWith("/customers") && !endpoint.includes("/customers/")) {
       const mockCustomers: CustomerFinancialProfile[] = [
         {
-          customerId: "cust_001",
+          customerId: "cust_jennifer_martinez",
           customerInfo: {
-            fullName: "Alice Wonderland",
-            email: "alice.wonder@example.com",
-            phoneNumber: "+15551234567",
+            fullName: "Jennifer Martinez",
+            email: "jennifer.martinez@email.com",
+            phoneNumber: "+1 (555) 234-5678",
+          },
+          financialSummary: {
+            totalBalance: 89500.25,
+            monthlyIncome: 7800,
+            monthlyExpenses: 4200,
+            netCashFlow: 3600,
+            accountAge: 36,
+            overdraftCount: 0,
           },
           creditReports: {
-            equifax: {
-              score: 745,
-              grade: "A",
-              lastUpdated: "2024-01-15",
-              utilization: {
-                totalCredit: 25000,
-                usedCredit: 3200,
-                utilizationPercentage: 12.8
-              },
-              paymentHistory: {
-                onTimePercentage: 98,
-                recentLatePayments: 0
-              }
-            },
-            experian: {
-              score: 752,
-              grade: "A", 
-              lastUpdated: "2024-01-12",
-              utilization: {
-                totalCredit: 26500,
-                usedCredit: 3400,
-                utilizationPercentage: 12.8
-              },
-              paymentHistory: {
-                onTimePercentage: 98,
-                recentLatePayments: 0
-              }
-            },
-            transunion: {
-              score: 738,
-              grade: "B",
-              lastUpdated: "2024-01-10", 
-              utilization: {
-                totalCredit: 25000,
-                usedCredit: 3100,
-                utilizationPercentage: 12.4
-              },
-              paymentHistory: {
-                onTimePercentage: 96,
-                recentLatePayments: 1
-              }
-            },
             summary: {
-              averageScore: 745,
-              scoreVariance: 14,
+              averageScore: 748,
+              scoreVariance: 7,
               overallGrade: "A",
               riskLevel: "low",
               primaryBureau: "experian",
-              majorDiscrepancies: ["TransUnion shows 1 recent late payment not reported by other bureaus"]
-            }
-          },
-          financialSummary: {
-            totalBalance: 25000.75,
-            monthlyIncome: 0, // Simplified for list view
-            monthlyExpenses: 0, // Simplified for list view
-            netCashFlow: 0, // Simplified for list view
-            accountAge: 0, // Simplified for list view
-            overdraftCount: 0, // Simplified for list view
+              majorDiscrepancies: [],
+            },
+            experian: { 
+              score: 752, 
+              grade: "A",
+              lastUpdated: "2024-03-14",
+              utilization: { totalCredit: 25000, usedCredit: 3200, utilizationPercentage: 12.8 },
+              paymentHistory: { onTimePercentage: 98, recentLatePayments: 0 }
+            },
+            equifax: { 
+              score: 745, 
+              grade: "A",
+              lastUpdated: "2024-03-14",
+              utilization: { totalCredit: 25000, usedCredit: 3100, utilizationPercentage: 12.4 },
+              paymentHistory: { onTimePercentage: 98, recentLatePayments: 0 }
+            },
+            transunion: { 
+              score: 747, 
+              grade: "A",
+              lastUpdated: "2024-03-14",
+              utilization: { totalCredit: 25000, usedCredit: 3150, utilizationPercentage: 12.6 },
+              paymentHistory: { onTimePercentage: 98, recentLatePayments: 0 }
+            },
           },
           riskIndicators: {
-            // Simplified for list view
             irregularIncomePattern: false,
             highOverdraftFrequency: false,
             gamblingActivity: false,
             cryptocurrencyActivity: false,
             largeUnexplainedDeposits: false,
           },
-          verificationId: "ver_001", // Assuming this links to a verification
+          verificationId: "ver_jennifer_martinez",
           lastUpdated: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(),
-          bankAccounts: [], // Simplified for list view
+          bankAccounts: [
+            {
+              accountId: "acc_jm_checking",
+              accountType: "checking",
+              accountNumber: "****1234",
+              balance: 12500.25,
+              bankName: "Chase Bank",
+              openedDate: "2021-03-15",
+              currency: "USD",
+              transactions: [],
+              monthlyBalances: [],
+            }
+          ],
           transactionAnalysis: {
-            // Simplified for list view
-            totalTransactions: 0,
-            avgMonthlySpending: 0,
-            topCategories: [],
-            incomeStreams: [],
-            recurringPayments: [],
+            totalTransactions: 156,
+            avgMonthlySpending: 4200,
+            topCategories: [
+              { 
+                category: "Housing", 
+                amount: 1800, 
+                percentage: 42.8,
+                transactionCount: 12,
+                trend: "stable",
+                monthlyData: []
+              }
+            ],
+            incomeStreams: [
+              { 
+                source: "Marketing Manager Salary",
+                frequency: "monthly",
+                averageAmount: 7800,
+                lastAmount: 7800,
+                confidence: 95,
+                category: "salary"
+              }
+            ],
+            recurringPayments: [
+              { 
+                merchant: "Rent Payment",
+                frequency: "monthly",
+                averageAmount: 1800,
+                category: "Housing"
+              }
+            ],
           },
         },
         {
-          customerId: "cust_002_high_risk",
+          customerId: "cust_robert_chen",
           customerInfo: {
-            fullName: "Bob The Builder",
-            email: "bob.builder@example.com",
-            phoneNumber: "+15557654321",
-          },
-          creditReports: {
-            equifax: {
-              score: 620,
-              grade: "C",
-              lastUpdated: "2024-01-14",
-              utilization: {
-                totalCredit: 15000,
-                usedCredit: 12500,
-                utilizationPercentage: 83.3
-              },
-              paymentHistory: {
-                onTimePercentage: 78,
-                recentLatePayments: 3
-              }
-            },
-            experian: {
-              score: 595,
-              grade: "D", 
-              lastUpdated: "2024-01-11",
-              utilization: {
-                totalCredit: 16000,
-                usedCredit: 13200,
-                utilizationPercentage: 82.5
-              },
-              paymentHistory: {
-                onTimePercentage: 72,
-                recentLatePayments: 4
-              }
-            },
-            transunion: {
-              score: 648,
-              grade: "C",
-              lastUpdated: "2024-01-09", 
-              utilization: {
-                totalCredit: 15500,
-                usedCredit: 12800,
-                utilizationPercentage: 82.6
-              },
-              paymentHistory: {
-                onTimePercentage: 81,
-                recentLatePayments: 2
-              }
-            },
-            summary: {
-              averageScore: 621,
-              scoreVariance: 53,
-              overallGrade: "C",
-              riskLevel: "high",
-              primaryBureau: "transunion",
-              majorDiscrepancies: [
-                "Large score variance: 53 points between bureaus",
-                "Payment history discrepancies found between bureaus"
-              ]
-            }
+            fullName: "Robert Chen",
+            email: "robert.chen@techcorp.com",
+            phoneNumber: "+1 (555) 345-6789",
           },
           financialSummary: {
-            totalBalance: 5200.1,
-            monthlyIncome: 0,
-            monthlyExpenses: 0,
-            netCashFlow: 0,
-            accountAge: 0,
+            totalBalance: 125750.00,
+            monthlyIncome: 12500,
+            monthlyExpenses: 6800,
+            netCashFlow: 5700,
+            accountAge: 48,
             overdraftCount: 0,
+          },
+          creditReports: {
+            summary: {
+              averageScore: 782,
+              scoreVariance: 7,
+              overallGrade: "A",
+              riskLevel: "low",
+              primaryBureau: "experian",
+              majorDiscrepancies: [],
+            },
+            experian: { 
+              score: 785, 
+              grade: "A",
+              lastUpdated: "2024-03-15",
+              utilization: { totalCredit: 45000, usedCredit: 4500, utilizationPercentage: 10.0 },
+              paymentHistory: { onTimePercentage: 100, recentLatePayments: 0 }
+            },
+            equifax: { 
+              score: 778, 
+              grade: "A",
+              lastUpdated: "2024-03-15",
+              utilization: { totalCredit: 45000, usedCredit: 4600, utilizationPercentage: 10.2 },
+              paymentHistory: { onTimePercentage: 100, recentLatePayments: 0 }
+            },
+            transunion: { 
+              score: 783, 
+              grade: "A",
+              lastUpdated: "2024-03-15",
+              utilization: { totalCredit: 45000, usedCredit: 4550, utilizationPercentage: 10.1 },
+              paymentHistory: { onTimePercentage: 100, recentLatePayments: 0 }
+            },
+          },
+          riskIndicators: {
+            irregularIncomePattern: false,
+            highOverdraftFrequency: false,
+            gamblingActivity: false,
+            cryptocurrencyActivity: true,
+            largeUnexplainedDeposits: false,
+          },
+          verificationId: "ver_robert_chen",
+          lastUpdated: new Date(Date.now() - 6 * 60 * 60 * 1000).toISOString(),
+          bankAccounts: [
+            {
+              accountId: "acc_rc_checking",
+              accountType: "checking",
+              accountNumber: "****5678",
+              balance: 15750.00,
+              bankName: "Bank of America",
+              openedDate: "2020-01-10",
+              currency: "USD",
+              transactions: [],
+              monthlyBalances: [],
+            }
+          ],
+          transactionAnalysis: {
+            totalTransactions: 203,
+            avgMonthlySpending: 6800,
+            topCategories: [
+              { 
+                category: "Housing", 
+                amount: 2800, 
+                percentage: 41.2,
+                transactionCount: 18,
+                trend: "stable",
+                monthlyData: []
+              }
+            ],
+            incomeStreams: [
+              { 
+                source: "Senior Software Engineer",
+                frequency: "monthly",
+                averageAmount: 12500,
+                lastAmount: 12500,
+                confidence: 98,
+                category: "salary"
+              }
+            ],
+            recurringPayments: [
+              { 
+                merchant: "Mortgage Payment",
+                frequency: "monthly",
+                averageAmount: 2800,
+                category: "Housing"
+              }
+            ],
+          },
+        },
+        {
+          customerId: "cust_michael_thompson",
+          customerInfo: {
+            fullName: "Michael Thompson",
+            email: "mthompson@construction.biz",
+            phoneNumber: "+1 (555) 567-8901",
+          },
+          financialSummary: {
+            totalBalance: 186200.50,
+            monthlyIncome: 15200,
+            monthlyExpenses: 8900,
+            netCashFlow: 6300,
+            accountAge: 72,
+            overdraftCount: 1,
+          },
+          creditReports: {
+            summary: {
+              averageScore: 712,
+              scoreVariance: 10,
+              overallGrade: "B",
+              riskLevel: "low",
+              primaryBureau: "experian",
+              majorDiscrepancies: [],
+            },
+            experian: { 
+              score: 718, 
+              grade: "B",
+              lastUpdated: "2024-03-13",
+              utilization: { totalCredit: 35000, usedCredit: 8500, utilizationPercentage: 24.3 },
+              paymentHistory: { onTimePercentage: 94, recentLatePayments: 1 }
+            },
+            equifax: { 
+              score: 708, 
+              grade: "B",
+              lastUpdated: "2024-03-13",
+              utilization: { totalCredit: 35000, usedCredit: 8400, utilizationPercentage: 24.0 },
+              paymentHistory: { onTimePercentage: 94, recentLatePayments: 1 }
+            },
+            transunion: { 
+              score: 710, 
+              grade: "B",
+              lastUpdated: "2024-03-13",
+              utilization: { totalCredit: 35000, usedCredit: 8450, utilizationPercentage: 24.1 },
+              paymentHistory: { onTimePercentage: 94, recentLatePayments: 1 }
+            },
           },
           riskIndicators: {
             irregularIncomePattern: true,
-            highOverdraftFrequency: true,
-            gamblingActivity: false,
-            cryptocurrencyActivity: false,
-            largeUnexplainedDeposits: false,
-          },
-          verificationId: "ver_002",
-          lastUpdated: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
-          bankAccounts: [],
-          transactionAnalysis: {
-            totalTransactions: 0,
-            avgMonthlySpending: 0,
-            topCategories: [],
-            incomeStreams: [],
-            recurringPayments: [],
-          },
-        },
-        {
-          customerId: "cust_003",
-          customerInfo: {
-            fullName: "Charlie Chaplin",
-            email: "charlie.chaplin@example.com",
-            phoneNumber: "+15551112222",
-          },
-          creditReports: {
-            equifax: {
-              score: 810,
-              grade: "A",
-              lastUpdated: "2024-01-13",
-              utilization: {
-                totalCredit: 150000,
-                usedCredit: 120000,
-                utilizationPercentage: 80
-              },
-              paymentHistory: {
-                onTimePercentage: 95,
-                recentLatePayments: 0
-              }
-            },
-            experian: {
-              score: 820,
-              grade: "A",
-              lastUpdated: "2024-01-10",
-              utilization: {
-                totalCredit: 150000,
-                usedCredit: 120000,
-                utilizationPercentage: 80
-              },
-              paymentHistory: {
-                onTimePercentage: 95,
-                recentLatePayments: 0
-              }
-            },
-            transunion: {
-              score: 800,
-              grade: "A",
-              lastUpdated: "2024-01-08",
-              utilization: {
-                totalCredit: 150000,
-                usedCredit: 120000,
-                utilizationPercentage: 80
-              },
-              paymentHistory: {
-                onTimePercentage: 95,
-                recentLatePayments: 0
-              }
-            },
-            summary: {
-              averageScore: 810,
-              scoreVariance: 10,
-              overallGrade: "A",
-              riskLevel: "low",
-              primaryBureau: "experian",
-              majorDiscrepancies: []
-            }
-          },
-          financialSummary: {
-            totalBalance: 150000.0,
-            monthlyIncome: 0,
-            monthlyExpenses: 0,
-            netCashFlow: 0,
-            accountAge: 0,
-            overdraftCount: 0,
-          },
-          riskIndicators: {
-            irregularIncomePattern: false,
             highOverdraftFrequency: false,
             gamblingActivity: false,
             cryptocurrencyActivity: false,
             largeUnexplainedDeposits: false,
           },
-          verificationId: "ver_003",
-          lastUpdated: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
-          bankAccounts: [],
+          verificationId: "ver_michael_thompson",
+          lastUpdated: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000 + 3 * 60 * 60 * 1000).toISOString(),
+          bankAccounts: [
+            {
+              accountId: "acc_mt_business",
+              accountType: "checking",
+              accountNumber: "****9012",
+              balance: 45200.50,
+              bankName: "Wells Fargo Business",
+              openedDate: "2018-06-20",
+              currency: "USD",
+              transactions: [],
+              monthlyBalances: [],
+            }
+          ],
           transactionAnalysis: {
-            totalTransactions: 0,
-            avgMonthlySpending: 0,
-            topCategories: [],
-            incomeStreams: [],
-            recurringPayments: [],
+            totalTransactions: 287,
+            avgMonthlySpending: 8900,
+            topCategories: [
+              { 
+                category: "Business", 
+                amount: 3200, 
+                percentage: 36.0,
+                transactionCount: 45,
+                trend: "increasing",
+                monthlyData: []
+              }
+            ],
+            incomeStreams: [
+              { 
+                source: "Construction Business",
+                frequency: "irregular",
+                averageAmount: 15200,
+                lastAmount: 18500,
+                confidence: 75,
+                category: "other"
+              }
+            ],
+            recurringPayments: [
+              { 
+                merchant: "Business Loan",
+                frequency: "monthly",
+                averageAmount: 2100,
+                category: "Business"
+              }
+            ],
           },
-        },
+        }
       ]
 
-      // Basic search mock
-      const url = new URL(endpoint, this.baseUrl) // Use baseUrl to correctly parse relative URLs
-      const searchParam = url.searchParams.get("search")
-      let searchedCustomers = mockCustomers
-      if (searchParam) {
-        searchedCustomers = mockCustomers.filter(
-          (c) =>
-            c.customerInfo.fullName.toLowerCase().includes(searchParam.toLowerCase()) ||
-            c.customerInfo.email.toLowerCase().includes(searchParam.toLowerCase()),
-        )
-      }
+      console.log("Returning SpringFin Credit Union customers:", mockCustomers.length, "items")
 
-      const page = Number.parseInt(url.searchParams.get("page") || "1", 10)
-      const limit = Number.parseInt(url.searchParams.get("limit") || "10", 10)
-      const total = searchedCustomers.length
-      const paginatedData = searchedCustomers.slice((page - 1) * limit, page * limit)
-
-      console.log(`[Mock API] Returning ${paginatedData.length} customers for endpoint: ${endpoint}`)
+      // Return the correct structure for PaginatedResponse
       return {
         data: {
-          // This is PaginatedResponse<CustomerFinancialProfile>
-          data: paginatedData,
+          data: mockCustomers,
           pagination: {
-            page: page,
-            limit: limit,
-            total: total,
-            totalPages: Math.ceil(total / limit),
+            page: 1,
+            limit: 10,
+            total: mockCustomers.length,
+            totalPages: 1,
           },
           success: true,
-        } as T, // Cast to T, which is PaginatedResponse<CustomerFinancialProfile>
+        } as T,
         success: true,
       }
     }
 
-    // Mock customer financial profile (for /customers/:id)
-    // This should come AFTER the /customers list mock, or be more specific
-    if (endpoint.startsWith("/customers/") && endpoint.split("/").length === 3) {
+    // SpringFin Credit Union - Individual Customer Details
+    if (endpoint.startsWith("/customers/") && endpoint.split("/").length === 3 && !endpoint.includes("/transactions") && !endpoint.includes("/income") && !endpoint.includes("/spending") && !endpoint.includes("/export") && !endpoint.includes("/notes") && !endpoint.includes("/flags")) {
       const customerId = endpoint.split("/")[2]
-      console.log(`[Mock API] Attempting to fetch single customer financial profile for ID: ${customerId}`)
-      // This reuses the getCustomerFinancialProfile logic, which is fine.
-      // The getCustomerFinancialProfile method itself is a mock.
-      // To ensure it's called, we can just fall through or explicitly call it.
-      // For now, let's assume the existing getCustomerFinancialProfile handles this if no other more specific mock matches.
-      // To be safe, let's add a specific return here if needed, or ensure the general customer profile mock is robust.
-      // The existing `getCustomerFinancialProfile` method in the ApiClient class already provides a detailed mock for a single customer.
-      // The `this.request` call in `getCustomer` will eventually hit `getMockResponse`.
-      // We need to make sure that `getMockResponse` can distinguish between `/customers` (list) and `/customers/:id` (single).
-      // The current structure with `endpoint.startsWith("/customers/") && endpoint.split("/").length === 3` for single customer
-      // and `endpoint.startsWith("/customers")` for the list should work if ordered correctly or if the list check is more specific.
-      // Let's make the list check more specific:
-      // if (endpoint.startsWith("/customers") && !endpoint.match(/customers\/[^/]+$/)) { /* list logic */ }
-      // For simplicity, the current `startsWith("/customers")` for list and `startsWith("/customers/")` for single should be okay if the single customer check is more specific and comes first, or if the list check is less greedy.
-      // The current `getCustomerFinancialProfile` in `ApiClient` is a direct method, not part of `getMockResponse`.
-      // The `getCustomer` method calls `this.request<CustomerFinancialProfile>(\`/customers/${id}\`)`.
-      // So, `getMockResponse` needs a handler for `/customers/:id`.
+      console.log(`[Mock API] Fetching SpringFin Credit Union customer profile for ID: ${customerId}`)
+      
+      // Return the correct SpringFin customer based on ID
+      let mockProfile: CustomerFinancialProfile
 
-      // Let's add a specific mock for fetching a single customer profile here.
-      // This will be similar to what `getCustomerFinancialProfile` does, but within `getMockResponse`.
-      const mockProfile: CustomerFinancialProfile = {
-        customerId: customerId,
-        customerInfo: {
-          fullName: customerId === "cust_002_high_risk" ? "Jane Risk (Profile)" : "John Customer (Profile)",
-          email:
-            customerId === "cust_002_high_risk" ? "jane.risk.profile@example.com" : "john.customer.profile@example.com",
-          phoneNumber: "+15551230000",
-        },
-        creditReports: {
-          equifax: {
-            score: customerId === "cust_002_high_risk" ? 580 : 750,
-            grade: customerId === "cust_002_high_risk" ? "D" : "A",
-            lastUpdated: "2024-01-15",
-            utilization: {
-              totalCredit: 15000,
-              usedCredit: 12500,
-              utilizationPercentage: 83.3
+      if (customerId === "cust_jennifer_martinez") {
+        mockProfile = {
+          customerId: "cust_jennifer_martinez",
+          customerInfo: {
+            fullName: "Jennifer Martinez",
+            email: "jennifer.martinez@email.com",
+            phoneNumber: "+1 (555) 234-5678",
+          },
+          financialSummary: {
+            totalBalance: 89500.25,
+            monthlyIncome: 7800,
+            monthlyExpenses: 4200,
+            netCashFlow: 3600,
+            accountAge: 36,
+            overdraftCount: 0,
+          },
+          creditReports: {
+            summary: {
+              averageScore: 748,
+              scoreVariance: 7,
+              overallGrade: "A",
+              riskLevel: "low",
+              primaryBureau: "experian",
+              majorDiscrepancies: [],
             },
-            paymentHistory: {
-              onTimePercentage: 78,
-              recentLatePayments: 3
-            }
-          },
-          experian: {
-            score: customerId === "cust_002_high_risk" ? 560 : 720,
-            grade: customerId === "cust_002_high_risk" ? "D" : "A",
-            lastUpdated: "2024-01-12",
-            utilization: {
-              totalCredit: 16000,
-              usedCredit: 13200,
-              utilizationPercentage: 82.5
+            experian: { 
+              score: 752, 
+              grade: "A",
+              lastUpdated: "2024-03-14",
+              utilization: { totalCredit: 25000, usedCredit: 3200, utilizationPercentage: 12.8 },
+              paymentHistory: { onTimePercentage: 98, recentLatePayments: 0 }
             },
-            paymentHistory: {
-              onTimePercentage: 72,
-              recentLatePayments: 4
-            }
-          },
-          transunion: {
-            score: customerId === "cust_002_high_risk" ? 575 : 735,
-            grade: customerId === "cust_002_high_risk" ? "C" : "B",
-            lastUpdated: "2024-01-10",
-            utilization: {
-              totalCredit: 15500,
-              usedCredit: 12800,
-              utilizationPercentage: 82.6
+            equifax: { 
+              score: 745, 
+              grade: "A",
+              lastUpdated: "2024-03-14",
+              utilization: { totalCredit: 25000, usedCredit: 3100, utilizationPercentage: 12.4 },
+              paymentHistory: { onTimePercentage: 98, recentLatePayments: 0 }
             },
-            paymentHistory: {
-              onTimePercentage: 81,
-              recentLatePayments: 2
-            }
+            transunion: { 
+              score: 747, 
+              grade: "A",
+              lastUpdated: "2024-03-14",
+              utilization: { totalCredit: 25000, usedCredit: 3150, utilizationPercentage: 12.6 },
+              paymentHistory: { onTimePercentage: 98, recentLatePayments: 0 }
+            },
           },
-          summary: {
-            averageScore: customerId === "cust_002_high_risk" ? 570 : 720,
-            scoreVariance: 53,
-            overallGrade: customerId === "cust_002_high_risk" ? "C" : "B",
-            riskLevel: customerId === "cust_002_high_risk" ? "high" : "low",
-            primaryBureau: customerId === "cust_002_high_risk" ? "transunion" : "experian",
-            majorDiscrepancies: [
-              "Large score variance: 53 points between bureaus",
-              "Payment history discrepancies found between bureaus"
-            ]
-          }
-        },
-        bankAccounts: [
-          {
-            accountId: "acc_chk_1",
-            bankName: "Chase",
-            accountType: "checking",
-            accountNumber: "xxxx1234",
-            balance: 5230.5,
-            currency: "USD",
-            openedDate: new Date(Date.now() - 3 * 365 * 24 * 60 * 60 * 1000).toISOString(),
-            transactions: [],
-            monthlyBalances: [],
+          riskIndicators: {
+            irregularIncomePattern: false,
+            highOverdraftFrequency: false,
+            gamblingActivity: false,
+            cryptocurrencyActivity: false,
+            largeUnexplainedDeposits: false,
           },
-          {
-            accountId: "acc_sav_1",
-            bankName: "Bank of America",
-            accountType: "savings",
-            accountNumber: "xxxx5678",
-            balance: 15780.22,
-            currency: "USD",
-            openedDate: new Date(Date.now() - 5 * 365 * 24 * 60 * 60 * 1000).toISOString(),
-            transactions: [],
-            monthlyBalances: [],
-          },
-        ],
-        financialSummary: {
-          totalBalance: 19760.0 - 1250.75,
-          monthlyIncome: 6500,
-          monthlyExpenses: 4200,
-          netCashFlow: 2300,
-          accountAge: 5,
-          overdraftCount: customerId === "cust_002_high_risk" ? 5 : 1,
-        },
-        transactionAnalysis: {
-          totalTransactions: 150,
-          avgMonthlySpending: 3800,
-          topCategories: [
+          verificationId: "ver_jennifer_martinez",
+          lastUpdated: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(),
+          bankAccounts: [
             {
-              category: "Housing",
-              amount: 1500,
-              percentage: 39.47,
-              transactionCount: 5,
-              trend: "stable",
-              monthlyData: [],
+              accountId: "acc_jm_checking",
+              accountType: "checking",
+              accountNumber: "****1234",
+              balance: 12500.25,
+              bankName: "Chase Bank",
+              openedDate: "2021-03-15",
+              currency: "USD",
+              transactions: [],
+              monthlyBalances: [
+                { month: "2024-01", balance: 11800.50 },
+                { month: "2024-02", balance: 12200.75 },
+                { month: "2024-03", balance: 12500.25 }
+              ],
             },
-          ],
-          incomeStreams: [
             {
-              source: "Salary - Acme Corp",
-              frequency: "monthly",
-              averageAmount: 6500,
-              lastAmount: 6500,
-              confidence: 95,
-              category: "salary",
+              accountId: "acc_jm_savings",
+              accountType: "savings",
+              accountNumber: "****5678",
+              balance: 77000.00,
+              bankName: "Chase Bank",
+              openedDate: "2021-03-15",
+              currency: "USD",
+              transactions: [],
+              monthlyBalances: [
+                { month: "2024-01", balance: 75500.00 },
+                { month: "2024-02", balance: 76250.00 },
+                { month: "2024-03", balance: 77000.00 }
+              ],
+            }
+          ],
+          transactionAnalysis: {
+            totalTransactions: 156,
+            avgMonthlySpending: 4200,
+            topCategories: [
+              { 
+                category: "Housing", 
+                amount: 1800, 
+                percentage: 42.8,
+                transactionCount: 12,
+                trend: "stable",
+                monthlyData: [
+                  { month: "2024-01", amount: 1800 },
+                  { month: "2024-02", amount: 1800 },
+                  { month: "2024-03", amount: 1800 }
+                ]
+              },
+              { 
+                category: "Transportation", 
+                amount: 650, 
+                percentage: 15.5,
+                transactionCount: 18,
+                trend: "stable",
+                monthlyData: [
+                  { month: "2024-01", amount: 620 },
+                  { month: "2024-02", amount: 680 },
+                  { month: "2024-03", amount: 650 }
+                ]
+              },
+              { 
+                category: "Food", 
+                amount: 580, 
+                percentage: 13.8,
+                transactionCount: 24,
+                trend: "increasing",
+                monthlyData: [
+                  { month: "2024-01", amount: 520 },
+                  { month: "2024-02", amount: 550 },
+                  { month: "2024-03", amount: 580 }
+                ]
+              }
+            ],
+            incomeStreams: [
+              { 
+                source: "Marketing Manager Salary",
+                frequency: "monthly",
+                averageAmount: 7800,
+                lastAmount: 7800,
+                confidence: 95,
+                category: "salary"
+              }
+            ],
+            recurringPayments: [
+              { 
+                merchant: "Rent Payment",
+                frequency: "monthly",
+                averageAmount: 1800,
+                category: "Housing"
+              },
+              { 
+                merchant: "Car Payment",
+                frequency: "monthly",
+                averageAmount: 425,
+                category: "Transportation"
+              }
+            ],
+          },
+        }
+      } else if (customerId === "cust_robert_chen") {
+        mockProfile = {
+          customerId: "cust_robert_chen",
+          customerInfo: {
+            fullName: "Robert Chen",
+            email: "robert.chen@techcorp.com",
+            phoneNumber: "+1 (555) 345-6789",
+          },
+          financialSummary: {
+            totalBalance: 125750.00,
+            monthlyIncome: 12500,
+            monthlyExpenses: 6800,
+            netCashFlow: 5700,
+            accountAge: 48,
+            overdraftCount: 0,
+          },
+          creditReports: {
+            summary: {
+              averageScore: 782,
+              scoreVariance: 7,
+              overallGrade: "A",
+              riskLevel: "low",
+              primaryBureau: "experian",
+              majorDiscrepancies: [],
             },
+            experian: { 
+              score: 785, 
+              grade: "A",
+              lastUpdated: "2024-03-15",
+              utilization: { totalCredit: 45000, usedCredit: 4500, utilizationPercentage: 10.0 },
+              paymentHistory: { onTimePercentage: 100, recentLatePayments: 0 }
+            },
+            equifax: { 
+              score: 778, 
+              grade: "A",
+              lastUpdated: "2024-03-15",
+              utilization: { totalCredit: 45000, usedCredit: 4600, utilizationPercentage: 10.2 },
+              paymentHistory: { onTimePercentage: 100, recentLatePayments: 0 }
+            },
+            transunion: { 
+              score: 783, 
+              grade: "A",
+              lastUpdated: "2024-03-15",
+              utilization: { totalCredit: 45000, usedCredit: 4550, utilizationPercentage: 10.1 },
+              paymentHistory: { onTimePercentage: 100, recentLatePayments: 0 }
+            },
+          },
+          riskIndicators: {
+            irregularIncomePattern: false,
+            highOverdraftFrequency: false,
+            gamblingActivity: false,
+            cryptocurrencyActivity: true,
+            largeUnexplainedDeposits: false,
+          },
+          verificationId: "ver_robert_chen",
+          lastUpdated: new Date(Date.now() - 6 * 60 * 60 * 1000).toISOString(),
+          bankAccounts: [
+            {
+              accountId: "acc_rc_checking",
+              accountType: "checking",
+              accountNumber: "****5678",
+              balance: 15750.00,
+              bankName: "Bank of America",
+              openedDate: "2020-01-10",
+              currency: "USD",
+              transactions: [],
+              monthlyBalances: [
+                { month: "2024-01", balance: 14200.00 },
+                { month: "2024-02", balance: 15100.00 },
+                { month: "2024-03", balance: 15750.00 }
+              ],
+            },
+            {
+              accountId: "acc_rc_savings",
+              accountType: "savings",
+              accountNumber: "****9012",
+              balance: 85000.00,
+              bankName: "Bank of America",
+              openedDate: "2020-01-10",
+              currency: "USD",
+              transactions: [],
+              monthlyBalances: [
+                { month: "2024-01", balance: 82000.00 },
+                { month: "2024-02", balance: 83500.00 },
+                { month: "2024-03", balance: 85000.00 }
+              ],
+            },
+            {
+              accountId: "acc_rc_investment",
+              accountType: "investment",
+              accountNumber: "****3456",
+              balance: 25000.00,
+              bankName: "Fidelity",
+              openedDate: "2022-06-15",
+              currency: "USD",
+              transactions: [],
+              monthlyBalances: [
+                { month: "2024-01", balance: 23500.00 },
+                { month: "2024-02", balance: 24200.00 },
+                { month: "2024-03", balance: 25000.00 }
+              ],
+            }
           ],
-          recurringPayments: [
-            { merchant: "Netflix", frequency: "monthly", averageAmount: 15.99, category: "Entertainment" },
+          transactionAnalysis: {
+            totalTransactions: 203,
+            avgMonthlySpending: 6800,
+            topCategories: [
+              { 
+                category: "Housing", 
+                amount: 2800, 
+                percentage: 41.2,
+                transactionCount: 18,
+                trend: "stable",
+                monthlyData: [
+                  { month: "2024-01", amount: 2800 },
+                  { month: "2024-02", amount: 2800 },
+                  { month: "2024-03", amount: 2800 }
+                ]
+              },
+              { 
+                category: "Transportation", 
+                amount: 1200, 
+                percentage: 17.6,
+                transactionCount: 8,
+                trend: "stable",
+                monthlyData: [
+                  { month: "2024-01", amount: 1150 },
+                  { month: "2024-02", amount: 1200 },
+                  { month: "2024-03", amount: 1250 }
+                ]
+              },
+              { 
+                category: "Technology", 
+                amount: 800, 
+                percentage: 11.8,
+                transactionCount: 15,
+                trend: "increasing",
+                monthlyData: [
+                  { month: "2024-01", amount: 650 },
+                  { month: "2024-02", amount: 725 },
+                  { month: "2024-03", amount: 800 }
+                ]
+              }
+            ],
+            incomeStreams: [
+              { 
+                source: "Senior Software Engineer",
+                frequency: "monthly",
+                averageAmount: 12500,
+                lastAmount: 12500,
+                confidence: 98,
+                category: "salary"
+              }
+            ],
+            recurringPayments: [
+              { 
+                merchant: "Mortgage Payment",
+                frequency: "monthly",
+                averageAmount: 2800,
+                category: "Housing"
+              },
+              { 
+                merchant: "Tesla Payment",
+                frequency: "monthly",
+                averageAmount: 850,
+                category: "Transportation"
+              }
+            ],
+          },
+        }
+      } else if (customerId === "cust_michael_thompson") {
+        mockProfile = {
+          customerId: "cust_michael_thompson",
+          customerInfo: {
+            fullName: "Michael Thompson",
+            email: "mthompson@construction.biz",
+            phoneNumber: "+1 (555) 567-8901",
+          },
+          financialSummary: {
+            totalBalance: 186200.50,
+            monthlyIncome: 15200,
+            monthlyExpenses: 8900,
+            netCashFlow: 6300,
+            accountAge: 72,
+            overdraftCount: 1,
+          },
+          creditReports: {
+            summary: {
+              averageScore: 712,
+              scoreVariance: 10,
+              overallGrade: "B",
+              riskLevel: "low",
+              primaryBureau: "experian",
+              majorDiscrepancies: [],
+            },
+            experian: { 
+              score: 718, 
+              grade: "B",
+              lastUpdated: "2024-03-13",
+              utilization: { totalCredit: 35000, usedCredit: 8500, utilizationPercentage: 24.3 },
+              paymentHistory: { onTimePercentage: 94, recentLatePayments: 1 }
+            },
+            equifax: { 
+              score: 708, 
+              grade: "B",
+              lastUpdated: "2024-03-13",
+              utilization: { totalCredit: 35000, usedCredit: 8400, utilizationPercentage: 24.0 },
+              paymentHistory: { onTimePercentage: 94, recentLatePayments: 1 }
+            },
+            transunion: { 
+              score: 710, 
+              grade: "B",
+              lastUpdated: "2024-03-13",
+              utilization: { totalCredit: 35000, usedCredit: 8450, utilizationPercentage: 24.1 },
+              paymentHistory: { onTimePercentage: 94, recentLatePayments: 1 }
+            },
+          },
+          riskIndicators: {
+            irregularIncomePattern: true,
+            highOverdraftFrequency: false,
+            gamblingActivity: false,
+            cryptocurrencyActivity: false,
+            largeUnexplainedDeposits: false,
+          },
+          verificationId: "ver_michael_thompson",
+          lastUpdated: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000 + 3 * 60 * 60 * 1000).toISOString(),
+          bankAccounts: [
+            {
+              accountId: "acc_mt_business",
+              accountType: "checking",
+              accountNumber: "****9012",
+              balance: 45200.50,
+              bankName: "Wells Fargo Business",
+              openedDate: "2018-06-20",
+              currency: "USD",
+              transactions: [],
+              monthlyBalances: [
+                { month: "2024-01", balance: 38500.25 },
+                { month: "2024-02", balance: 41800.75 },
+                { month: "2024-03", balance: 45200.50 }
+              ],
+            },
+            {
+              accountId: "acc_mt_savings",
+              accountType: "savings",
+              accountNumber: "****3456",
+              balance: 132100.00,
+              bankName: "Wells Fargo",
+              openedDate: "2018-06-20",
+              currency: "USD",
+              transactions: [],
+              monthlyBalances: [
+                { month: "2024-01", balance: 128900.00 },
+                { month: "2024-02", balance: 130500.00 },
+                { month: "2024-03", balance: 132100.00 }
+              ],
+            },
+            {
+              accountId: "acc_mt_checking_personal",
+              accountType: "checking",
+              accountNumber: "****7890",
+              balance: 8900.00,
+              bankName: "Wells Fargo",
+              openedDate: "2018-06-20",
+              currency: "USD",
+              transactions: [],
+              monthlyBalances: [
+                { month: "2024-01", balance: 7200.00 },
+                { month: "2024-02", balance: 8100.00 },
+                { month: "2024-03", balance: 8900.00 }
+              ],
+            }
           ],
-        },
-        riskIndicators: {
-          irregularIncomePattern: customerId === "cust_002_high_risk",
-          highOverdraftFrequency: customerId === "cust_002_high_risk",
-          gamblingActivity: false,
-          cryptocurrencyActivity: true,
-          largeUnexplainedDeposits: false,
-        },
-        lastUpdated: new Date().toISOString(),
-        verificationId: customerId === "cust_002_high_risk" ? "ver_002" : "ver_001",
+          transactionAnalysis: {
+            totalTransactions: 287,
+            avgMonthlySpending: 8900,
+            topCategories: [
+              { 
+                category: "Business", 
+                amount: 3200, 
+                percentage: 36.0,
+                transactionCount: 45,
+                trend: "increasing",
+                monthlyData: [
+                  { month: "2024-01", amount: 2800 },
+                  { month: "2024-02", amount: 3000 },
+                  { month: "2024-03", amount: 3200 }
+                ]
+              },
+              { 
+                category: "Housing", 
+                amount: 2100, 
+                percentage: 23.6,
+                transactionCount: 12,
+                trend: "stable",
+                monthlyData: [
+                  { month: "2024-01", amount: 2100 },
+                  { month: "2024-02", amount: 2100 },
+                  { month: "2024-03", amount: 2100 }
+                ]
+              },
+              { 
+                category: "Transportation", 
+                amount: 1800, 
+                percentage: 20.2,
+                transactionCount: 22,
+                trend: "stable",
+                monthlyData: [
+                  { month: "2024-01", amount: 1750 },
+                  { month: "2024-02", amount: 1820 },
+                  { month: "2024-03", amount: 1800 }
+                ]
+              }
+            ],
+            incomeStreams: [
+              { 
+                source: "Construction Business",
+                frequency: "irregular",
+                averageAmount: 15200,
+                lastAmount: 18500,
+                confidence: 75,
+                category: "other"
+              }
+            ],
+            recurringPayments: [
+              { 
+                merchant: "Business Loan",
+                frequency: "monthly",
+                averageAmount: 2100,
+                category: "Business"
+              },
+              { 
+                merchant: "Equipment Lease",
+                frequency: "monthly",
+                averageAmount: 850,
+                category: "Business"
+              }
+            ],
+          },
+        }
+      } else {
+        // Default fallback for any other customer ID
+        mockProfile = {
+          customerId: customerId,
+          customerInfo: {
+            fullName: "SpringFin Member",
+            email: "member@springfincu.com",
+            phoneNumber: "+1 (555) 000-0000",
+          },
+          financialSummary: {
+            totalBalance: 50000.00,
+            monthlyIncome: 6000,
+            monthlyExpenses: 4000,
+            netCashFlow: 2000,
+            accountAge: 24,
+            overdraftCount: 0,
+          },
+          creditReports: {
+            summary: {
+              averageScore: 700,
+              scoreVariance: 15,
+              overallGrade: "B",
+              riskLevel: "low",
+              primaryBureau: "experian",
+              majorDiscrepancies: [],
+            },
+            experian: { 
+              score: 710, 
+              grade: "B",
+              lastUpdated: "2024-03-15",
+              utilization: { totalCredit: 20000, usedCredit: 5000, utilizationPercentage: 25.0 },
+              paymentHistory: { onTimePercentage: 95, recentLatePayments: 0 }
+            },
+            equifax: { 
+              score: 695, 
+              grade: "B",
+              lastUpdated: "2024-03-15",
+              utilization: { totalCredit: 20000, usedCredit: 5200, utilizationPercentage: 26.0 },
+              paymentHistory: { onTimePercentage: 94, recentLatePayments: 1 }
+            },
+            transunion: { 
+              score: 695, 
+              grade: "B",
+              lastUpdated: "2024-03-15",
+              utilization: { totalCredit: 20000, usedCredit: 5100, utilizationPercentage: 25.5 },
+              paymentHistory: { onTimePercentage: 95, recentLatePayments: 0 }
+            },
+          },
+          riskIndicators: {
+            irregularIncomePattern: false,
+            highOverdraftFrequency: false,
+            gamblingActivity: false,
+            cryptocurrencyActivity: false,
+            largeUnexplainedDeposits: false,
+          },
+          verificationId: "ver_default",
+          lastUpdated: new Date().toISOString(),
+          bankAccounts: [
+            {
+              accountId: "acc_default_checking",
+              accountType: "checking",
+              accountNumber: "****0000",
+              balance: 50000.00,
+              bankName: "SpringFin Credit Union",
+              openedDate: "2022-01-01",
+              currency: "USD",
+              transactions: [],
+              monthlyBalances: [],
+            }
+          ],
+          transactionAnalysis: {
+            totalTransactions: 100,
+            avgMonthlySpending: 4000,
+            topCategories: [
+              { 
+                category: "General", 
+                amount: 4000, 
+                percentage: 100.0,
+                transactionCount: 100,
+                trend: "stable",
+                monthlyData: []
+              }
+            ],
+            incomeStreams: [
+              { 
+                source: "Salary",
+                frequency: "monthly",
+                averageAmount: 6000,
+                lastAmount: 6000,
+                confidence: 90,
+                category: "salary"
+              }
+            ],
+            recurringPayments: [
+              { 
+                merchant: "Monthly Expenses",
+                frequency: "monthly",
+                averageAmount: 4000,
+                category: "General"
+              }
+            ],
+          },
+        }
       }
-      console.log(`[Mock API] Returning single customer profile for ID: ${customerId}`)
+      
+      console.log(`[Mock API] Returning SpringFin customer profile for: ${mockProfile.customerInfo.fullName}`)
       return { data: mockProfile, success: true } as ApiResponse<T>
     }
 
@@ -1101,467 +1638,13 @@ class ApiClient {
 
   // Customer Financial Profile Endpoints (Illustrative - adapt to your actual API)
   async getCustomerFinancialProfile(customerId: string): Promise<CustomerFinancialProfile> {
-    // In a real app, this would fetch from /customers/:id/financial-profile or similar
-    // For mock, let's find a customer and enrich with financial data
-    console.log(`[Mock API] Fetching financial profile for customer: ${customerId}`)
+    // SpringFin Credit Union - Direct call to the same endpoint logic
+    console.log(`[Mock API] Fetching SpringFin financial profile for customer: ${customerId}`)
     await new Promise((resolve) => setTimeout(resolve, 700))
 
-    // Example mock data structure (you'll need to define this based on your types/needs)
-    const mockProfile: CustomerFinancialProfile = {
-      customerId: customerId,
-      customerInfo: {
-        fullName: "John Customer",
-        email: "john.customer@example.com",
-        phoneNumber: "+15551230000",
-      },
-      creditReports: {
-        equifax: {
-          score: 750,
-          grade: "A",
-          lastUpdated: "2024-01-15",
-          utilization: {
-            totalCredit: 25000,
-            usedCredit: 3200,
-            utilizationPercentage: 12.8
-          },
-          paymentHistory: {
-            onTimePercentage: 98,
-            recentLatePayments: 0
-          },
-          creditScoreFactors: {
-            paymentHistory: {
-              score: 92,
-              rating: "VERY GOOD",
-              impact: "high"
-            },
-            amountOfDebt: {
-              score: 88,
-              rating: "VERY GOOD",
-              impact: "high"
-            },
-            lengthOfCreditHistory: {
-              score: 85,
-              rating: "GOOD",
-              impact: "medium",
-              averageAccountAge: 8.5
-            },
-            amountOfNewCredit: {
-              score: 90,
-              rating: "VERY GOOD",
-              impact: "low",
-              recentInquiries: 1
-            },
-            creditMix: {
-              score: 80,
-              rating: "GOOD",
-              impact: "low",
-              accountTypes: ["Credit Cards", "Auto Loan", "Mortgage"]
-            }
-          },
-          creditHistory: [
-            { month: "2023-03-01", score: 735 },
-            { month: "2023-04-01", score: 738 },
-            { month: "2023-05-01", score: 741 },
-            { month: "2023-06-01", score: 744 },
-            { month: "2023-07-01", score: 746 },
-            { month: "2023-08-01", score: 748 },
-            { month: "2023-09-01", score: 745 },
-            { month: "2023-10-01", score: 747 },
-            { month: "2023-11-01", score: 749 },
-            { month: "2023-12-01", score: 750 },
-            { month: "2024-01-01", score: 750 }
-          ]
-        },
-        experian: {
-          score: 752,
-          grade: "A", 
-          lastUpdated: "2024-01-12",
-          utilization: {
-            totalCredit: 26500,
-            usedCredit: 3400,
-            utilizationPercentage: 12.8
-          },
-          paymentHistory: {
-            onTimePercentage: 98,
-            recentLatePayments: 0
-          },
-          creditScoreFactors: {
-            paymentHistory: {
-              score: 93,
-              rating: "VERY GOOD",
-              impact: "high"
-            },
-            amountOfDebt: {
-              score: 89,
-              rating: "VERY GOOD",
-              impact: "high"
-            },
-            lengthOfCreditHistory: {
-              score: 87,
-              rating: "GOOD",
-              impact: "medium",
-              averageAccountAge: 9.2
-            },
-            amountOfNewCredit: {
-              score: 91,
-              rating: "VERY GOOD",
-              impact: "low",
-              recentInquiries: 1
-            },
-            creditMix: {
-              score: 82,
-              rating: "GOOD",
-              impact: "low",
-              accountTypes: ["Credit Cards", "Auto Loan", "Mortgage", "Personal Loan"]
-            }
-          },
-          creditHistory: [
-            { month: "2023-03-01", score: 737 },
-            { month: "2023-04-01", score: 740 },
-            { month: "2023-05-01", score: 743 },
-            { month: "2023-06-01", score: 746 },
-            { month: "2023-07-01", score: 748 },
-            { month: "2023-08-01", score: 750 },
-            { month: "2023-09-01", score: 747 },
-            { month: "2023-10-01", score: 749 },
-            { month: "2023-11-01", score: 751 },
-            { month: "2023-12-01", score: 752 },
-            { month: "2024-01-01", score: 752 }
-          ]
-        },
-        transunion: {
-          score: 738,
-          grade: "B",
-          lastUpdated: "2024-01-10", 
-          utilization: {
-            totalCredit: 25000,
-            usedCredit: 3100,
-            utilizationPercentage: 12.4
-          },
-          paymentHistory: {
-            onTimePercentage: 96,
-            recentLatePayments: 1
-          },
-          creditScoreFactors: {
-            paymentHistory: {
-              score: 88,
-              rating: "GOOD",
-              impact: "high"
-            },
-            amountOfDebt: {
-              score: 87,
-              rating: "GOOD",
-              impact: "high"
-            },
-            lengthOfCreditHistory: {
-              score: 83,
-              rating: "GOOD",
-              impact: "medium",
-              averageAccountAge: 7.8
-            },
-            amountOfNewCredit: {
-              score: 89,
-              rating: "VERY GOOD",
-              impact: "low",
-              recentInquiries: 1
-            },
-            creditMix: {
-              score: 78,
-              rating: "FAIR",
-              impact: "low",
-              accountTypes: ["Credit Cards", "Auto Loan"]
-            }
-          },
-          creditHistory: [
-            { month: "2023-03-01", score: 723 },
-            { month: "2023-04-01", score: 726 },
-            { month: "2023-05-01", score: 729 },
-            { month: "2023-06-01", score: 732 },
-            { month: "2023-07-01", score: 734 },
-            { month: "2023-08-01", score: 736 },
-            { month: "2023-09-01", score: 730 },
-            { month: "2023-10-01", score: 733 },
-            { month: "2023-11-01", score: 735 },
-            { month: "2023-12-01", score: 737 },
-            { month: "2024-01-01", score: 738 }
-          ]
-        },
-        summary: {
-          averageScore: 745,
-          scoreVariance: 14,
-          overallGrade: "A",
-          riskLevel: "low",
-          primaryBureau: "experian",
-          majorDiscrepancies: ["TransUnion shows 1 recent late payment not reported by other bureaus"]
-        }
-      },
-      bankAccounts: [
-        {
-          accountId: "acc_chk_1",
-          bankName: "Chase",
-          accountType: "checking",
-          accountNumber: "xxxx1234",
-          balance: 5230.5,
-          currency: "USD",
-          openedDate: new Date(Date.now() - 3 * 365 * 24 * 60 * 60 * 1000).toISOString(),
-          transactions: [],
-          monthlyBalances: [],
-        },
-        {
-          accountId: "acc_sav_1",
-          bankName: "Bank of America",
-          accountType: "savings",
-          accountNumber: "xxxx5678",
-          balance: 15780.22,
-          currency: "USD",
-          openedDate: new Date(Date.now() - 5 * 365 * 24 * 60 * 60 * 1000).toISOString(),
-          transactions: [],
-          monthlyBalances: [],
-        },
-      ],
-      financialSummary: {
-        totalBalance: 19760.0 - 1250.75,
-        monthlyIncome: 6500,
-        monthlyExpenses: 4200,
-        netCashFlow: 2300,
-        accountAge: 5,
-        overdraftCount: 1,
-      },
-      transactionAnalysis: {
-        totalTransactions: 150,
-        avgMonthlySpending: 3800,
-        topCategories: [
-          {
-            category: "Housing",
-            amount: 1500,
-            percentage: 39.47,
-            transactionCount: 5,
-            trend: "stable",
-            monthlyData: [],
-          },
-        ],
-        incomeStreams: [
-          {
-            source: "Salary - Acme Corp",
-            frequency: "monthly",
-            averageAmount: 6500,
-            lastAmount: 6500,
-            confidence: 95,
-            category: "salary",
-          },
-        ],
-        recurringPayments: [
-          { merchant: "Netflix", frequency: "monthly", averageAmount: 15.99, category: "Entertainment" },
-        ],
-      },
-      riskIndicators: {
-        irregularIncomePattern: false,
-        highOverdraftFrequency: false,
-        gamblingActivity: false,
-        cryptocurrencyActivity: true,
-        largeUnexplainedDeposits: false,
-      },
-      lastUpdated: new Date().toISOString(),
-      verificationId: "ver_001", // Link to a verification
-    }
-    if (customerId === "cust_002_high_risk") {
-      // Example for a high-risk customer
-      mockProfile.customerId = "cust_002_high_risk"
-      mockProfile.customerInfo.fullName = "Jane Risk"
-      mockProfile.customerInfo.email = "jane.risk@example.com"
-      mockProfile.creditReports = {
-        equifax: {
-          score: 620,
-          grade: "C",
-          lastUpdated: "2024-01-14",
-          utilization: {
-            totalCredit: 15000,
-            usedCredit: 12500,
-            utilizationPercentage: 83.3
-          },
-          paymentHistory: {
-            onTimePercentage: 78,
-            recentLatePayments: 3
-          },
-          creditScoreFactors: {
-            paymentHistory: {
-              score: 65,
-              rating: "FAIR",
-              impact: "high"
-            },
-            amountOfDebt: {
-              score: 45,
-              rating: "POOR",
-              impact: "high"
-            },
-            lengthOfCreditHistory: {
-              score: 70,
-              rating: "FAIR",
-              impact: "medium",
-              averageAccountAge: 4.2
-            },
-            amountOfNewCredit: {
-              score: 60,
-              rating: "FAIR",
-              impact: "low",
-              recentInquiries: 5
-            },
-            creditMix: {
-              score: 55,
-              rating: "POOR",
-              impact: "low",
-              accountTypes: ["Credit Cards"]
-            }
-          },
-          creditHistory: [
-            { month: "2023-03-01", score: 650 },
-            { month: "2023-04-01", score: 645 },
-            { month: "2023-05-01", score: 635 },
-            { month: "2023-06-01", score: 625 },
-            { month: "2023-07-01", score: 615 },
-            { month: "2023-08-01", score: 605 },
-            { month: "2023-09-01", score: 610 },
-            { month: "2023-10-01", score: 615 },
-            { month: "2023-11-01", score: 618 },
-            { month: "2023-12-01", score: 620 },
-            { month: "2024-01-01", score: 620 }
-          ]
-        },
-        experian: {
-          score: 595,
-          grade: "D", 
-          lastUpdated: "2024-01-11",
-          utilization: {
-            totalCredit: 16000,
-            usedCredit: 13200,
-            utilizationPercentage: 82.5
-          },
-          paymentHistory: {
-            onTimePercentage: 72,
-            recentLatePayments: 4
-          },
-          creditScoreFactors: {
-            paymentHistory: {
-              score: 58,
-              rating: "POOR",
-              impact: "high"
-            },
-            amountOfDebt: {
-              score: 42,
-              rating: "POOR",
-              impact: "high"
-            },
-            lengthOfCreditHistory: {
-              score: 68,
-              rating: "FAIR",
-              impact: "medium",
-              averageAccountAge: 3.8
-            },
-            amountOfNewCredit: {
-              score: 55,
-              rating: "POOR",
-              impact: "low",
-              recentInquiries: 6
-            },
-            creditMix: {
-              score: 52,
-              rating: "POOR",
-              impact: "low",
-              accountTypes: ["Credit Cards"]
-            }
-          },
-          creditHistory: [
-            { month: "2023-03-01", score: 625 },
-            { month: "2023-04-01", score: 620 },
-            { month: "2023-05-01", score: 610 },
-            { month: "2023-06-01", score: 600 },
-            { month: "2023-07-01", score: 590 },
-            { month: "2023-08-01", score: 580 },
-            { month: "2023-09-01", score: 585 },
-            { month: "2023-10-01", score: 590 },
-            { month: "2023-11-01", score: 593 },
-            { month: "2023-12-01", score: 595 },
-            { month: "2024-01-01", score: 595 }
-          ]
-        },
-        transunion: {
-          score: 648,
-          grade: "C",
-          lastUpdated: "2024-01-09", 
-          utilization: {
-            totalCredit: 15500,
-            usedCredit: 12800,
-            utilizationPercentage: 82.6
-          },
-          paymentHistory: {
-            onTimePercentage: 81,
-            recentLatePayments: 2
-          },
-          creditScoreFactors: {
-            paymentHistory: {
-              score: 72,
-              rating: "FAIR",
-              impact: "high"
-            },
-            amountOfDebt: {
-              score: 48,
-              rating: "POOR",
-              impact: "high"
-            },
-            lengthOfCreditHistory: {
-              score: 75,
-              rating: "FAIR",
-              impact: "medium",
-              averageAccountAge: 5.1
-            },
-            amountOfNewCredit: {
-              score: 65,
-              rating: "FAIR",
-              impact: "low",
-              recentInquiries: 4
-            },
-            creditMix: {
-              score: 58,
-              rating: "POOR",
-              impact: "low",
-              accountTypes: ["Credit Cards"]
-            }
-          },
-          creditHistory: [
-            { month: "2023-03-01", score: 678 },
-            { month: "2023-04-01", score: 675 },
-            { month: "2023-05-01", score: 665 },
-            { month: "2023-06-01", score: 655 },
-            { month: "2023-07-01", score: 645 },
-            { month: "2023-08-01", score: 635 },
-            { month: "2023-09-01", score: 640 },
-            { month: "2023-10-01", score: 645 },
-            { month: "2023-11-01", score: 648 },
-            { month: "2023-12-01", score: 648 },
-            { month: "2024-01-01", score: 648 }
-          ]
-        },
-        summary: {
-          averageScore: 621,
-          scoreVariance: 53,
-          overallGrade: "C",
-          riskLevel: "high",
-          primaryBureau: "transunion",
-          majorDiscrepancies: [
-            "Large score variance: 53 points between bureaus",
-            "Payment history discrepancies found between bureaus"
-          ]
-        }
-      }
-      mockProfile.financialSummary.monthlyIncome = 3000
-      mockProfile.financialSummary.monthlyExpenses = 2900
-      mockProfile.financialSummary.netCashFlow = 100
-      mockProfile.financialSummary.overdraftCount = 5
-      mockProfile.riskIndicators.highOverdraftFrequency = true
-      mockProfile.riskIndicators.irregularIncomePattern = true
-    }
-
-    return mockProfile
+    // Use the same logic as the getMockResponse endpoint for consistency
+    const response = await this.getMockResponse<CustomerFinancialProfile>(`/customers/${customerId}`)
+    return response.data
   }
 
   async getCustomerTransactions(

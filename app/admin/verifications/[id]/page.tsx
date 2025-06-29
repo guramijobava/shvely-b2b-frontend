@@ -166,25 +166,30 @@ export default function VerificationDetailsPage() {
   return (
     <div className="p-6 max-w-6xl mx-auto space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center space-x-4">
+      <div className="space-y-4">
+        {/* Back Button */}
+        <div>
           <Button variant="ghost" size="sm" asChild>
             <Link href="/admin/verifications">
               <ArrowLeft className="h-4 w-4 mr-2" />
               Back to Verifications
             </Link>
           </Button>
-          <div>
+        </div>
+        
+        {/* Title and Actions */}
+        <div className="flex items-start justify-between">
+          <div className="space-y-1">
             <h1 className="text-3xl font-bold text-gray-900">Verification Details</h1>
             <p className="text-muted-foreground">ID: {verification.id}</p>
           </div>
-        </div>
-        <div className="flex items-center space-x-3">
-          <StatusBadge status={verification.status} />
-          <Button variant="outline" size="sm">
-            <RefreshCw className="h-4 w-4 mr-2" />
-            Refresh
-          </Button>
+          <div className="flex items-center space-x-3">
+            <StatusBadge status={verification.status} />
+            <Button variant="outline" size="sm">
+              <RefreshCw className="h-4 w-4 mr-2" />
+              Refresh
+            </Button>
+          </div>
         </div>
       </div>
 
@@ -229,6 +234,20 @@ export default function VerificationDetailsPage() {
                     </a>
                   </div>
                 </div>
+                {verification.status === "completed" && verification.customerId && (
+                  <div className="md:col-span-2">
+                    <label className="text-sm font-medium text-muted-foreground">Customer Profile</label>
+                    <div className="flex items-center space-x-2 mt-1">
+                      <User className="h-4 w-4 text-muted-foreground" />
+                      <Link
+                        href={`/admin/customers/${verification.customerId}`}
+                        className="text-sm text-blue-600 hover:underline font-medium"
+                      >
+                        View Full Customer Profile
+                      </Link>
+                    </div>
+                  </div>
+                )}
               </div>
             </CardContent>
           </Card>

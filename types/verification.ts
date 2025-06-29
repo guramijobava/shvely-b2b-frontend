@@ -1,5 +1,6 @@
 export interface VerificationRequest {
   id: string
+  customerId?: string // Available when verification is completed
   customerInfo: {
     fullName: string
     email: string

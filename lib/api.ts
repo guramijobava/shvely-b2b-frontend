@@ -533,21 +533,84 @@ class ApiClient {
               grade: "A",
               lastUpdated: "2024-03-14",
               utilization: { totalCredit: 25000, usedCredit: 3200, utilizationPercentage: 12.8 },
-              paymentHistory: { onTimePercentage: 98, recentLatePayments: 0 }
+              paymentHistory: { onTimePercentage: 98, recentLatePayments: 0 },
+              creditScoreFactors: {
+                paymentHistory: { score: 95, rating: "EXCEPTIONAL", impact: "high" },
+                amountOfDebt: { score: 88, rating: "VERY GOOD", impact: "high" },
+                lengthOfCreditHistory: { score: 75, rating: "GOOD", impact: "medium", averageAccountAge: 5.2 },
+                amountOfNewCredit: { score: 92, rating: "EXCEPTIONAL", impact: "low", recentInquiries: 1 },
+                creditMix: { score: 78, rating: "GOOD", impact: "low", accountTypes: ["Credit Card", "Auto Loan", "Mortgage"] }
+              },
+              creditHistory: [
+                { month: "2023-04-01", score: 738 },
+                { month: "2023-05-01", score: 741 },
+                { month: "2023-06-01", score: 739 },
+                { month: "2023-07-01", score: 743 }, 
+                { month: "2023-08-01", score: 746 },
+                { month: "2023-09-01", score: 744 },
+                { month: "2023-10-01", score: 748 },
+                { month: "2023-11-01", score: 750 },
+                { month: "2023-12-01", score: 747 },
+                { month: "2024-01-01", score: 749 },
+                { month: "2024-02-01", score: 751 },
+                { month: "2024-03-01", score: 752 }
+              ]
             },
             equifax: { 
               score: 745, 
               grade: "A",
               lastUpdated: "2024-03-14",
               utilization: { totalCredit: 25000, usedCredit: 3100, utilizationPercentage: 12.4 },
-              paymentHistory: { onTimePercentage: 98, recentLatePayments: 0 }
+              paymentHistory: { onTimePercentage: 98, recentLatePayments: 0 },
+              creditScoreFactors: {
+                paymentHistory: { score: 94, rating: "VERY GOOD", impact: "high" },
+                amountOfDebt: { score: 87, rating: "VERY GOOD", impact: "high" },
+                lengthOfCreditHistory: { score: 74, rating: "GOOD", impact: "medium", averageAccountAge: 5.2 },
+                amountOfNewCredit: { score: 90, rating: "VERY GOOD", impact: "low", recentInquiries: 1 },
+                creditMix: { score: 76, rating: "GOOD", impact: "low", accountTypes: ["Credit Card", "Auto Loan", "Mortgage"] }
+              },
+              creditHistory: [
+                { month: "2023-04-01", score: 735 },
+                { month: "2023-05-01", score: 738 },
+                { month: "2023-06-01", score: 736 },
+                { month: "2023-07-01", score: 740 }, 
+                { month: "2023-08-01", score: 742 },
+                { month: "2023-09-01", score: 741 },
+                { month: "2023-10-01", score: 744 },
+                { month: "2023-11-01", score: 746 },
+                { month: "2023-12-01", score: 743 },
+                { month: "2024-01-01", score: 744 },
+                { month: "2024-02-01", score: 746 },
+                { month: "2024-03-01", score: 745 }
+              ]
             },
             transunion: { 
               score: 747, 
               grade: "A",
               lastUpdated: "2024-03-14",
               utilization: { totalCredit: 25000, usedCredit: 3150, utilizationPercentage: 12.6 },
-              paymentHistory: { onTimePercentage: 98, recentLatePayments: 0 }
+              paymentHistory: { onTimePercentage: 98, recentLatePayments: 0 },
+              creditScoreFactors: {
+                paymentHistory: { score: 95, rating: "EXCEPTIONAL", impact: "high" },
+                amountOfDebt: { score: 86, rating: "VERY GOOD", impact: "high" },
+                lengthOfCreditHistory: { score: 75, rating: "GOOD", impact: "medium", averageAccountAge: 5.2 },
+                amountOfNewCredit: { score: 91, rating: "VERY GOOD", impact: "low", recentInquiries: 1 },
+                creditMix: { score: 77, rating: "GOOD", impact: "low", accountTypes: ["Credit Card", "Auto Loan", "Mortgage"] }
+              },
+              creditHistory: [
+                { month: "2023-04-01", score: 737 },
+                { month: "2023-05-01", score: 740 },
+                { month: "2023-06-01", score: 738 },
+                { month: "2023-07-01", score: 741 }, 
+                { month: "2023-08-01", score: 744 },
+                { month: "2023-09-01", score: 742 },
+                { month: "2023-10-01", score: 746 },
+                { month: "2023-11-01", score: 748 },
+                { month: "2023-12-01", score: 745 },
+                { month: "2024-01-01", score: 747 },
+                { month: "2024-02-01", score: 749 },
+                { month: "2024-03-01", score: 747 }
+              ]
             },
           },
           riskIndicators: {
@@ -634,21 +697,84 @@ class ApiClient {
               grade: "A",
               lastUpdated: "2024-03-15",
               utilization: { totalCredit: 45000, usedCredit: 4500, utilizationPercentage: 10.0 },
-              paymentHistory: { onTimePercentage: 100, recentLatePayments: 0 }
+              paymentHistory: { onTimePercentage: 100, recentLatePayments: 0 },
+              creditScoreFactors: {
+                paymentHistory: { score: 100, rating: "EXCEPTIONAL", impact: "high" },
+                amountOfDebt: { score: 95, rating: "EXCEPTIONAL", impact: "high" },
+                lengthOfCreditHistory: { score: 82, rating: "VERY GOOD", impact: "medium", averageAccountAge: 7.3 },
+                amountOfNewCredit: { score: 85, rating: "VERY GOOD", impact: "low", recentInquiries: 0 },
+                creditMix: { score: 88, rating: "VERY GOOD", impact: "low", accountTypes: ["Credit Card", "Auto Loan", "Mortgage", "Personal Loan"] }
+              },
+              creditHistory: [
+                { month: "2023-04-01", score: 768 },
+                { month: "2023-05-01", score: 771 },
+                { month: "2023-06-01", score: 773 },
+                { month: "2023-07-01", score: 776 }, 
+                { month: "2023-08-01", score: 779 },
+                { month: "2023-09-01", score: 777 },
+                { month: "2023-10-01", score: 781 },
+                { month: "2023-11-01", score: 783 },
+                { month: "2023-12-01", score: 780 },
+                { month: "2024-01-01", score: 782 },
+                { month: "2024-02-01", score: 784 },
+                { month: "2024-03-01", score: 785 }
+              ]
             },
             equifax: { 
               score: 778, 
               grade: "A",
               lastUpdated: "2024-03-15",
               utilization: { totalCredit: 45000, usedCredit: 4600, utilizationPercentage: 10.2 },
-              paymentHistory: { onTimePercentage: 100, recentLatePayments: 0 }
+              paymentHistory: { onTimePercentage: 100, recentLatePayments: 0 },
+              creditScoreFactors: {
+                paymentHistory: { score: 98, rating: "EXCEPTIONAL", impact: "high" },
+                amountOfDebt: { score: 94, rating: "VERY GOOD", impact: "high" },
+                lengthOfCreditHistory: { score: 80, rating: "VERY GOOD", impact: "medium", averageAccountAge: 7.3 },
+                amountOfNewCredit: { score: 83, rating: "VERY GOOD", impact: "low", recentInquiries: 0 },
+                creditMix: { score: 86, rating: "VERY GOOD", impact: "low", accountTypes: ["Credit Card", "Auto Loan", "Mortgage", "Personal Loan"] }
+              },
+              creditHistory: [
+                { month: "2023-04-01", score: 761 },
+                { month: "2023-05-01", score: 764 },
+                { month: "2023-06-01", score: 766 },
+                { month: "2023-07-01", score: 769 }, 
+                { month: "2023-08-01", score: 772 },
+                { month: "2023-09-01", score: 770 },
+                { month: "2023-10-01", score: 774 },
+                { month: "2023-11-01", score: 776 },
+                { month: "2023-12-01", score: 773 },
+                { month: "2024-01-01", score: 775 },
+                { month: "2024-02-01", score: 777 },
+                { month: "2024-03-01", score: 778 }
+              ]
             },
             transunion: { 
               score: 783, 
               grade: "A",
               lastUpdated: "2024-03-15",
               utilization: { totalCredit: 45000, usedCredit: 4550, utilizationPercentage: 10.1 },
-              paymentHistory: { onTimePercentage: 100, recentLatePayments: 0 }
+              paymentHistory: { onTimePercentage: 100, recentLatePayments: 0 },
+              creditScoreFactors: {
+                paymentHistory: { score: 99, rating: "EXCEPTIONAL", impact: "high" },
+                amountOfDebt: { score: 95, rating: "EXCEPTIONAL", impact: "high" },
+                lengthOfCreditHistory: { score: 81, rating: "VERY GOOD", impact: "medium", averageAccountAge: 7.3 },
+                amountOfNewCredit: { score: 84, rating: "VERY GOOD", impact: "low", recentInquiries: 0 },
+                creditMix: { score: 87, rating: "VERY GOOD", impact: "low", accountTypes: ["Credit Card", "Auto Loan", "Mortgage", "Personal Loan"] }
+              },
+              creditHistory: [
+                { month: "2023-04-01", score: 766 },
+                { month: "2023-05-01", score: 769 },
+                { month: "2023-06-01", score: 771 },
+                { month: "2023-07-01", score: 774 }, 
+                { month: "2023-08-01", score: 777 },
+                { month: "2023-09-01", score: 775 },
+                { month: "2023-10-01", score: 779 },
+                { month: "2023-11-01", score: 781 },
+                { month: "2023-12-01", score: 778 },
+                { month: "2024-01-01", score: 780 },
+                { month: "2024-02-01", score: 782 },
+                { month: "2024-03-01", score: 783 }
+              ]
             },
           },
           riskIndicators: {
@@ -735,21 +861,84 @@ class ApiClient {
               grade: "B",
               lastUpdated: "2024-03-13",
               utilization: { totalCredit: 35000, usedCredit: 8500, utilizationPercentage: 24.3 },
-              paymentHistory: { onTimePercentage: 94, recentLatePayments: 1 }
+              paymentHistory: { onTimePercentage: 94, recentLatePayments: 1 },
+              creditScoreFactors: {
+                paymentHistory: { score: 78, rating: "GOOD", impact: "high" },
+                amountOfDebt: { score: 65, rating: "FAIR", impact: "high" },
+                lengthOfCreditHistory: { score: 92, rating: "EXCEPTIONAL", impact: "medium", averageAccountAge: 12.8 },
+                amountOfNewCredit: { score: 88, rating: "VERY GOOD", impact: "low", recentInquiries: 0 },
+                creditMix: { score: 85, rating: "VERY GOOD", impact: "low", accountTypes: ["Credit Card", "Business Credit Line", "Mortgage", "Equipment Loan"] }
+              },
+              creditHistory: [
+                { month: "2023-04-01", score: 702 },
+                { month: "2023-05-01", score: 705 },
+                { month: "2023-06-01", score: 698 },
+                { month: "2023-07-01", score: 707 }, 
+                { month: "2023-08-01", score: 710 },
+                { month: "2023-09-01", score: 704 },
+                { month: "2023-10-01", score: 712 },
+                { month: "2023-11-01", score: 715 },
+                { month: "2023-12-01", score: 708 },
+                { month: "2024-01-01", score: 713 },
+                { month: "2024-02-01", score: 716 },
+                { month: "2024-03-01", score: 718 }
+              ]
             },
             equifax: { 
               score: 708, 
               grade: "B",
               lastUpdated: "2024-03-13",
               utilization: { totalCredit: 35000, usedCredit: 8400, utilizationPercentage: 24.0 },
-              paymentHistory: { onTimePercentage: 94, recentLatePayments: 1 }
+              paymentHistory: { onTimePercentage: 94, recentLatePayments: 1 },
+              creditScoreFactors: {
+                paymentHistory: { score: 76, rating: "GOOD", impact: "high" },
+                amountOfDebt: { score: 64, rating: "FAIR", impact: "high" },
+                lengthOfCreditHistory: { score: 90, rating: "VERY GOOD", impact: "medium", averageAccountAge: 12.8 },
+                amountOfNewCredit: { score: 86, rating: "VERY GOOD", impact: "low", recentInquiries: 0 },
+                creditMix: { score: 83, rating: "VERY GOOD", impact: "low", accountTypes: ["Credit Card", "Business Credit Line", "Mortgage", "Equipment Loan"] }
+              },
+              creditHistory: [
+                { month: "2023-04-01", score: 692 },
+                { month: "2023-05-01", score: 695 },
+                { month: "2023-06-01", score: 688 },
+                { month: "2023-07-01", score: 697 }, 
+                { month: "2023-08-01", score: 700 },
+                { month: "2023-09-01", score: 694 },
+                { month: "2023-10-01", score: 702 },
+                { month: "2023-11-01", score: 705 },
+                { month: "2023-12-01", score: 698 },
+                { month: "2024-01-01", score: 703 },
+                { month: "2024-02-01", score: 706 },
+                { month: "2024-03-01", score: 708 }
+              ]
             },
             transunion: { 
               score: 710, 
               grade: "B",
               lastUpdated: "2024-03-13",
               utilization: { totalCredit: 35000, usedCredit: 8450, utilizationPercentage: 24.1 },
-              paymentHistory: { onTimePercentage: 94, recentLatePayments: 1 }
+              paymentHistory: { onTimePercentage: 94, recentLatePayments: 1 },
+              creditScoreFactors: {
+                paymentHistory: { score: 77, rating: "GOOD", impact: "high" },
+                amountOfDebt: { score: 64, rating: "FAIR", impact: "high" },
+                lengthOfCreditHistory: { score: 91, rating: "VERY GOOD", impact: "medium", averageAccountAge: 12.8 },
+                amountOfNewCredit: { score: 87, rating: "VERY GOOD", impact: "low", recentInquiries: 0 },
+                creditMix: { score: 84, rating: "VERY GOOD", impact: "low", accountTypes: ["Credit Card", "Business Credit Line", "Mortgage", "Equipment Loan"] }
+              },
+              creditHistory: [
+                { month: "2023-04-01", score: 694 },
+                { month: "2023-05-01", score: 697 },
+                { month: "2023-06-01", score: 690 },
+                { month: "2023-07-01", score: 699 }, 
+                { month: "2023-08-01", score: 702 },
+                { month: "2023-09-01", score: 696 },
+                { month: "2023-10-01", score: 704 },
+                { month: "2023-11-01", score: 707 },
+                { month: "2023-12-01", score: 700 },
+                { month: "2024-01-01", score: 705 },
+                { month: "2024-02-01", score: 708 },
+                { month: "2024-03-01", score: 710 }
+              ]
             },
           },
           riskIndicators: {
@@ -865,21 +1054,84 @@ class ApiClient {
               grade: "A",
               lastUpdated: "2024-03-14",
               utilization: { totalCredit: 25000, usedCredit: 3200, utilizationPercentage: 12.8 },
-              paymentHistory: { onTimePercentage: 98, recentLatePayments: 0 }
+              paymentHistory: { onTimePercentage: 98, recentLatePayments: 0 },
+              creditScoreFactors: {
+                paymentHistory: { score: 95, rating: "EXCEPTIONAL", impact: "high" },
+                amountOfDebt: { score: 88, rating: "VERY GOOD", impact: "high" },
+                lengthOfCreditHistory: { score: 75, rating: "GOOD", impact: "medium", averageAccountAge: 5.2 },
+                amountOfNewCredit: { score: 92, rating: "EXCEPTIONAL", impact: "low", recentInquiries: 1 },
+                creditMix: { score: 78, rating: "GOOD", impact: "low", accountTypes: ["Credit Card", "Auto Loan", "Mortgage"] }
+              },
+              creditHistory: [
+                { month: "2023-04-01", score: 738 },
+                { month: "2023-05-01", score: 741 },
+                { month: "2023-06-01", score: 739 },
+                { month: "2023-07-01", score: 743 }, 
+                { month: "2023-08-01", score: 746 },
+                { month: "2023-09-01", score: 744 },
+                { month: "2023-10-01", score: 748 },
+                { month: "2023-11-01", score: 750 },
+                { month: "2023-12-01", score: 747 },
+                { month: "2024-01-01", score: 749 },
+                { month: "2024-02-01", score: 751 },
+                { month: "2024-03-01", score: 752 }
+              ]
             },
             equifax: { 
               score: 745, 
               grade: "A",
               lastUpdated: "2024-03-14",
               utilization: { totalCredit: 25000, usedCredit: 3100, utilizationPercentage: 12.4 },
-              paymentHistory: { onTimePercentage: 98, recentLatePayments: 0 }
+              paymentHistory: { onTimePercentage: 98, recentLatePayments: 0 },
+              creditScoreFactors: {
+                paymentHistory: { score: 94, rating: "VERY GOOD", impact: "high" },
+                amountOfDebt: { score: 87, rating: "VERY GOOD", impact: "high" },
+                lengthOfCreditHistory: { score: 74, rating: "GOOD", impact: "medium", averageAccountAge: 5.2 },
+                amountOfNewCredit: { score: 90, rating: "VERY GOOD", impact: "low", recentInquiries: 1 },
+                creditMix: { score: 76, rating: "GOOD", impact: "low", accountTypes: ["Credit Card", "Auto Loan", "Mortgage"] }
+              },
+              creditHistory: [
+                { month: "2023-04-01", score: 735 },
+                { month: "2023-05-01", score: 738 },
+                { month: "2023-06-01", score: 736 },
+                { month: "2023-07-01", score: 740 }, 
+                { month: "2023-08-01", score: 742 },
+                { month: "2023-09-01", score: 741 },
+                { month: "2023-10-01", score: 744 },
+                { month: "2023-11-01", score: 746 },
+                { month: "2023-12-01", score: 743 },
+                { month: "2024-01-01", score: 744 },
+                { month: "2024-02-01", score: 746 },
+                { month: "2024-03-01", score: 745 }
+              ]
             },
             transunion: { 
               score: 747, 
               grade: "A",
               lastUpdated: "2024-03-14",
               utilization: { totalCredit: 25000, usedCredit: 3150, utilizationPercentage: 12.6 },
-              paymentHistory: { onTimePercentage: 98, recentLatePayments: 0 }
+              paymentHistory: { onTimePercentage: 98, recentLatePayments: 0 },
+              creditScoreFactors: {
+                paymentHistory: { score: 95, rating: "EXCEPTIONAL", impact: "high" },
+                amountOfDebt: { score: 86, rating: "VERY GOOD", impact: "high" },
+                lengthOfCreditHistory: { score: 75, rating: "GOOD", impact: "medium", averageAccountAge: 5.2 },
+                amountOfNewCredit: { score: 91, rating: "VERY GOOD", impact: "low", recentInquiries: 1 },
+                creditMix: { score: 77, rating: "GOOD", impact: "low", accountTypes: ["Credit Card", "Auto Loan", "Mortgage"] }
+              },
+              creditHistory: [
+                { month: "2023-04-01", score: 737 },
+                { month: "2023-05-01", score: 740 },
+                { month: "2023-06-01", score: 738 },
+                { month: "2023-07-01", score: 741 }, 
+                { month: "2023-08-01", score: 744 },
+                { month: "2023-09-01", score: 742 },
+                { month: "2023-10-01", score: 746 },
+                { month: "2023-11-01", score: 748 },
+                { month: "2023-12-01", score: 745 },
+                { month: "2024-01-01", score: 747 },
+                { month: "2024-02-01", score: 749 },
+                { month: "2024-03-01", score: 747 }
+              ]
             },
           },
           riskIndicators: {
@@ -1020,21 +1272,84 @@ class ApiClient {
               grade: "A",
               lastUpdated: "2024-03-15",
               utilization: { totalCredit: 45000, usedCredit: 4500, utilizationPercentage: 10.0 },
-              paymentHistory: { onTimePercentage: 100, recentLatePayments: 0 }
+              paymentHistory: { onTimePercentage: 100, recentLatePayments: 0 },
+              creditScoreFactors: {
+                paymentHistory: { score: 100, rating: "EXCEPTIONAL", impact: "high" },
+                amountOfDebt: { score: 95, rating: "EXCEPTIONAL", impact: "high" },
+                lengthOfCreditHistory: { score: 82, rating: "VERY GOOD", impact: "medium", averageAccountAge: 7.3 },
+                amountOfNewCredit: { score: 85, rating: "VERY GOOD", impact: "low", recentInquiries: 0 },
+                creditMix: { score: 88, rating: "VERY GOOD", impact: "low", accountTypes: ["Credit Card", "Auto Loan", "Mortgage", "Personal Loan"] }
+              },
+              creditHistory: [
+                { month: "2023-04-01", score: 768 },
+                { month: "2023-05-01", score: 771 },
+                { month: "2023-06-01", score: 773 },
+                { month: "2023-07-01", score: 776 }, 
+                { month: "2023-08-01", score: 779 },
+                { month: "2023-09-01", score: 777 },
+                { month: "2023-10-01", score: 781 },
+                { month: "2023-11-01", score: 783 },
+                { month: "2023-12-01", score: 780 },
+                { month: "2024-01-01", score: 782 },
+                { month: "2024-02-01", score: 784 },
+                { month: "2024-03-01", score: 785 }
+              ]
             },
             equifax: { 
               score: 778, 
               grade: "A",
               lastUpdated: "2024-03-15",
               utilization: { totalCredit: 45000, usedCredit: 4600, utilizationPercentage: 10.2 },
-              paymentHistory: { onTimePercentage: 100, recentLatePayments: 0 }
+              paymentHistory: { onTimePercentage: 100, recentLatePayments: 0 },
+              creditScoreFactors: {
+                paymentHistory: { score: 98, rating: "EXCEPTIONAL", impact: "high" },
+                amountOfDebt: { score: 94, rating: "VERY GOOD", impact: "high" },
+                lengthOfCreditHistory: { score: 80, rating: "VERY GOOD", impact: "medium", averageAccountAge: 7.3 },
+                amountOfNewCredit: { score: 83, rating: "VERY GOOD", impact: "low", recentInquiries: 0 },
+                creditMix: { score: 86, rating: "VERY GOOD", impact: "low", accountTypes: ["Credit Card", "Auto Loan", "Mortgage", "Personal Loan"] }
+              },
+              creditHistory: [
+                { month: "2023-04-01", score: 761 },
+                { month: "2023-05-01", score: 764 },
+                { month: "2023-06-01", score: 766 },
+                { month: "2023-07-01", score: 769 }, 
+                { month: "2023-08-01", score: 772 },
+                { month: "2023-09-01", score: 770 },
+                { month: "2023-10-01", score: 774 },
+                { month: "2023-11-01", score: 776 },
+                { month: "2023-12-01", score: 773 },
+                { month: "2024-01-01", score: 775 },
+                { month: "2024-02-01", score: 777 },
+                { month: "2024-03-01", score: 778 }
+              ]
             },
             transunion: { 
               score: 783, 
               grade: "A",
               lastUpdated: "2024-03-15",
               utilization: { totalCredit: 45000, usedCredit: 4550, utilizationPercentage: 10.1 },
-              paymentHistory: { onTimePercentage: 100, recentLatePayments: 0 }
+              paymentHistory: { onTimePercentage: 100, recentLatePayments: 0 },
+              creditScoreFactors: {
+                paymentHistory: { score: 99, rating: "EXCEPTIONAL", impact: "high" },
+                amountOfDebt: { score: 95, rating: "EXCEPTIONAL", impact: "high" },
+                lengthOfCreditHistory: { score: 81, rating: "VERY GOOD", impact: "medium", averageAccountAge: 7.3 },
+                amountOfNewCredit: { score: 84, rating: "VERY GOOD", impact: "low", recentInquiries: 0 },
+                creditMix: { score: 87, rating: "VERY GOOD", impact: "low", accountTypes: ["Credit Card", "Auto Loan", "Mortgage", "Personal Loan"] }
+              },
+              creditHistory: [
+                { month: "2023-04-01", score: 766 },
+                { month: "2023-05-01", score: 769 },
+                { month: "2023-06-01", score: 771 },
+                { month: "2023-07-01", score: 774 }, 
+                { month: "2023-08-01", score: 777 },
+                { month: "2023-09-01", score: 775 },
+                { month: "2023-10-01", score: 779 },
+                { month: "2023-11-01", score: 781 },
+                { month: "2023-12-01", score: 778 },
+                { month: "2024-01-01", score: 780 },
+                { month: "2024-02-01", score: 782 },
+                { month: "2024-03-01", score: 783 }
+              ]
             },
           },
           riskIndicators: {
@@ -1056,41 +1371,7 @@ class ApiClient {
               openedDate: "2020-01-10",
               currency: "USD",
               transactions: [],
-              monthlyBalances: [
-                { month: "2024-01", balance: 14200.00 },
-                { month: "2024-02", balance: 15100.00 },
-                { month: "2024-03", balance: 15750.00 }
-              ],
-            },
-            {
-              accountId: "acc_rc_savings",
-              accountType: "savings",
-              accountNumber: "****9012",
-              balance: 85000.00,
-              bankName: "Bank of America",
-              openedDate: "2020-01-10",
-              currency: "USD",
-              transactions: [],
-              monthlyBalances: [
-                { month: "2024-01", balance: 82000.00 },
-                { month: "2024-02", balance: 83500.00 },
-                { month: "2024-03", balance: 85000.00 }
-              ],
-            },
-            {
-              accountId: "acc_rc_investment",
-              accountType: "investment",
-              accountNumber: "****3456",
-              balance: 25000.00,
-              bankName: "Fidelity",
-              openedDate: "2022-06-15",
-              currency: "USD",
-              transactions: [],
-              monthlyBalances: [
-                { month: "2024-01", balance: 23500.00 },
-                { month: "2024-02", balance: 24200.00 },
-                { month: "2024-03", balance: 25000.00 }
-              ],
+              monthlyBalances: [],
             }
           ],
           transactionAnalysis: {
@@ -1103,35 +1384,7 @@ class ApiClient {
                 percentage: 41.2,
                 transactionCount: 18,
                 trend: "stable",
-                monthlyData: [
-                  { month: "2024-01", amount: 2800 },
-                  { month: "2024-02", amount: 2800 },
-                  { month: "2024-03", amount: 2800 }
-                ]
-              },
-              { 
-                category: "Transportation", 
-                amount: 1200, 
-                percentage: 17.6,
-                transactionCount: 8,
-                trend: "stable",
-                monthlyData: [
-                  { month: "2024-01", amount: 1150 },
-                  { month: "2024-02", amount: 1200 },
-                  { month: "2024-03", amount: 1250 }
-                ]
-              },
-              { 
-                category: "Technology", 
-                amount: 800, 
-                percentage: 11.8,
-                transactionCount: 15,
-                trend: "increasing",
-                monthlyData: [
-                  { month: "2024-01", amount: 650 },
-                  { month: "2024-02", amount: 725 },
-                  { month: "2024-03", amount: 800 }
-                ]
+                monthlyData: []
               }
             ],
             incomeStreams: [
@@ -1150,12 +1403,6 @@ class ApiClient {
                 frequency: "monthly",
                 averageAmount: 2800,
                 category: "Housing"
-              },
-              { 
-                merchant: "Tesla Payment",
-                frequency: "monthly",
-                averageAmount: 850,
-                category: "Transportation"
               }
             ],
           },
@@ -1190,21 +1437,84 @@ class ApiClient {
               grade: "B",
               lastUpdated: "2024-03-13",
               utilization: { totalCredit: 35000, usedCredit: 8500, utilizationPercentage: 24.3 },
-              paymentHistory: { onTimePercentage: 94, recentLatePayments: 1 }
+              paymentHistory: { onTimePercentage: 94, recentLatePayments: 1 },
+              creditScoreFactors: {
+                paymentHistory: { score: 78, rating: "GOOD", impact: "high" },
+                amountOfDebt: { score: 65, rating: "FAIR", impact: "high" },
+                lengthOfCreditHistory: { score: 92, rating: "EXCEPTIONAL", impact: "medium", averageAccountAge: 12.8 },
+                amountOfNewCredit: { score: 88, rating: "VERY GOOD", impact: "low", recentInquiries: 0 },
+                creditMix: { score: 85, rating: "VERY GOOD", impact: "low", accountTypes: ["Credit Card", "Business Credit Line", "Mortgage", "Equipment Loan"] }
+              },
+              creditHistory: [
+                { month: "2023-04-01", score: 702 },
+                { month: "2023-05-01", score: 705 },
+                { month: "2023-06-01", score: 698 },
+                { month: "2023-07-01", score: 707 }, 
+                { month: "2023-08-01", score: 710 },
+                { month: "2023-09-01", score: 704 },
+                { month: "2023-10-01", score: 712 },
+                { month: "2023-11-01", score: 715 },
+                { month: "2023-12-01", score: 708 },
+                { month: "2024-01-01", score: 713 },
+                { month: "2024-02-01", score: 716 },
+                { month: "2024-03-01", score: 718 }
+              ]
             },
             equifax: { 
               score: 708, 
               grade: "B",
               lastUpdated: "2024-03-13",
               utilization: { totalCredit: 35000, usedCredit: 8400, utilizationPercentage: 24.0 },
-              paymentHistory: { onTimePercentage: 94, recentLatePayments: 1 }
+              paymentHistory: { onTimePercentage: 94, recentLatePayments: 1 },
+              creditScoreFactors: {
+                paymentHistory: { score: 76, rating: "GOOD", impact: "high" },
+                amountOfDebt: { score: 64, rating: "FAIR", impact: "high" },
+                lengthOfCreditHistory: { score: 90, rating: "VERY GOOD", impact: "medium", averageAccountAge: 12.8 },
+                amountOfNewCredit: { score: 86, rating: "VERY GOOD", impact: "low", recentInquiries: 0 },
+                creditMix: { score: 83, rating: "VERY GOOD", impact: "low", accountTypes: ["Credit Card", "Business Credit Line", "Mortgage", "Equipment Loan"] }
+              },
+              creditHistory: [
+                { month: "2023-04-01", score: 692 },
+                { month: "2023-05-01", score: 695 },
+                { month: "2023-06-01", score: 688 },
+                { month: "2023-07-01", score: 697 }, 
+                { month: "2023-08-01", score: 700 },
+                { month: "2023-09-01", score: 694 },
+                { month: "2023-10-01", score: 702 },
+                { month: "2023-11-01", score: 705 },
+                { month: "2023-12-01", score: 698 },
+                { month: "2024-01-01", score: 703 },
+                { month: "2024-02-01", score: 706 },
+                { month: "2024-03-01", score: 708 }
+              ]
             },
             transunion: { 
               score: 710, 
               grade: "B",
               lastUpdated: "2024-03-13",
               utilization: { totalCredit: 35000, usedCredit: 8450, utilizationPercentage: 24.1 },
-              paymentHistory: { onTimePercentage: 94, recentLatePayments: 1 }
+              paymentHistory: { onTimePercentage: 94, recentLatePayments: 1 },
+              creditScoreFactors: {
+                paymentHistory: { score: 77, rating: "GOOD", impact: "high" },
+                amountOfDebt: { score: 64, rating: "FAIR", impact: "high" },
+                lengthOfCreditHistory: { score: 91, rating: "VERY GOOD", impact: "medium", averageAccountAge: 12.8 },
+                amountOfNewCredit: { score: 87, rating: "VERY GOOD", impact: "low", recentInquiries: 0 },
+                creditMix: { score: 84, rating: "VERY GOOD", impact: "low", accountTypes: ["Credit Card", "Business Credit Line", "Mortgage", "Equipment Loan"] }
+              },
+              creditHistory: [
+                { month: "2023-04-01", score: 694 },
+                { month: "2023-05-01", score: 697 },
+                { month: "2023-06-01", score: 690 },
+                { month: "2023-07-01", score: 699 }, 
+                { month: "2023-08-01", score: 702 },
+                { month: "2023-09-01", score: 696 },
+                { month: "2023-10-01", score: 704 },
+                { month: "2023-11-01", score: 707 },
+                { month: "2023-12-01", score: 700 },
+                { month: "2024-01-01", score: 705 },
+                { month: "2024-02-01", score: 708 },
+                { month: "2024-03-01", score: 710 }
+              ]
             },
           },
           riskIndicators: {
@@ -1226,41 +1536,7 @@ class ApiClient {
               openedDate: "2018-06-20",
               currency: "USD",
               transactions: [],
-              monthlyBalances: [
-                { month: "2024-01", balance: 38500.25 },
-                { month: "2024-02", balance: 41800.75 },
-                { month: "2024-03", balance: 45200.50 }
-              ],
-            },
-            {
-              accountId: "acc_mt_savings",
-              accountType: "savings",
-              accountNumber: "****3456",
-              balance: 132100.00,
-              bankName: "Wells Fargo",
-              openedDate: "2018-06-20",
-              currency: "USD",
-              transactions: [],
-              monthlyBalances: [
-                { month: "2024-01", balance: 128900.00 },
-                { month: "2024-02", balance: 130500.00 },
-                { month: "2024-03", balance: 132100.00 }
-              ],
-            },
-            {
-              accountId: "acc_mt_checking_personal",
-              accountType: "checking",
-              accountNumber: "****7890",
-              balance: 8900.00,
-              bankName: "Wells Fargo",
-              openedDate: "2018-06-20",
-              currency: "USD",
-              transactions: [],
-              monthlyBalances: [
-                { month: "2024-01", balance: 7200.00 },
-                { month: "2024-02", balance: 8100.00 },
-                { month: "2024-03", balance: 8900.00 }
-              ],
+              monthlyBalances: [],
             }
           ],
           transactionAnalysis: {
@@ -1273,35 +1549,7 @@ class ApiClient {
                 percentage: 36.0,
                 transactionCount: 45,
                 trend: "increasing",
-                monthlyData: [
-                  { month: "2024-01", amount: 2800 },
-                  { month: "2024-02", amount: 3000 },
-                  { month: "2024-03", amount: 3200 }
-                ]
-              },
-              { 
-                category: "Housing", 
-                amount: 2100, 
-                percentage: 23.6,
-                transactionCount: 12,
-                trend: "stable",
-                monthlyData: [
-                  { month: "2024-01", amount: 2100 },
-                  { month: "2024-02", amount: 2100 },
-                  { month: "2024-03", amount: 2100 }
-                ]
-              },
-              { 
-                category: "Transportation", 
-                amount: 1800, 
-                percentage: 20.2,
-                transactionCount: 22,
-                trend: "stable",
-                monthlyData: [
-                  { month: "2024-01", amount: 1750 },
-                  { month: "2024-02", amount: 1820 },
-                  { month: "2024-03", amount: 1800 }
-                ]
+                monthlyData: []
               }
             ],
             incomeStreams: [
@@ -1319,12 +1567,6 @@ class ApiClient {
                 merchant: "Business Loan",
                 frequency: "monthly",
                 averageAmount: 2100,
-                category: "Business"
-              },
-              { 
-                merchant: "Equipment Lease",
-                frequency: "monthly",
-                averageAmount: 850,
                 category: "Business"
               }
             ],

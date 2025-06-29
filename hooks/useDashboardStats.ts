@@ -3,19 +3,30 @@
 import { useState, useEffect } from "react"
 
 interface DashboardStats {
-  totalVerifications: number
-  pendingReviews: number
-  activeVerifications: number
-  completionRate: number
+  // Verification Status Overview
+  sentWaiting: number
+  completedReady: number
+  weekSent: number
+  expiredFailed: number
+  
+  // Productivity Metrics
+  successRate: number
+  avgCompletionTime: string
+  weekCompleted: number
+  
   trends: {
-    verifications: { value: number; direction: "up" | "down" | "neutral" }
-    completionRate: { value: number; direction: "up" | "down" | "neutral" }
+    sentWaiting: { value: number; direction: "up" | "down" | "neutral" }
+    completedReady: { value: number; direction: "up" | "down" | "neutral" }
+    weekSent: { value: number; direction: "up" | "down" | "neutral" }
+    successRate: { value: number; direction: "up" | "down" | "neutral" }
+    avgCompletionTime: { value: number; direction: "up" | "down" | "neutral" }
+    weekCompleted: { value: number; direction: "up" | "down" | "neutral" }
   }
 }
 
 interface ActivityItem {
   id: string
-  type: "verification_sent" | "verification_completed" | "customer_registered"
+  type: "verification_sent" | "verification_completed" | "verification_expiring"
   title: string
   description: string
   timestamp: string
@@ -35,55 +46,84 @@ export function useDashboardStats() {
     setError(null)
 
     try {
-      // In a real app, these would be actual API calls
-      // For now, we'll use mock data
-
       // Simulate API delay
       await new Promise((resolve) => setTimeout(resolve, 1000))
 
-      // Mock stats data
+      // Mock stats data focused on verification workflow
       const mockStats: DashboardStats = {
-        totalVerifications: 1247,
-        pendingReviews: 23,
-        activeVerifications: 45,
-        completionRate: 87,
+        // Verification Status Overview
+        sentWaiting: 23,      // Sent but not completed yet
+        completedReady: 12,   // Completed and ready to view data
+        weekSent: 87,         // Sent this week
+        expiredFailed: 5,     // Expired or failed
+        
+        // Productivity Metrics
+        successRate: 73,                // % of sent that get completed
+        avgCompletionTime: "6.2 hours", // How long customers take
+        weekCompleted: 64,              // Completed this week
+        
         trends: {
-          verifications: { value: 12, direction: "up" },
-          completionRate: { value: 3, direction: "up" },
-        },
+          sentWaiting: { value: 15, direction: "up" },
+          completedReady: { value: 8, direction: "up" },
+          weekSent: { value: 12, direction: "up" },
+          successRate: { value: 5, direction: "up" },
+          avgCompletionTime: { value: -18, direction: "up" }, // Negative is good (faster)
+          weekCompleted: { value: 22, direction: "up" }
+        }
       }
 
-      // Mock activity data
+      // Mock activity data focused on verification workflow
       const mockActivities: ActivityItem[] = [
         {
           id: "1",
           type: "verification_completed",
           title: "Verification Completed",
-          description: "Bank account verification successfully completed",
+          description: "Customer completed bank account verification",
           timestamp: new Date(Date.now() - 1000 * 60 * 15).toISOString(), // 15 minutes ago
           status: "completed",
-          customerName: "John Smith",
-          href: "/admin/verifications/1",
+          customerName: "Sarah Johnson",
+          href: "/admin/customers/cust_001",
         },
         {
-          id: "2",
+          id: "2", 
+          type: "verification_completed",
+          title: "Verification Completed",
+          description: "Customer completed bank account verification",
+          timestamp: new Date(Date.now() - 1000 * 60 * 45).toISOString(), // 45 minutes ago
+          status: "completed",
+          customerName: "Michael Chen",
+          href: "/admin/customers/cust_002",
+        },
+        {
+          id: "3",
           type: "verification_sent",
           title: "Verification Sent",
           description: "New verification request sent to customer",
           timestamp: new Date(Date.now() - 1000 * 60 * 30).toISOString(), // 30 minutes ago
           status: "sent",
-          customerName: "Sarah Johnson",
-          href: "/admin/verifications/2",
+          customerName: "Jessica Williams",
+          href: "/admin/verifications/ver_003",
         },
         {
-          id: "3",
-          type: "customer_registered",
-          title: "New Customer",
-          description: "Customer profile created and verified",
+          id: "4",
+          type: "verification_sent", 
+          title: "Verification Sent",
+          description: "New verification request sent to customer",
           timestamp: new Date(Date.now() - 1000 * 60 * 60).toISOString(), // 1 hour ago
-          customerName: "Mike Davis",
-          href: "/admin/customers/3",
+          status: "sent",
+          customerName: "David Rodriguez",
+          href: "/admin/verifications/ver_004",
         },
+        {
+          id: "5",
+          type: "verification_expiring",
+          title: "Verification Expiring",
+          description: "Verification request expires in 2 days",
+          timestamp: new Date(Date.now() - 1000 * 60 * 60 * 2).toISOString(), // 2 hours ago
+          status: "expiring",
+          customerName: "Emily Thompson",
+          href: "/admin/verifications/ver_005",
+        }
       ]
 
       setStats(mockStats)

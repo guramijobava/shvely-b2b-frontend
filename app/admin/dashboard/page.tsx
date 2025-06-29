@@ -1,11 +1,14 @@
 "use client"
 
-import { StatsCard } from "@/components/admin/dashboard/StatsCard"
-import { RecentActivity } from "@/components/admin/dashboard/RecentActivity"
 import { useDashboardStats } from "@/hooks/useDashboardStats"
 import { Button } from "@/components/ui/button"
 import { RefreshCw, Plus } from "lucide-react"
-import { FileCheck, Clock, CheckCircle, TrendingUp } from "lucide-react"
+import { ProductivityMetrics } from "@/components/admin/dashboard/ProductivityMetrics"
+import { RecentActivity } from "@/components/admin/dashboard/RecentActivity"
+import { VerificationTrendsChart } from "@/components/admin/dashboard/VerificationTrendsChart"
+import { StatusDistributionChart } from "@/components/admin/dashboard/StatusDistributionChart"
+import { VolumeComparisonChart } from "@/components/admin/dashboard/VolumeComparisonChart"
+import { WeeklyActivityChart } from "@/components/admin/dashboard/WeeklyActivityChart"
 import Link from "next/link"
 
 export default function DashboardPage() {
@@ -20,21 +23,21 @@ export default function DashboardPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
+          <h1 className="text-3xl font-bold text-gray-900">Verification Dashboard</h1>
           <p className="text-muted-foreground">
-            Welcome back! Here's what's happening with your verification platform.
+            Manage bank verification requests and track customer completion status.
           </p>
         </div>
         <div className="flex items-center space-x-3">
-          <Button variant="outline" onClick={handleRefresh} disabled={isLoading}>
-            <RefreshCw className={`h-4 w-4 mr-2 ${isLoading ? "animate-spin" : ""}`} />
-            Refresh
-          </Button>
           <Button asChild>
-            <Link href="/admin/verifications/new">
+            <Link href="/admin/verifications/send">
               <Plus className="h-4 w-4 mr-2" />
               New Verification
             </Link>
+          </Button>
+          <Button variant="outline" onClick={handleRefresh} disabled={isLoading}>
+            <RefreshCw className={`h-4 w-4 mr-2 ${isLoading ? "animate-spin" : ""}`} />
+            Refresh
           </Button>
         </div>
       </div>
@@ -49,54 +52,19 @@ export default function DashboardPage() {
         </div>
       )}
 
-      {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <StatsCard
-          title="Total Verifications"
-          value={stats?.totalVerifications || 0}
-          icon={FileCheck}
-          trend={{
-            value: stats?.trends.verifications.value || 0,
-            label: "from last month",
-            direction: stats?.trends.verifications.direction || "neutral",
-          }}
-          isLoading={isLoading}
-          onClick={() => (window.location.href = "/admin/verifications")}
-        />
-
-        <StatsCard
-          title="Pending Reviews"
-          value={stats?.pendingReviews || 0}
-          icon={Clock}
-          isLoading={isLoading}
-          onClick={() => (window.location.href = "/admin/verifications?status=pending")}
-        />
-
-        <StatsCard
-          title="Active Verifications"
-          value={stats?.activeVerifications || 0}
-          icon={TrendingUp}
-          isLoading={isLoading}
-          onClick={() => (window.location.href = "/admin/verifications?status=in_progress")}
-        />
-
-        <StatsCard
-          title="Completion Rate"
-          value={stats ? `${stats.completionRate}%` : "0%"}
-          icon={CheckCircle}
-          trend={{
-            value: stats?.trends.completionRate.value || 0,
-            label: "from last month",
-            direction: stats?.trends.completionRate.direction || "neutral",
-          }}
-          isLoading={isLoading}
-        />
+      {/* Charts Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <VerificationTrendsChart isLoading={isLoading} />
+        <StatusDistributionChart stats={stats} isLoading={isLoading} />
+        <VolumeComparisonChart isLoading={isLoading} />
+        <WeeklyActivityChart isLoading={isLoading} />
       </div>
 
-      {/* Recent Activity - Full Width */}
-      <div className="w-full">
-        <RecentActivity activities={activities} isLoading={isLoading} />
-      </div>
+      {/* Simple Productivity Metrics */}
+      <ProductivityMetrics stats={stats} isLoading={isLoading} />
+
+      {/* Recent Activity */}
+      <RecentActivity activities={activities} isLoading={isLoading} />
     </div>
   )
 }

@@ -7,12 +7,12 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { LoadingSpinner } from "@/components/shared/LoadingSpinner"
 import { EmptyState } from "@/components/shared/EmptyState"
 import { formatRelativeTime, getStatusBadgeVariant } from "@/lib/utils"
-import { FileCheck, Users, Clock, ExternalLink } from "lucide-react"
+import { CheckCircle, Send, Clock, ExternalLink, AlertTriangle, Eye } from "lucide-react"
 import Link from "next/link"
 
 interface ActivityItem {
   id: string
-  type: "verification_sent" | "verification_completed" | "customer_registered"
+  type: "verification_sent" | "verification_completed" | "verification_expiring"
   title: string
   description: string
   timestamp: string
@@ -30,11 +30,11 @@ export function RecentActivity({ activities = [], isLoading = false }: RecentAct
   const getActivityIcon = (type: string) => {
     switch (type) {
       case "verification_sent":
-        return <FileCheck className="h-4 w-4 text-blue-600" />
+        return <Send className="h-4 w-4 text-blue-600" />
       case "verification_completed":
-        return <FileCheck className="h-4 w-4 text-green-600" />
-      case "customer_registered":
-        return <Users className="h-4 w-4 text-purple-600" />
+        return <CheckCircle className="h-4 w-4 text-green-600" />
+      case "verification_expiring":
+        return <AlertTriangle className="h-4 w-4 text-orange-600" />
       default:
         return <Clock className="h-4 w-4 text-gray-600" />
     }
@@ -64,73 +64,137 @@ export function RecentActivity({ activities = [], isLoading = false }: RecentAct
   }
 
   return (
-    <Card>
-      <CardHeader className="flex flex-row items-center justify-between">
-        <CardTitle>Recent Activity</CardTitle>
-        <Button variant="outline" size="sm" asChild>
-          <Link href="/admin/activity">
-            View All
-            <ExternalLink className="ml-2 h-4 w-4" />
-          </Link>
-        </Button>
-      </CardHeader>
-      <CardContent>
-        {activities.length === 0 ? (
-          <EmptyState
-            icon={Clock}
-            title="No recent activity"
-            description="Activity will appear here as verifications are processed and customers interact with the system."
-          />
-        ) : (
-          <div className="space-y-4">
-            {activities.map((activity) => (
-              <div
-                key={activity.id}
-                className="flex items-start space-x-4 p-3 rounded-lg hover:bg-gray-50 transition-colors"
-              >
-                <div className="flex-shrink-0 mt-1">{getActivityIcon(activity.type)}</div>
-
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center justify-between">
-                    <p className="text-sm font-medium text-gray-900">{activity.title}</p>
-                    <span className="text-xs text-muted-foreground">{formatRelativeTime(activity.timestamp)}</span>
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      {/* Just Completed */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center space-x-2">
+            <CheckCircle className="h-5 w-5 text-green-600" />
+            <span>Just Completed</span>
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          {activities.filter(a => a.type === "verification_completed").length === 0 ? (
+            <EmptyState
+              icon={CheckCircle}
+              title="No recent completions"
+              description="Completed verifications will appear here."
+            />
+          ) : (
+            <div className="space-y-3">
+              {activities
+                .filter(a => a.type === "verification_completed")
+                .slice(0, 3)
+                .map((activity) => (
+                <div key={activity.id} className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors">
+                  <Avatar className="h-8 w-8">
+                    <AvatarImage src="/placeholder.svg" alt={activity.customerName} />
+                    <AvatarFallback className="text-xs bg-green-100 text-green-700">
+                      {getCustomerInitials(activity.customerName || "")}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium text-gray-900">{activity.customerName}</p>
+                    <p className="text-xs text-muted-foreground">{formatRelativeTime(activity.timestamp)}</p>
                   </div>
-
-                  <p className="text-sm text-muted-foreground mt-1">{activity.description}</p>
-
-                  <div className="flex items-center space-x-3 mt-2">
-                    {activity.customerName && (
-                      <div className="flex items-center space-x-2">
-                        <Avatar className="h-6 w-6">
-                          <AvatarImage src="/placeholder.svg" alt={activity.customerName} />
-                          <AvatarFallback className="text-xs">
-                            {getCustomerInitials(activity.customerName)}
-                          </AvatarFallback>
-                        </Avatar>
-                        <span className="text-xs text-muted-foreground">{activity.customerName}</span>
-                      </div>
-                    )}
-
-                    {activity.status && (
-                      <Badge variant={getStatusBadgeVariant(activity.status)} className="text-xs">
-                        {activity.status.replace("_", " ")}
-                      </Badge>
-                    )}
-
-                    {activity.href && (
-                      <Button variant="ghost" size="sm" asChild>
-                        <Link href={activity.href} className="text-xs">
-                          View Details
-                        </Link>
-                      </Button>
-                    )}
-                  </div>
+                  <Button size="sm" variant="outline" asChild>
+                    <Link href={activity.href || "#"}>
+                      <Eye className="h-3 w-3 mr-1" />
+                      View Data
+                    </Link>
+                  </Button>
                 </div>
-              </div>
-            ))}
-          </div>
-        )}
-      </CardContent>
-    </Card>
+              ))}
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
+      {/* Recently Sent */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center space-x-2">
+            <Send className="h-5 w-5 text-blue-600" />
+            <span>Recently Sent</span>
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          {activities.filter(a => a.type === "verification_sent").length === 0 ? (
+            <EmptyState
+              icon={Send}
+              title="No recent sends"
+              description="Recently sent verifications will appear here."
+            />
+          ) : (
+            <div className="space-y-3">
+              {activities
+                .filter(a => a.type === "verification_sent")
+                .slice(0, 3)
+                .map((activity) => (
+                <div key={activity.id} className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors">
+                  <Avatar className="h-8 w-8">
+                    <AvatarImage src="/placeholder.svg" alt={activity.customerName} />
+                    <AvatarFallback className="text-xs bg-blue-100 text-blue-700">
+                      {getCustomerInitials(activity.customerName || "")}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium text-gray-900">{activity.customerName}</p>
+                    <p className="text-xs text-muted-foreground">{formatRelativeTime(activity.timestamp)}</p>
+                  </div>
+                  <Badge variant={getStatusBadgeVariant(activity.status || "")} className="text-xs">
+                    {activity.status === "sent" ? "Waiting" : activity.status}
+                  </Badge>
+                </div>
+              ))}
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
+      {/* Expiring Soon */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center space-x-2">
+            <AlertTriangle className="h-5 w-5 text-orange-600" />
+            <span>Expiring Soon</span>
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          {activities.filter(a => a.type === "verification_expiring").length === 0 ? (
+            <EmptyState
+              icon={Clock}
+              title="No expiring requests"
+              description="Verifications nearing expiration will appear here."
+            />
+          ) : (
+            <div className="space-y-3">
+              {activities
+                .filter(a => a.type === "verification_expiring")
+                .slice(0, 3)
+                .map((activity) => (
+                <div key={activity.id} className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors">
+                  <Avatar className="h-8 w-8">
+                    <AvatarImage src="/placeholder.svg" alt={activity.customerName} />
+                    <AvatarFallback className="text-xs bg-orange-100 text-orange-700">
+                      {getCustomerInitials(activity.customerName || "")}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium text-gray-900">{activity.customerName}</p>
+                    <p className="text-xs text-muted-foreground">Expires in 2 days</p>
+                  </div>
+                  <Button size="sm" variant="outline" asChild>
+                    <Link href={activity.href || "#"}>
+                      Remind
+                    </Link>
+                  </Button>
+                </div>
+              ))}
+            </div>
+          )}
+        </CardContent>
+      </Card>
+    </div>
   )
 }

@@ -106,6 +106,40 @@ export interface CreditBureauReport {
     onTimePercentage: number
     recentLatePayments: number
   }
+  creditScoreFactors?: {
+    paymentHistory: {
+      score: number
+      rating: "POOR" | "FAIR" | "GOOD" | "VERY GOOD" | "EXCEPTIONAL"
+      impact: "high" | "medium" | "low"
+    }
+    amountOfDebt: {
+      score: number
+      rating: "POOR" | "FAIR" | "GOOD" | "VERY GOOD" | "EXCEPTIONAL"
+      impact: "high" | "medium" | "low"
+    }
+    lengthOfCreditHistory: {
+      score: number
+      rating: "POOR" | "FAIR" | "GOOD" | "VERY GOOD" | "EXCEPTIONAL"
+      impact: "high" | "medium" | "low"
+      averageAccountAge: number // in years
+    }
+    amountOfNewCredit: {
+      score: number
+      rating: "POOR" | "FAIR" | "GOOD" | "VERY GOOD" | "EXCEPTIONAL"
+      impact: "high" | "medium" | "low"
+      recentInquiries: number
+    }
+    creditMix: {
+      score: number
+      rating: "POOR" | "FAIR" | "GOOD" | "VERY GOOD" | "EXCEPTIONAL"
+      impact: "high" | "medium" | "low"
+      accountTypes: string[]
+    }
+  }
+  creditHistory?: {
+    month: string
+    score: number
+  }[]
 }
 
 export interface CreditSummary {

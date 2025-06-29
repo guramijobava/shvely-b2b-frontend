@@ -1127,7 +1127,50 @@ class ApiClient {
           paymentHistory: {
             onTimePercentage: 98,
             recentLatePayments: 0
-          }
+          },
+          creditScoreFactors: {
+            paymentHistory: {
+              score: 92,
+              rating: "VERY GOOD",
+              impact: "high"
+            },
+            amountOfDebt: {
+              score: 88,
+              rating: "VERY GOOD",
+              impact: "high"
+            },
+            lengthOfCreditHistory: {
+              score: 85,
+              rating: "GOOD",
+              impact: "medium",
+              averageAccountAge: 8.5
+            },
+            amountOfNewCredit: {
+              score: 90,
+              rating: "VERY GOOD",
+              impact: "low",
+              recentInquiries: 1
+            },
+            creditMix: {
+              score: 80,
+              rating: "GOOD",
+              impact: "low",
+              accountTypes: ["Credit Cards", "Auto Loan", "Mortgage"]
+            }
+          },
+          creditHistory: [
+            { month: "2023-03-01", score: 735 },
+            { month: "2023-04-01", score: 738 },
+            { month: "2023-05-01", score: 741 },
+            { month: "2023-06-01", score: 744 },
+            { month: "2023-07-01", score: 746 },
+            { month: "2023-08-01", score: 748 },
+            { month: "2023-09-01", score: 745 },
+            { month: "2023-10-01", score: 747 },
+            { month: "2023-11-01", score: 749 },
+            { month: "2023-12-01", score: 750 },
+            { month: "2024-01-01", score: 750 }
+          ]
         },
         experian: {
           score: 752,
@@ -1141,7 +1184,50 @@ class ApiClient {
           paymentHistory: {
             onTimePercentage: 98,
             recentLatePayments: 0
-          }
+          },
+          creditScoreFactors: {
+            paymentHistory: {
+              score: 93,
+              rating: "VERY GOOD",
+              impact: "high"
+            },
+            amountOfDebt: {
+              score: 89,
+              rating: "VERY GOOD",
+              impact: "high"
+            },
+            lengthOfCreditHistory: {
+              score: 87,
+              rating: "GOOD",
+              impact: "medium",
+              averageAccountAge: 9.2
+            },
+            amountOfNewCredit: {
+              score: 91,
+              rating: "VERY GOOD",
+              impact: "low",
+              recentInquiries: 1
+            },
+            creditMix: {
+              score: 82,
+              rating: "GOOD",
+              impact: "low",
+              accountTypes: ["Credit Cards", "Auto Loan", "Mortgage", "Personal Loan"]
+            }
+          },
+          creditHistory: [
+            { month: "2023-03-01", score: 737 },
+            { month: "2023-04-01", score: 740 },
+            { month: "2023-05-01", score: 743 },
+            { month: "2023-06-01", score: 746 },
+            { month: "2023-07-01", score: 748 },
+            { month: "2023-08-01", score: 750 },
+            { month: "2023-09-01", score: 747 },
+            { month: "2023-10-01", score: 749 },
+            { month: "2023-11-01", score: 751 },
+            { month: "2023-12-01", score: 752 },
+            { month: "2024-01-01", score: 752 }
+          ]
         },
         transunion: {
           score: 738,
@@ -1155,7 +1241,50 @@ class ApiClient {
           paymentHistory: {
             onTimePercentage: 96,
             recentLatePayments: 1
-          }
+          },
+          creditScoreFactors: {
+            paymentHistory: {
+              score: 88,
+              rating: "GOOD",
+              impact: "high"
+            },
+            amountOfDebt: {
+              score: 87,
+              rating: "GOOD",
+              impact: "high"
+            },
+            lengthOfCreditHistory: {
+              score: 83,
+              rating: "GOOD",
+              impact: "medium",
+              averageAccountAge: 7.8
+            },
+            amountOfNewCredit: {
+              score: 89,
+              rating: "VERY GOOD",
+              impact: "low",
+              recentInquiries: 1
+            },
+            creditMix: {
+              score: 78,
+              rating: "FAIR",
+              impact: "low",
+              accountTypes: ["Credit Cards", "Auto Loan"]
+            }
+          },
+          creditHistory: [
+            { month: "2023-03-01", score: 723 },
+            { month: "2023-04-01", score: 726 },
+            { month: "2023-05-01", score: 729 },
+            { month: "2023-06-01", score: 732 },
+            { month: "2023-07-01", score: 734 },
+            { month: "2023-08-01", score: 736 },
+            { month: "2023-09-01", score: 730 },
+            { month: "2023-10-01", score: 733 },
+            { month: "2023-11-01", score: 735 },
+            { month: "2023-12-01", score: 737 },
+            { month: "2024-01-01", score: 738 }
+          ]
         },
         summary: {
           averageScore: 745,
@@ -1253,7 +1382,50 @@ class ApiClient {
           paymentHistory: {
             onTimePercentage: 78,
             recentLatePayments: 3
-          }
+          },
+          creditScoreFactors: {
+            paymentHistory: {
+              score: 65,
+              rating: "FAIR",
+              impact: "high"
+            },
+            amountOfDebt: {
+              score: 45,
+              rating: "POOR",
+              impact: "high"
+            },
+            lengthOfCreditHistory: {
+              score: 70,
+              rating: "FAIR",
+              impact: "medium",
+              averageAccountAge: 4.2
+            },
+            amountOfNewCredit: {
+              score: 60,
+              rating: "FAIR",
+              impact: "low",
+              recentInquiries: 5
+            },
+            creditMix: {
+              score: 55,
+              rating: "POOR",
+              impact: "low",
+              accountTypes: ["Credit Cards"]
+            }
+          },
+          creditHistory: [
+            { month: "2023-03-01", score: 650 },
+            { month: "2023-04-01", score: 645 },
+            { month: "2023-05-01", score: 635 },
+            { month: "2023-06-01", score: 625 },
+            { month: "2023-07-01", score: 615 },
+            { month: "2023-08-01", score: 605 },
+            { month: "2023-09-01", score: 610 },
+            { month: "2023-10-01", score: 615 },
+            { month: "2023-11-01", score: 618 },
+            { month: "2023-12-01", score: 620 },
+            { month: "2024-01-01", score: 620 }
+          ]
         },
         experian: {
           score: 595,
@@ -1267,7 +1439,50 @@ class ApiClient {
           paymentHistory: {
             onTimePercentage: 72,
             recentLatePayments: 4
-          }
+          },
+          creditScoreFactors: {
+            paymentHistory: {
+              score: 58,
+              rating: "POOR",
+              impact: "high"
+            },
+            amountOfDebt: {
+              score: 42,
+              rating: "POOR",
+              impact: "high"
+            },
+            lengthOfCreditHistory: {
+              score: 68,
+              rating: "FAIR",
+              impact: "medium",
+              averageAccountAge: 3.8
+            },
+            amountOfNewCredit: {
+              score: 55,
+              rating: "POOR",
+              impact: "low",
+              recentInquiries: 6
+            },
+            creditMix: {
+              score: 52,
+              rating: "POOR",
+              impact: "low",
+              accountTypes: ["Credit Cards"]
+            }
+          },
+          creditHistory: [
+            { month: "2023-03-01", score: 625 },
+            { month: "2023-04-01", score: 620 },
+            { month: "2023-05-01", score: 610 },
+            { month: "2023-06-01", score: 600 },
+            { month: "2023-07-01", score: 590 },
+            { month: "2023-08-01", score: 580 },
+            { month: "2023-09-01", score: 585 },
+            { month: "2023-10-01", score: 590 },
+            { month: "2023-11-01", score: 593 },
+            { month: "2023-12-01", score: 595 },
+            { month: "2024-01-01", score: 595 }
+          ]
         },
         transunion: {
           score: 648,
@@ -1281,7 +1496,50 @@ class ApiClient {
           paymentHistory: {
             onTimePercentage: 81,
             recentLatePayments: 2
-          }
+          },
+          creditScoreFactors: {
+            paymentHistory: {
+              score: 72,
+              rating: "FAIR",
+              impact: "high"
+            },
+            amountOfDebt: {
+              score: 48,
+              rating: "POOR",
+              impact: "high"
+            },
+            lengthOfCreditHistory: {
+              score: 75,
+              rating: "FAIR",
+              impact: "medium",
+              averageAccountAge: 5.1
+            },
+            amountOfNewCredit: {
+              score: 65,
+              rating: "FAIR",
+              impact: "low",
+              recentInquiries: 4
+            },
+            creditMix: {
+              score: 58,
+              rating: "POOR",
+              impact: "low",
+              accountTypes: ["Credit Cards"]
+            }
+          },
+          creditHistory: [
+            { month: "2023-03-01", score: 678 },
+            { month: "2023-04-01", score: 675 },
+            { month: "2023-05-01", score: 665 },
+            { month: "2023-06-01", score: 655 },
+            { month: "2023-07-01", score: 645 },
+            { month: "2023-08-01", score: 635 },
+            { month: "2023-09-01", score: 640 },
+            { month: "2023-10-01", score: 645 },
+            { month: "2023-11-01", score: 648 },
+            { month: "2023-12-01", score: 648 },
+            { month: "2024-01-01", score: 648 }
+          ]
         },
         summary: {
           averageScore: 621,

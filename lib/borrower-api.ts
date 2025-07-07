@@ -102,6 +102,54 @@ export const borrowerApiClient = {
     return Promise.resolve({ success: true })
   },
 
+  // Campaign submission endpoints
+  getCampaign: async (publicId: string) => {
+    console.log(`[Mock API] Getting campaign: ${publicId}`)
+    await new Promise((resolve) => setTimeout(resolve, 500))
+
+    // Mock campaign data
+    if (publicId === "1247856390") {
+      return {
+        id: "1",
+        publicId: "1247856390",
+        name: "Facebook Community Group",
+        description: "Targeting local Facebook community groups for loan applications",
+        country: "US",
+        status: "active",
+        branding: {
+          bankName: "SpringFin Credit Union",
+          primaryColor: "#1e40af",
+          secondaryColor: "#3b82f6",
+          logo: "/bank_logo_example.svg",
+          fontFamily: "Inter, sans-serif"
+        }
+      }
+    }
+    
+    throw new Error("Campaign not found")
+  },
+
+  submitCampaignRegistration: async (data: {
+    campaignId: string
+    firstName: string
+    lastName: string
+    email: string
+  }) => {
+    console.log(`[Mock API] Campaign registration:`, data)
+    await new Promise((resolve) => setTimeout(resolve, 1000))
+
+    // Mock verification creation from campaign
+    const verificationToken = `campaign_${Date.now()}`
+    
+    return {
+      success: true,
+      verificationId: `ver_campaign_${Date.now()}`,
+      verificationToken: verificationToken,
+      verificationLink: `https://verify.bankname.com/verify/${verificationToken}`,
+      message: "Verification link sent to your email"
+    }
+  },
+
   // Example of using the main apiClient if needed for some shared endpoints
   // This is just illustrative.
   getSharedResource: async (id: string) => {

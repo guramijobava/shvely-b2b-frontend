@@ -53,6 +53,7 @@ import { useToast } from "@/hooks/use-toast"
 
 interface Campaign {
   id: string
+  publicId: string
   name: string
   description: string
   country: string
@@ -89,11 +90,12 @@ export default function CampaignsPage() {
   const [campaigns, setCampaigns] = useState<Campaign[]>([
     {
       id: "1",
+      publicId: "1247856390",
       name: "Facebook Community Group",
       description: "Targeting local Facebook community groups for loan applications",
       country: "US",
       status: "active",
-      publicLink: "https://verify.bankname.com/verify/public?ref=facebook_community",
+      publicLink: "https://verify.bankname.com/verify/public/1247856390",
       createdAt: "2024-01-15",
       analytics: {
         clicks: 156,
@@ -102,12 +104,13 @@ export default function CampaignsPage() {
       }
     },
     {
-      id: "2", 
+      id: "2",
+      publicId: "9384756210", 
       name: "Email Newsletter Q1",
       description: "Monthly newsletter campaign for Q1 2024",
       country: "US",
       status: "active",
-      publicLink: "https://verify.bankname.com/verify/public?ref=email_newsletter_q1",
+      publicLink: "https://verify.bankname.com/verify/public/9384756210",
       createdAt: "2024-01-01",
       analytics: {
         clicks: 89,
@@ -117,11 +120,12 @@ export default function CampaignsPage() {
     },
     {
       id: "3",
+      publicId: "5672891043",
       name: "Website Banner",
       description: "Main website banner for home loan promotions", 
       country: "US",
       status: "paused",
-      publicLink: "https://verify.bankname.com/verify/public?ref=website_banner",
+      publicLink: "https://verify.bankname.com/verify/public/5672891043",
       createdAt: "2023-12-20",
       analytics: {
         clicks: 234,
@@ -146,13 +150,17 @@ export default function CampaignsPage() {
       return
     }
 
+    // Generate secure 10-digit publicId
+    const publicId = Math.floor(1000000000 + Math.random() * 9000000000).toString()
+    
     const campaign: Campaign = {
       id: Date.now().toString(),
+      publicId: publicId,
       name: newCampaign.name,
       description: newCampaign.description,
       country: newCampaign.country,
       status: newCampaign.status,
-      publicLink: `https://verify.bankname.com/verify/public?ref=${encodeURIComponent(newCampaign.name.toLowerCase().replace(/\s+/g, '_'))}`,
+      publicLink: `https://verify.bankname.com/verify/public/${publicId}`,
       createdAt: new Date().toISOString().split('T')[0],
       analytics: {
         clicks: 0,

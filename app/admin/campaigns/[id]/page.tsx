@@ -73,6 +73,7 @@ interface ActivityEntry {
 
 interface CampaignDetails {
   id: string
+  publicId: string
   name: string
   description: string
   country: string
@@ -130,11 +131,12 @@ export default function CampaignDetailsPage() {
     // Mock data - in real app this would be an API call
     const mockCampaign: CampaignDetails = {
       id: campaignId,
+      publicId: "1247856390",
       name: "Facebook Community Group",
       description: "Targeting local Facebook community groups for loan applications",
       country: "US",
       status: "active",
-      publicLink: "https://verify.bankname.com/verify/public?ref=facebook_community",
+      publicLink: "https://verify.bankname.com/verify/public/1247856390",
       createdAt: "2024-01-15",
       analytics: {
         clicks: 240,

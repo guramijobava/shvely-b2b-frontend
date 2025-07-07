@@ -4,6 +4,15 @@ export interface CustomerFinancialProfile {
     fullName: string
     email: string
     phoneNumber: string
+    dateOfBirth?: string          // Date of birth, null = need to collect
+    nationality?: string           // "Georgian", null = need to collect
+    identificationNumber?: string  // Georgian ID, null = need to collect  
+    residingCountry?: string      // "United States", null = need to collect
+    street?: string               // Street address, null = need to collect
+    zipcode?: string              // Zipcode/postal code, null = need to collect
+    socialSecurityNumber?: string // US SSN, null = need to collect
+    state?: string                // US State, null = need to collect
+    city?: string                 // US City, null = need to collect
   }
   creditReports: {
     equifax: CreditBureauReport

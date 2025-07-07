@@ -1,31 +1,49 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useMemo } from "react"
 import { CheckCircle, CircleDashed, Loader2, ChevronLeft, ChevronRight, ChevronDown, ChevronUp } from "lucide-react"
 import { Progress } from "@/components/ui/progress"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
+import { useTokenValidation } from "@/hooks/useTokenValidation"
+import { requiresCustomerInfoCollection } from "@/lib/verification-utils"
 
-type Step = "consent" | "connect" | "complete"
+type Step = "consent" | "customer-info" | "connect" | "complete"
 
 interface ProcessOverviewProps {
   currentStep: Step
   totalSteps?: number // e.g. 3
 }
 
-const stepsConfig: { id: Step; title: string; description: string; time: string }[] = [
-  { id: "consent", title: "Review & Consent", description: "Confirm the data to be shared.", time: "~1 min" },
-  {
-    id: "connect",
-    title: "Connect Bank Accounts",
-    description: "Securely link your financial institutions.",
-    time: "~2-3 mins",
-  },
-  { id: "complete", title: "Verification Complete", description: "Your information is submitted.", time: "Instant" },
-]
-
 export function ProcessOverview({ currentStep }: ProcessOverviewProps) {
   const [isExpanded, setIsExpanded] = useState(true)
+  const { customerInfo } = useTokenValidation()
+
+  const stepsConfig = useMemo(() => {
+    const baseSteps: { id: Step; title: string; description: string; time: string }[] = [
+      { id: "consent", title: "Review & Consent", description: "Confirm the data to be shared.", time: "~1 min" },
+      {
+        id: "connect",
+        title: "Connect Bank Accounts",
+        description: "Securely link your financial institutions.",
+        time: "~2-3 mins",
+      },
+      { id: "complete", title: "Verification Complete", description: "Your information is submitted.", time: "Instant" },
+    ]
+
+    // Insert customer-info step if required (before consent)
+    if (customerInfo && requiresCustomerInfoCollection(customerInfo)) {
+      baseSteps.unshift({
+        id: "customer-info",
+        title: "Personal Information",
+        description: "Provide additional details for verification.",
+        time: "~2 mins",
+      })
+    }
+
+    return baseSteps
+  }, [customerInfo])
+
   const currentStepIndex = stepsConfig.findIndex((s) => s.id === currentStep)
   const progressValue = ((currentStepIndex + 1) / stepsConfig.length) * 100
 

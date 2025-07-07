@@ -6,10 +6,17 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
+import { Progress } from "@/components/ui/progress"
 import { StatusBadge } from "@/components/shared/StatusBadge"
 import { LoadingSpinner } from "@/components/shared/LoadingSpinner"
 import { apiClient } from "@/lib/api"
 import { formatDate, formatRelativeTime } from "@/lib/utils"
+import { 
+  getRequiredCustomerInfoFields, 
+  formatCustomerInfoFieldForDisplay, 
+  getFieldDisplayName, 
+  requiresCustomerInfoCollection 
+} from "@/lib/verification-utils"
 import {
   ArrowLeft,
   User,
@@ -21,9 +28,14 @@ import {
   Send,
   RefreshCw,
   X,
-  CheckCircle,
   AlertCircle,
   FileText,
+  Users,
+  MapPin,
+  CreditCard,
+  Shield,
+  AlertTriangle,
+  Info,
 } from "lucide-react"
 import Link from "next/link"
 import type { VerificationRequest } from "@/lib/types"
@@ -67,7 +79,11 @@ export default function VerificationDetailsPage() {
       case "connected":
         return <LinkIcon className="h-4 w-4" />
       case "completed":
-        return <CheckCircle className="h-4 w-4" />
+        return (
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M20 6 9 17l-5-5"/>
+          </svg>
+        )
       default:
         return <Clock className="h-4 w-4" />
     }
@@ -127,6 +143,47 @@ export default function VerificationDetailsPage() {
     return steps
   }
 
+  // Information collection analysis
+  const getCollectionAnalysis = (customerInfo: any) => {
+    const missingFields = getRequiredCustomerInfoFields(customerInfo)
+    const totalPossibleFields = ['dateOfBirth', 'nationality', 'identificationNumber', 'residingCountry', 'street', 'zipcode', 'socialSecurityNumber', 'state', 'city', 'phoneNumber']
+    const providedFields = totalPossibleFields.filter(field => {
+      if (field === 'phoneNumber') return customerInfo.phoneNumber
+      return customerInfo[field]
+    })
+    
+    return {
+      missingFields,
+      providedCount: providedFields.length,
+      totalCount: totalPossibleFields.length,
+      requiresCollection: requiresCustomerInfoCollection(customerInfo),
+      completionPercentage: Math.round((providedFields.length / totalPossibleFields.length) * 100)
+    }
+  }
+
+  const renderFieldStatus = (fieldName: string, value: any, isSensitive = false) => {
+    const hasValue = value && value.trim() !== ''
+    
+    if (hasValue) {
+      const displayValue = isSensitive ? formatCustomerInfoFieldForDisplay(fieldName as any, value) : value
+      return (
+        <div className="flex items-center space-x-2">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-green-600">
+            <path d="M20 6 9 17l-5-5"/>
+          </svg>
+          <span className="text-sm font-medium">{displayValue}</span>
+        </div>
+      )
+    } else {
+      return (
+        <div className="flex items-center space-x-2">
+          <AlertTriangle className="h-4 w-4 text-orange-500" />
+          <span className="text-sm text-orange-600">Will be collected from customer</span>
+        </div>
+      )
+    }
+  }
+
   if (isLoading) {
     return (
       <div className="p-6 flex items-center justify-center min-h-[400px]">
@@ -162,6 +219,7 @@ export default function VerificationDetailsPage() {
   }
 
   const timelineSteps = getTimelineSteps(verification)
+  const collectionAnalysis = getCollectionAnalysis(verification.customerInfo)
 
   return (
     <div className="p-6 max-w-6xl mx-auto space-y-6">
@@ -196,58 +254,199 @@ export default function VerificationDetailsPage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Main Content */}
         <div className="lg:col-span-2 space-y-6">
-          {/* Customer Information */}
+          {/* Enhanced Customer Information */}
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center space-x-2">
                 <User className="h-5 w-5" />
                 <span>Customer Information</span>
               </CardTitle>
+              <CardDescription>
+                Contact details and identity information for verification
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              {/* Contact Information */}
+              <div>
+                <h4 className="text-sm font-semibold text-gray-900 mb-3 flex items-center space-x-2">
+                  <Mail className="h-4 w-4" />
+                  <span>Contact Information</span>
+                </h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="text-sm font-medium text-muted-foreground">Full Name</label>
+                    {renderFieldStatus('fullName', verification.customerInfo.fullName)}
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium text-muted-foreground">Email</label>
+                    {renderFieldStatus('email', verification.customerInfo.email)}
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium text-muted-foreground">Phone Number</label>
+                    {renderFieldStatus('phoneNumber', verification.customerInfo.phoneNumber)}
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium text-muted-foreground">Date of Birth</label>
+                    {renderFieldStatus('dateOfBirth', verification.customerInfo.dateOfBirth, true)}
+                  </div>
+                </div>
+              </div>
+
+              {/* Identity Information */}
+              <div>
+                <h4 className="text-sm font-semibold text-gray-900 mb-3 flex items-center space-x-2">
+                  <Users className="h-4 w-4" />
+                  <span>Identity Information</span>
+                </h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="text-sm font-medium text-muted-foreground flex items-center space-x-1">
+                      <span>🇬🇪</span>
+                      <span>Nationality</span>
+                    </label>
+                    {renderFieldStatus('nationality', verification.customerInfo.nationality)}
+                  </div>
+                  
+                  {verification.customerInfo.nationality === "Georgian" && (
+                    <div>
+                      <label className="text-sm font-medium text-muted-foreground flex items-center space-x-1">
+                        <CreditCard className="h-4 w-4" />
+                        <span>Georgian ID Number</span>
+                      </label>
+                      {renderFieldStatus('identificationNumber', verification.customerInfo.identificationNumber, true)}
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Residence Information */}
+              <div>
+                <h4 className="text-sm font-semibold text-gray-900 mb-3 flex items-center space-x-2">
+                  <MapPin className="h-4 w-4" />
+                  <span>Residence Information</span>
+                </h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="text-sm font-medium text-muted-foreground flex items-center space-x-1">
+                      <span>🏠</span>
+                      <span>Residing Country</span>
+                    </label>
+                    {renderFieldStatus('residingCountry', verification.customerInfo.residingCountry)}
+                  </div>
+                  
+                  {verification.customerInfo.residingCountry === "United States" && (
+                    <>
+                      <div className="md:col-span-2">
+                        <label className="text-sm font-medium text-muted-foreground">Street Address</label>
+                        {renderFieldStatus('street', verification.customerInfo.street)}
+                      </div>
+                      <div>
+                        <label className="text-sm font-medium text-muted-foreground">Zipcode</label>
+                        {renderFieldStatus('zipcode', verification.customerInfo.zipcode)}
+                      </div>
+                      <div>
+                        <label className="text-sm font-medium text-muted-foreground">City</label>
+                        {renderFieldStatus('city', verification.customerInfo.city)}
+                      </div>
+                      <div>
+                        <label className="text-sm font-medium text-muted-foreground">State</label>
+                        {renderFieldStatus('state', verification.customerInfo.state)}
+                      </div>
+                      <div>
+                        <label className="text-sm font-medium text-muted-foreground flex items-center space-x-1">
+                          <Shield className="h-4 w-4" />
+                          <span>Social Security Number</span>
+                        </label>
+                        {renderFieldStatus('socialSecurityNumber', verification.customerInfo.socialSecurityNumber, true)}
+                      </div>
+                    </>
+                  )}
+                </div>
+              </div>
+
+              {verification.status === "completed" && verification.customerId && (
+                <div className="pt-4 border-t">
+                  <label className="text-sm font-medium text-muted-foreground">Customer Profile</label>
+                  <div className="flex items-center space-x-2 mt-1">
+                    <User className="h-4 w-4 text-muted-foreground" />
+                    <Link
+                      href={`/admin/customers/${verification.customerId}`}
+                      className="text-sm text-blue-600 hover:underline font-medium"
+                    >
+                      View Full Customer Profile
+                    </Link>
+                  </div>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+
+          {/* Information Collection Status */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center space-x-2">
+                <Info className="h-5 w-5" />
+                <span>Information Collection Status</span>
+              </CardTitle>
+              <CardDescription>
+                Overview of customer information completeness and collection requirements
+              </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="text-sm font-medium text-muted-foreground">Full Name</label>
-                  <p className="text-sm font-medium">{verification.customerInfo.fullName}</p>
+              {/* Progress Overview */}
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-medium">Information Completeness</span>
+                  <span className="text-sm text-muted-foreground">
+                    {collectionAnalysis.providedCount} of {collectionAnalysis.totalCount} fields provided
+                  </span>
                 </div>
+                <Progress value={collectionAnalysis.completionPercentage} className="h-2" />
+                <p className="text-xs text-muted-foreground">
+                  {collectionAnalysis.completionPercentage}% complete
+                </p>
+              </div>
+
+              {/* Collection Status */}
+              <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                <div className="flex items-center space-x-2">
+                  <Users className="h-4 w-4 text-muted-foreground" />
+                  <span className="text-sm font-medium">Collection Required</span>
+                </div>
+                <Badge variant={collectionAnalysis.requiresCollection ? "secondary" : "default"}>
+                  {collectionAnalysis.requiresCollection ? "Yes" : "No"}
+                </Badge>
+              </div>
+
+              {/* Missing Fields */}
+              {collectionAnalysis.missingFields.length > 0 && (
                 <div>
-                  <label className="text-sm font-medium text-muted-foreground">Email</label>
-                  <div className="flex items-center space-x-2">
-                    <Mail className="h-4 w-4 text-muted-foreground" />
-                    <a
-                      href={`mailto:${verification.customerInfo.email}`}
-                      className="text-sm text-blue-600 hover:underline"
-                    >
-                      {verification.customerInfo.email}
-                    </a>
+                  <h5 className="text-sm font-medium mb-2">Missing Information</h5>
+                  <div className="space-y-1">
+                    {collectionAnalysis.missingFields.map((field) => (
+                      <div key={field} className="flex items-center space-x-2 text-sm">
+                        <AlertTriangle className="h-3 w-3 text-orange-500" />
+                        <span className="text-orange-700">{getFieldDisplayName(field)}</span>
+                      </div>
+                    ))}
                   </div>
                 </div>
-                <div>
-                  <label className="text-sm font-medium text-muted-foreground">Phone Number</label>
-                  <div className="flex items-center space-x-2">
-                    <Phone className="h-4 w-4 text-muted-foreground" />
-                    <a
-                      href={`tel:${verification.customerInfo.phoneNumber}`}
-                      className="text-sm text-blue-600 hover:underline"
-                    >
-                      {verification.customerInfo.phoneNumber}
-                    </a>
+              )}
+
+              {/* Customer Experience Note */}
+              <div className="p-3 bg-blue-50 rounded-lg border border-blue-200">
+                <div className="flex items-start space-x-2">
+                  <Info className="h-4 w-4 text-blue-600 mt-0.5" />
+                  <div>
+                    <p className="text-sm font-medium text-blue-900">Customer Experience</p>
+                    <p className="text-sm text-blue-700">
+                      {collectionAnalysis.requiresCollection 
+                        ? "Customer will complete missing information before connecting their bank account."
+                        : "Customer can proceed directly to bank connection - all information is complete."
+                      }
+                    </p>
                   </div>
                 </div>
-                {verification.status === "completed" && verification.customerId && (
-                  <div className="md:col-span-2">
-                    <label className="text-sm font-medium text-muted-foreground">Customer Profile</label>
-                    <div className="flex items-center space-x-2 mt-1">
-                      <User className="h-4 w-4 text-muted-foreground" />
-                      <Link
-                        href={`/admin/customers/${verification.customerId}`}
-                        className="text-sm text-blue-600 hover:underline font-medium"
-                      >
-                        View Full Customer Profile
-                      </Link>
-                    </div>
-                  </div>
-                )}
               </div>
             </CardContent>
           </Card>
@@ -299,12 +498,29 @@ export default function VerificationDetailsPage() {
 
         {/* Sidebar */}
         <div className="space-y-6">
-          {/* Quick Stats */}
+          {/* Enhanced Quick Stats */}
           <Card>
             <CardHeader>
               <CardTitle>Quick Stats</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
+              <div className="flex justify-between">
+                <span className="text-sm text-muted-foreground">Information Complete</span>
+                <Badge variant={collectionAnalysis.requiresCollection ? "secondary" : "default"}>
+                  {collectionAnalysis.completionPercentage}%
+                </Badge>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-sm text-muted-foreground">Collection Required</span>
+                <span className="text-sm font-medium">
+                  {collectionAnalysis.requiresCollection ? "Yes" : "No"}
+                </span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-sm text-muted-foreground">Missing Fields</span>
+                <span className="text-sm font-medium">{collectionAnalysis.missingFields.length}</span>
+              </div>
+              <Separator />
               <div className="flex justify-between">
                 <span className="text-sm text-muted-foreground">Connected Accounts</span>
                 <span className="text-sm font-medium">{verification.connectedAccounts}</span>

@@ -150,6 +150,10 @@ class ApiClient {
             fullName: "Jennifer Martinez",
             email: "jennifer.martinez@email.com",
             phoneNumber: "+1 (555) 234-5678",
+            nationality: "Georgian",
+            identificationNumber: "01234567890",
+            residingCountry: "United States",
+            socialSecurityNumber: "123-45-6789",
           },
           settings: {
             expirationDays: 7,
@@ -208,6 +212,15 @@ class ApiClient {
             fullName: "Amanda Johnson",
             email: "amanda.johnson@gmail.com",
             phoneNumber: "+1 (555) 456-7890",
+            // dateOfBirth missing - will trigger customer info collection
+            // nationality missing - will trigger customer info collection
+            // identificationNumber missing - will trigger customer info collection
+            // residingCountry missing - will trigger customer info collection
+            // street missing - will trigger customer info collection
+            // zipcode missing - will trigger customer info collection
+            // socialSecurityNumber missing - will trigger customer info collection
+            // state missing - will trigger customer info collection
+            // city missing - will trigger customer info collection
           },
           settings: {
             expirationDays: 7,
@@ -443,6 +456,10 @@ class ApiClient {
           fullName: "Jennifer Martinez",
           email: "jennifer.martinez@email.com",
           phoneNumber: "+1 (555) 234-5678",
+          nationality: "Georgian",
+          identificationNumber: "01234567890",
+          residingCountry: "United States",
+          socialSecurityNumber: "123-45-6789",
         },
         settings: {
           expirationDays: 7,
@@ -510,6 +527,13 @@ class ApiClient {
             fullName: "Jennifer Martinez",
             email: "jennifer.martinez@email.com",
             phoneNumber: "+1 (555) 234-5678",
+            dateOfBirth: "1988-05-15",
+            nationality: "Georgian",
+            identificationNumber: "01234567890",
+            residingCountry: "United States",
+            street: "1234 Market Street",
+            zipcode: "94102",
+            socialSecurityNumber: "123-45-6789",
           },
           financialSummary: {
             totalBalance: 89500.25,
@@ -674,6 +698,13 @@ class ApiClient {
             fullName: "Robert Chen",
             email: "robert.chen@techcorp.com",
             phoneNumber: "+1 (555) 345-6789",
+            dateOfBirth: "1985-09-22",
+            nationality: "Georgian",
+            identificationNumber: "11234567891",
+            residingCountry: "United States",
+            street: "5678 Elm Avenue",
+            zipcode: "90210",
+            socialSecurityNumber: "234-56-7890",
           },
           financialSummary: {
             totalBalance: 125750.00,
@@ -838,6 +869,13 @@ class ApiClient {
             fullName: "Michael Thompson",
             email: "mthompson@construction.biz",
             phoneNumber: "+1 (555) 567-8901",
+            dateOfBirth: "1980-12-03",
+            nationality: "Georgian",
+            identificationNumber: "21234567892",
+            residingCountry: "United States",
+            street: "9012 Oak Street",
+            zipcode: "77001",
+            // socialSecurityNumber missing - will trigger customer info collection
           },
           financialSummary: {
             totalBalance: 186200.50,
@@ -1031,6 +1069,15 @@ class ApiClient {
             fullName: "Jennifer Martinez",
             email: "jennifer.martinez@email.com",
             phoneNumber: "+1 (555) 234-5678",
+            dateOfBirth: "1988-05-15",
+            nationality: "Georgian",
+            identificationNumber: "01234567890",
+            residingCountry: "United States",
+            street: "1234 Market Street",
+            zipcode: "94102",
+            socialSecurityNumber: "123-45-6789",
+            state: "California",
+            city: "San Francisco",
           },
           financialSummary: {
             totalBalance: 89500.25,
@@ -1249,6 +1296,15 @@ class ApiClient {
             fullName: "Robert Chen",
             email: "robert.chen@techcorp.com",
             phoneNumber: "+1 (555) 345-6789",
+            dateOfBirth: "1985-09-22",
+            nationality: "Georgian",
+            identificationNumber: "11234567891",
+            residingCountry: "United States",
+            street: "5678 Elm Avenue",
+            zipcode: "90210",
+            socialSecurityNumber: "234-56-7890",
+            state: "New York",
+            city: "New York",
           },
           financialSummary: {
             totalBalance: 125750.00,
@@ -1414,6 +1470,15 @@ class ApiClient {
             fullName: "Michael Thompson",
             email: "mthompson@construction.biz",
             phoneNumber: "+1 (555) 567-8901",
+            dateOfBirth: "1980-12-03",
+            nationality: "Georgian",
+            identificationNumber: "21234567892",
+            residingCountry: "United States",
+            street: "9012 Oak Street",
+            zipcode: "77001",
+            // socialSecurityNumber missing - will trigger customer info collection
+            state: "Texas",
+            city: "Houston",
           },
           financialSummary: {
             totalBalance: 186200.50,

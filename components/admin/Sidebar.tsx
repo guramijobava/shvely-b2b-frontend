@@ -23,6 +23,7 @@ import {
   ChevronLeft,
   ChevronRight,
   LogOut,
+  Megaphone,
 } from "lucide-react"
 import Image from "next/image"
 
@@ -48,6 +49,12 @@ export function Sidebar({ isCollapsed, onToggle, className }: SidebarProps) {
       href: "/admin/verifications",
       icon: FileCheck,
       badge: 5, // Mock pending count
+    },
+    {
+      name: "Campaigns",
+      href: "/admin/campaigns",
+      icon: Megaphone,
+      badge: null,
     },
     {
       name: "Customers",

@@ -111,6 +111,7 @@ export default function ConsentPage() {
               <DataConsentForm
                 bankName={customerInfo.bankName || "Your Bank"}
                 customerName={customerInfo.fullName}
+                customerInfo={customerInfo}
                 onSubmit={handleConsentSubmit}
                 onDecline={handleDecline}
                 isSubmitting={isSubmitting}

@@ -7,6 +7,16 @@ import { borrowerApiClient } from "@/lib/borrower-api"
 interface ValidatedTokenInfo {
   fullName: string
   email: string
+  phoneNumber: string
+  dateOfBirth?: string
+  nationality?: string
+  identificationNumber?: string
+  residingCountry?: string
+  street?: string
+  zipcode?: string
+  socialSecurityNumber?: string
+  state?: string
+  city?: string
   bankName?: string
 }
 

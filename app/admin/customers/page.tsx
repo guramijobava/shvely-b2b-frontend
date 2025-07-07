@@ -25,6 +25,8 @@ interface CustomerListItem {
   fullName: string
   email: string
   phoneNumber: string
+  nationality?: string
+  residingCountry?: string
   totalBalance: number
   creditScore?: number
   creditGrade?: string
@@ -71,6 +73,8 @@ export default function CustomerListPage() {
           fullName: c.customerInfo.fullName,
           email: c.customerInfo.email,
           phoneNumber: c.customerInfo.phoneNumber,
+          nationality: c.customerInfo.nationality,
+          residingCountry: c.customerInfo.residingCountry,
           totalBalance: c.financialSummary.totalBalance,
           creditScore: c.creditReports?.summary?.averageScore,
           creditGrade: c.creditReports?.summary?.overallGrade,
@@ -124,6 +128,32 @@ export default function CustomerListPage() {
             </a>
           </div>
         </div>
+      ),
+    },
+    {
+      key: "nationality",
+      label: "Nationality",
+      render: (item: CustomerListItem) => (
+        item.nationality ? (
+          <Badge variant="outline" className="text-xs">
+            {item.nationality}
+          </Badge>
+        ) : (
+          <span className="text-muted-foreground text-xs">Not provided</span>
+        )
+      ),
+    },
+    {
+      key: "residingCountry", 
+      label: "Residing Country",
+      render: (item: CustomerListItem) => (
+        item.residingCountry ? (
+          <Badge variant="outline" className="text-xs">
+            {item.residingCountry}
+          </Badge>
+        ) : (
+          <span className="text-muted-foreground text-xs">Not provided</span>
+        )
       ),
     },
     {

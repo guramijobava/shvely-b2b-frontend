@@ -10,7 +10,7 @@ export function useBorrowerVerification(token: string) {
   const { toast } = useToast()
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [currentStep, setCurrentStep] = useState<"welcome" | "consent" | "connect" | "complete">("welcome")
+  const [currentStep, setCurrentStep] = useState<"welcome" | "customer-info" | "consent" | "connect" | "complete">("welcome")
 
   const submitConsent = useCallback(
     async (consentData: any) => {
@@ -31,6 +31,26 @@ export function useBorrowerVerification(token: string) {
       }
     },
     [token, toast],
+  )
+
+  const updateCustomerInfo = useCallback(
+    async (customerInfo: any) => {
+      setIsSubmitting(true)
+      setError(null)
+      try {
+        await borrowerApiClient.updateCustomerInfo(token, customerInfo)
+        toast({ title: "Information Updated", description: "Your personal information has been saved." })
+        return true
+      } catch (e) {
+        const message = e instanceof Error ? e.message : "Failed to update customer information."
+        setError(message)
+        toast({ title: "Update Error", description: message, variant: "destructive" })
+        throw e
+      } finally {
+        setIsSubmitting(false)
+      }
+    },
+    [token, toast]
   )
 
   const finalizeVerification = useCallback(async () => {
@@ -70,6 +90,7 @@ export function useBorrowerVerification(token: string) {
     error,
     currentStep,
     submitConsent,
+    updateCustomerInfo,
     finalizeVerification,
     navigateToConsent,
     navigateToBankConnection,

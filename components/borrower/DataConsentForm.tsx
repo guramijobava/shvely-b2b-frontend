@@ -14,6 +14,7 @@ import Link from "next/link"
 interface DataConsentFormProps {
   bankName?: string | null
   customerName?: string | null
+  customerInfo?: any // Complete customer info including identity fields
   onSubmit: (consentData: Record<string, boolean>) => void
   onDecline: () => void
   isSubmitting: boolean
@@ -39,7 +40,7 @@ const dataCategories = [
   // { id: "credit_score", label: "Credit Score (if available)", description: "Your credit score if provided by your bank through this connection." },
 ]
 
-export function DataConsentForm({ bankName, customerName, onSubmit, onDecline, isSubmitting }: DataConsentFormProps) {
+export function DataConsentForm({ bankName, customerName, customerInfo, onSubmit, onDecline, isSubmitting }: DataConsentFormProps) {
   const [consents, setConsents] = useState<Record<string, boolean>>(
     dataCategories.reduce((acc, cat) => ({ ...acc, [cat.id]: false }), {}),
   )
@@ -89,6 +90,36 @@ export function DataConsentForm({ bankName, customerName, onSubmit, onDecline, i
           your bank. This information will be used solely for the purpose of processing your request with{" "}
           {bankName || "your financial institution"}.
         </p>
+
+        {/* Customer Information Section */}
+        {customerInfo && (
+          <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
+            <h3 className="font-semibold text-blue-900 mb-3 flex items-center">
+              <FileText className="h-4 w-4 mr-2" />
+              Information we will share:
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+              <div><strong>Name:</strong> {customerInfo.fullName}</div>
+              <div><strong>Email:</strong> {customerInfo.email}</div>
+              <div><strong>Phone:</strong> {customerInfo.phoneNumber}</div>
+              {customerInfo.nationality && (
+                <div><strong>Nationality:</strong> {customerInfo.nationality}</div>
+              )}
+              {customerInfo.identificationNumber && (
+                <div><strong>ID Number:</strong> •••••{customerInfo.identificationNumber.slice(-4)}</div>
+              )}
+              {customerInfo.residingCountry && (
+                <div><strong>Residing Country:</strong> {customerInfo.residingCountry}</div>
+              )}
+              {customerInfo.socialSecurityNumber && (
+                <div><strong>SSN:</strong> XXX-XX-{customerInfo.socialSecurityNumber.slice(-4)}</div>
+              )}
+            </div>
+            <p className="text-xs text-blue-700 mt-3">
+              Plus your bank account information and transaction history as detailed below.
+            </p>
+          </div>
+        )}
 
         {/* Prominent "Consent to All" section */}
         <div className="p-6 bg-blue-50 border-2 border-blue-200 rounded-lg space-y-4">

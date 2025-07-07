@@ -1,6 +1,7 @@
 "use client"
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Badge } from "@/components/ui/badge"
 import { DataTable } from "@/components/shared/DataTable"
 import { StatusBadge } from "@/components/shared/StatusBadge"
 import { ActionDropdown } from "@/components/shared/ActionDropdown"
@@ -131,6 +132,32 @@ export function VerificationTable({
             </a>
           </div>
         </div>
+      ),
+    },
+    {
+      key: "customerInfo.nationality",
+      label: "Nationality",
+      render: (verification: VerificationRequest) => (
+        verification.customerInfo.nationality ? (
+          <Badge variant="outline" className="text-xs">
+            {verification.customerInfo.nationality}
+          </Badge>
+        ) : (
+          <span className="text-muted-foreground text-xs">Missing</span>
+        )
+      ),
+    },
+    {
+      key: "customerInfo.residingCountry",
+      label: "Residing Country", 
+      render: (verification: VerificationRequest) => (
+        verification.customerInfo.residingCountry ? (
+          <Badge variant="outline" className="text-xs">
+            {verification.customerInfo.residingCountry}
+          </Badge>
+        ) : (
+          <span className="text-muted-foreground text-xs">Missing</span>
+        )
       ),
     },
     {

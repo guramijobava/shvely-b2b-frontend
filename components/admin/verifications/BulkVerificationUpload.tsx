@@ -32,6 +32,12 @@ interface BulkVerificationRow {
   fullName: string
   email: string
   phoneNumber: string
+  nationality?: string
+  identificationNumber?: string
+  residingCountry?: string
+  socialSecurityNumber?: string
+  state?: string
+  city?: string
   expirationDays: number
   sendMethod: "email" | "sms" | "both"
   agentNotes?: string
@@ -141,6 +147,18 @@ export function BulkVerificationUpload({ onClose, onComplete }: BulkVerification
           rowData.email = values[index]
         } else if (header.includes('phone')) {
           rowData.phoneNumber = values[index]
+        } else if (header.includes('nationality')) {
+          rowData.nationality = values[index] || undefined
+        } else if (header.includes('identification') || header.includes('id')) {
+          rowData.identificationNumber = values[index] || undefined
+        } else if (header.includes('residing') || header.includes('country')) {
+          rowData.residingCountry = values[index] || undefined
+        } else if (header.includes('ssn') || header.includes('social')) {
+          rowData.socialSecurityNumber = values[index] || undefined
+        } else if (header.includes('state')) {
+          rowData.state = values[index] || undefined
+        } else if (header.includes('city')) {
+          rowData.city = values[index] || undefined
         } else if (header.includes('expiration')) {
           rowData.expirationDays = values[index]
         } else if (header.includes('send') || header.includes('method')) {
@@ -159,9 +177,10 @@ export function BulkVerificationUpload({ onClose, onComplete }: BulkVerification
 
   const downloadTemplate = useCallback(() => {
     const template = [
-      "fullName,email,phoneNumber,expirationDays,sendMethod,agentNotes",
-      "John Smith,john.smith@example.com,+1-555-123-4567,7,email,High priority customer",
-      "Jane Doe,jane.doe@example.com,+1-555-987-6543,14,both,Follow up required"
+      "fullName,email,phoneNumber,nationality,identificationNumber,residingCountry,socialSecurityNumber,state,city,expirationDays,sendMethod,agentNotes",
+      "John Smith,john.smith@example.com,+1-555-123-4567,Georgian,01234567890,United States,123-45-6789,California,San Francisco,7,email,Complete customer info",
+      "Jane Doe,jane.doe@example.com,+1-555-987-6543,Georgian,,United States,456-78-9012,New York,New York,14,both,Missing Georgian ID - customer will provide",
+      "Bob Wilson,bob.wilson@example.com,+1-555-111-2222,,,United States,789-12-3456,Texas,Austin,7,email,Only US info - nationality collection needed"
     ].join('\n')
 
     const blob = new Blob([template], { type: 'text/csv' })
@@ -218,6 +237,12 @@ export function BulkVerificationUpload({ onClose, onComplete }: BulkVerification
           fullName: updatedRow.fullName,
           email: updatedRow.email,
           phoneNumber: updatedRow.phoneNumber,
+          nationality: updatedRow.nationality,
+          identificationNumber: updatedRow.identificationNumber,
+          residingCountry: updatedRow.residingCountry,
+          socialSecurityNumber: updatedRow.socialSecurityNumber,
+          state: updatedRow.state,
+          city: updatedRow.city,
           expirationDays: updatedRow.expirationDays,
           sendMethod: updatedRow.sendMethod,
           agentNotes: updatedRow.agentNotes
@@ -371,7 +396,7 @@ export function BulkVerificationUpload({ onClose, onComplete }: BulkVerification
               disabled={isParsing || isProcessing}
             />
             <p className="text-xs text-muted-foreground">
-              Required columns: fullName, email, phoneNumber. Optional: expirationDays, sendMethod, agentNotes
+              Required: fullName, email, phoneNumber. Optional identity fields: nationality → identificationNumber. Optional location fields: residingCountry → socialSecurityNumber, state, city. Settings: expirationDays, sendMethod, agentNotes
             </p>
           </div>
 
@@ -418,7 +443,13 @@ export function BulkVerificationUpload({ onClose, onComplete }: BulkVerification
                     <TableHead>Full Name</TableHead>
                     <TableHead>Email</TableHead>
                     <TableHead>Phone</TableHead>
-                    <TableHead>Expiration</TableHead>
+                    <TableHead className="border-l border-gray-200 bg-gray-50">🇬🇪 Nationality</TableHead>
+                    <TableHead className="bg-gray-50">🆔 ID Number</TableHead>
+                    <TableHead className="border-l border-gray-200 bg-blue-50">🇺🇸 Residing Country</TableHead>
+                    <TableHead className="bg-blue-50">SSN</TableHead>
+                    <TableHead className="bg-blue-50">State</TableHead>
+                    <TableHead className="bg-blue-50">City</TableHead>
+                    <TableHead className="border-l border-gray-200">Expiration</TableHead>
                     <TableHead>Send Method</TableHead>
                     <TableHead>Notes</TableHead>
                     <TableHead>Actions</TableHead>
@@ -466,6 +497,126 @@ export function BulkVerificationUpload({ onClose, onComplete }: BulkVerification
                         ) : (
                           <span className={!phoneRegex.test(row.phoneNumber.replace(/[\s\-\(\)]/g, "")) ? "text-red-600" : ""}>
                             {row.phoneNumber || "Required"}
+                          </span>
+                        )}
+                      </TableCell>
+                      {/* Georgian Identity Section */}
+                      <TableCell className="border-l border-gray-200 bg-gray-50/50">
+                        {editingRow === row.id ? (
+                          <Select
+                            value={row.nationality || ""}
+                            onValueChange={(value) => handleRowUpdate(row.id, "nationality", value || undefined)}
+                          >
+                            <SelectTrigger className="h-8">
+                              <SelectValue placeholder="Select" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="Georgian">
+                                <div className="flex items-center space-x-2">
+                                  <span>🇬🇪</span>
+                                  <span>Georgian</span>
+                                </div>
+                              </SelectItem>
+                              <SelectItem value="coming_soon" disabled>
+                                <div className="flex items-center space-x-2 text-muted-foreground">
+                                  <span>🌍</span>
+                                  <span>Other nationalities (Coming Soon)</span>
+                                </div>
+                              </SelectItem>
+                            </SelectContent>
+                          </Select>
+                        ) : (
+                          <span className="text-sm">{row.nationality || "—"}</span>
+                        )}
+                      </TableCell>
+                      <TableCell className="bg-gray-50/50">
+                        {editingRow === row.id ? (
+                          <Input
+                            value={row.identificationNumber || ""}
+                            onChange={(e) => handleRowUpdate(row.id, "identificationNumber", e.target.value || undefined)}
+                            className="h-8"
+                            placeholder="ID number"
+                            disabled={!row.nationality}
+                          />
+                        ) : (
+                          <span className={`text-sm ${!row.nationality ? 'text-gray-400' : ''}`}>
+                            {row.identificationNumber && row.nationality ? `•••••${row.identificationNumber.slice(-4)}` : "—"}
+                          </span>
+                        )}
+                      </TableCell>
+                      
+                      {/* US Resident Section */}
+                      <TableCell className="border-l border-gray-200 bg-blue-50/50">
+                        {editingRow === row.id ? (
+                          <Select
+                            value={row.residingCountry || ""}
+                            onValueChange={(value) => handleRowUpdate(row.id, "residingCountry", value || undefined)}
+                          >
+                            <SelectTrigger className="h-8">
+                              <SelectValue placeholder="Select" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="United States">
+                                <div className="flex items-center space-x-2">
+                                  <span>🇺🇸</span>
+                                  <span>United States</span>
+                                </div>
+                              </SelectItem>
+                              <SelectItem value="coming_soon" disabled>
+                                <div className="flex items-center space-x-2 text-muted-foreground">
+                                  <span>🌍</span>
+                                  <span>Other countries (Coming Soon)</span>
+                                </div>
+                              </SelectItem>
+                            </SelectContent>
+                          </Select>
+                        ) : (
+                          <span className="text-sm">{row.residingCountry || "—"}</span>
+                        )}
+                      </TableCell>
+                      <TableCell className="bg-blue-50/50">
+                        {editingRow === row.id ? (
+                          <Input
+                            value={row.socialSecurityNumber || ""}
+                            onChange={(e) => handleRowUpdate(row.id, "socialSecurityNumber", e.target.value || undefined)}
+                            className="h-8"
+                            placeholder="XXX-XX-XXXX"
+                            type="password"
+                            disabled={!row.residingCountry}
+                          />
+                        ) : (
+                          <span className={`text-sm ${!row.residingCountry ? 'text-gray-400' : ''}`}>
+                            {row.socialSecurityNumber && row.residingCountry ? `XXX-XX-${row.socialSecurityNumber.slice(-4)}` : "—"}
+                          </span>
+                        )}
+                      </TableCell>
+                      <TableCell className="bg-blue-50/50">
+                        {editingRow === row.id ? (
+                          <Input
+                            value={row.state || ""}
+                            onChange={(e) => handleRowUpdate(row.id, "state", e.target.value || undefined)}
+                            className="h-8"
+                            placeholder="State"
+                            disabled={!row.residingCountry}
+                          />
+                        ) : (
+                          <span className={`text-sm ${!row.residingCountry ? 'text-gray-400' : ''}`}>
+                            {row.state && row.residingCountry ? row.state : "—"}
+                          </span>
+                        )}
+                      </TableCell>
+                      <TableCell className="bg-blue-50/50">
+                        {editingRow === row.id ? (
+                          <Input
+                            value={row.city || ""}
+                            onChange={(e) => handleRowUpdate(row.id, "city", e.target.value || undefined)}
+                            className="h-8"
+                            placeholder="City"
+                            disabled={!row.residingCountry}
+                          />
+                        ) : (
+                          <span className={`text-sm ${!row.residingCountry ? 'text-gray-400' : ''}`}>
+                            {row.city && row.residingCountry ? row.city : "—"}
                           </span>
                         )}
                       </TableCell>

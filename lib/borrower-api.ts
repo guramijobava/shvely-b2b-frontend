@@ -10,12 +10,37 @@ export const borrowerApiClient = {
     console.log(`[Mock API] Validating token: ${token}`)
     // Simulate API call
     await new Promise((resolve) => setTimeout(resolve, 1000))
-    if (token === "valid-token") {
+    
+    if (token === "sfcu_2024_ajohnson") {
+      return {
+        valid: true,
+        customerInfo: {
+          fullName: "Amanda Johnson",
+          email: "amanda.johnson@gmail.com",
+          phoneNumber: "+1 (555) 456-7890",
+          // dateOfBirth missing - will trigger customer info collection
+          // nationality missing - will trigger customer info collection
+          // identificationNumber missing - will trigger customer info collection
+          // residingCountry missing - will trigger customer info collection
+          // street missing - will trigger customer info collection
+          // zipcode missing - will trigger customer info collection
+          // socialSecurityNumber missing - will trigger customer info collection
+          // state missing - will trigger customer info collection
+          // city missing - will trigger customer info collection
+        },
+        bankName: "SpringFin Credit Union",
+      }
+    } else if (token === "valid-token") {
       return {
         valid: true,
         customerInfo: {
           fullName: "John Doe",
           email: "john.doe@example.com",
+          phoneNumber: "+1 (555) 123-4567",
+          nationality: "Georgian",
+          identificationNumber: "01234567890",
+          residingCountry: "United States",
+          // socialSecurityNumber missing - will trigger customer info collection
         },
         bankName: "Demo Bank Inc.", // Added bankName for welcome message
       }
@@ -39,6 +64,15 @@ export const borrowerApiClient = {
     console.log(`[Mock API] Recording consent for token: ${token}`, consentData)
     await new Promise((resolve) => setTimeout(resolve, 1000))
     return { success: true, message: "Consent recorded successfully." }
+  },
+
+  updateCustomerInfo: async (token: string, customerInfo: any) => {
+    console.log(`[Mock API] Updating customer info for token: ${token}`, customerInfo)
+    await new Promise((resolve) => setTimeout(resolve, 800))
+    return {
+      success: true,
+      message: "Customer information updated successfully",
+    }
   },
 
   completeVerification: async (token: string) => {

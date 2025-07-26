@@ -15,6 +15,7 @@ export function TriBureauCreditAssessment({ customer }: TriBureauCreditAssessmen
       equifax={creditReports.equifax}
       experian={creditReports.experian}
       transunion={creditReports.transunion}
+      summary={creditReports.summary}
     />
   )
 } 
